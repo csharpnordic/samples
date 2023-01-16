@@ -13,6 +13,9 @@ using NAudio.Wave.SampleProviders;
 
 namespace Piano
 {
+    /// <summary>
+    /// Главная форма
+    /// </summary>
     public partial class MainForm : Form
     {
         [DllImport("kernel32.dll", SetLastError = true)]
