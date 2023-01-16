@@ -1,0 +1,27 @@
+variables:
+  GIT_SUBMODULE_STRATEGY: normal
+  GIT_SUBMODULE_DEPTH: 1
+  RELEASE_FOLDER: 'AcronymForm\bin\Debug'
+  TEST_EXE: 'C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe'
+  INNO_PATH: 'C:\Program Files (x86)\Inno Setup 6\ISCC.exe'
+
+# https://stackoverflow.com/questions/49295637/encoding-locale-of-gitlab-runner-machine
+default:
+  before_script:
+  - CHCP 65001
+
+stages: 
+- build
+
+build_job:
+  stage: build
+  script:
+  - echo "Compile .NET sources"
+  - Set-Variable -Name "BUILD_NUMBER" -Value (Get-Date -Format "MMdd")
+  - Set-Variable -Name "REVISION_NUMBER" -Value (Get-Date -Format "HHmm")
+  - '& ".\build.cmd" "$BUILD_NUMBER" "$REVISION_NUMBER" "$env:CI_COMMIT_SHORT_SHA"' # build .NET  
+  artifacts:
+    expire_in: 1 week  # save gitlab server space, we copy the files we need to deploy folder later on
+    paths:
+    - '$env:RELEASE_FOLDER\'
+
