@@ -1,6 +1,6 @@
 # Перечень проектов
 
-* Целевая платформа: Microsoft.NET Framework 4.7.2
+* Целевая платформа: Microsoft.NET Framework 4.8 или 6.0
 
 ## AcronymForm
 
@@ -39,7 +39,6 @@
 
 ## MarsChallenge
 
-* .
 * решение задачи Mars
 
 ## Piano
@@ -61,8 +60,7 @@
 
 ## Transfusion
 
-* .
-* решение задачи о переливаниях
+* Решение задачи о переливаниях
 
 ## UserInformation
 
