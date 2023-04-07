@@ -1,0 +1,48 @@
+﻿@model IntermediateAssessment.Models.StudentAssessments
+
+@{
+    ViewBag.Title = "Список рубежных контролей";
+}
+
+<h2>Студент</h2>
+<table class="table-bordered col-md-4">
+    <tr>
+        <td class="bg-light col-md-2">@Html.DisplayNameFor(model => model.Student.FirstName)</td>
+        <td class="col-md-2">@Html.DisplayFor(model => model.Student.FirstName)</td>
+    </tr>
+    <tr>
+        <td class="bg-light col-md-2">@Html.DisplayNameFor(model => model.Student.LastName)</td>
+        <td class="col-md-2">@Html.DisplayFor(model => model.Student.LastName)</td>
+    </tr>
+    <tr>
+        <td class="bg-light col-md-2">@Html.DisplayNameFor(model => model.Student.GroupHtml)</td>
+        <td class="col-md-2">@Html.Raw(Model.Student.GroupHtml)</td>
+    </tr>
+    <tr>
+        <td class="bg-light col-md-2">@Html.DisplayNameFor(model => model.Student.FileNumber)</td>
+        <td class="col-md-2">@Html.DisplayFor(model => model.Student.FileNumber)</td>
+    </tr>
+</table>
+<hr />
+@foreach (var item in Model.Assessments)
+{
+    using (Html.BeginForm("Assessment", "Home", FormMethod.Post))
+    {
+        
+        @Html.Hidden("sid", Model.Student.ID)
+        @Html.Hidden("aid", item.ID)
+        <div class="table">
+            <input type="submit" value="@item.Name" class="btn btn-info col-md-4" />
+        </div>
+    }
+}
+<hr />
+<div>
+    В процессе рубежного контроля в целях предотвращения несанкционированного использования платформы фиксируются следующие параметры: 
+    <ul>
+        <li>IP-адрес клиента</li>
+        <li>Имя сетевого узла клиента</li>
+        <li>Наименование браузера клиента</li>
+        <li>Платформа (операционная система) клиента</li>
+    </ul>
+</div>
