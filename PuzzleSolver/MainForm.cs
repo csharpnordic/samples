@@ -1,4 +1,5 @@
 using PuzzleSolver.Extenders;
+using PuzzleSolver.Puzzles;
 using PuzzleSolver.Puzzles.Sudoku;
 using System;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
@@ -146,8 +147,19 @@ namespace PuzzleSolver
         {
             if (sender is Button button && button.Tag is Cell cell)
             {
-                cell.Number = (cell.Number + 1) % (state.Size * state.Size + 1);
+                int number = (cell.Number + 1) % (state.Size * state.Size + 1);
+                button.BackColor = SystemColors.Control;
+                if (!initButton.Checked && number > 0) // проверка на корректность хода
+                {
+                    var move = new Move()
+                    {
+                        Cell = cell,
+                        Number = number
+                    };
+                    button.BackColor = state.PossibleMove(move) ? Color.LightGreen : Color.Orange;
+                }
                 cell.Fixed = initButton.Checked;
+                cell.Number = number;
             }
         }
 
@@ -185,10 +197,22 @@ namespace PuzzleSolver
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 state = Core.LoadJson<State>(dialog.FileName);
+                state.InitLines();
                 InitPanel(tabSudoku);
                 string name = System.IO.Path.GetFileName(dialog.FileName);
                 statusLabel.Text = $"Файл {name} загружен успешно";
             }
+        }
+
+        /// <summary>
+        /// Решение головоломки
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void solveButton_Click(object sender, EventArgs e)
+        {
+            var solver = new Solver();
+            solver.Solve(state);
         }
     }
 }

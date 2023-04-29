@@ -38,11 +38,12 @@
             puzzleToolStripMenuItem = new ToolStripMenuItem();
             sudokuToolStripMenuItem = new ToolStripMenuItem();
             status = new StatusStrip();
+            statusLabel = new ToolStripStatusLabel();
             tool = new ToolStrip();
             initButton = new ToolStripButton();
             tabs = new TabControl();
             tabSudoku = new TabPage();
-            statusLabel = new ToolStripStatusLabel();
+            solveButton = new ToolStripButton();
             menu.SuspendLayout();
             status.SuspendLayout();
             tool.SuspendLayout();
@@ -69,26 +70,26 @@
             // loadToolStripMenuItem
             // 
             loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            loadToolStripMenuItem.Size = new Size(224, 26);
+            loadToolStripMenuItem.Size = new Size(175, 26);
             loadToolStripMenuItem.Text = "&Открыть...";
             loadToolStripMenuItem.Click += loadToolStripMenuItem_Click;
             // 
             // saveToolStripMenuItem
             // 
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            saveToolStripMenuItem.Size = new Size(224, 26);
+            saveToolStripMenuItem.Size = new Size(175, 26);
             saveToolStripMenuItem.Text = "&Сохранить...";
             saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
             // 
             // фToolStripMenuItem
             // 
             фToolStripMenuItem.Name = "фToolStripMenuItem";
-            фToolStripMenuItem.Size = new Size(221, 6);
+            фToolStripMenuItem.Size = new Size(172, 6);
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(224, 26);
+            exitToolStripMenuItem.Size = new Size(175, 26);
             exitToolStripMenuItem.Text = "&Выход";
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
@@ -110,16 +111,21 @@
             // 
             status.ImageScalingSize = new Size(20, 20);
             status.Items.AddRange(new ToolStripItem[] { statusLabel });
-            status.Location = new Point(0, 426);
+            status.Location = new Point(0, 428);
             status.Name = "status";
-            status.Size = new Size(800, 24);
+            status.Size = new Size(800, 22);
             status.TabIndex = 1;
             status.Text = "statusStrip1";
+            // 
+            // statusLabel
+            // 
+            statusLabel.Name = "statusLabel";
+            statusLabel.Size = new Size(0, 16);
             // 
             // tool
             // 
             tool.ImageScalingSize = new Size(20, 20);
-            tool.Items.AddRange(new ToolStripItem[] { initButton });
+            tool.Items.AddRange(new ToolStripItem[] { initButton, solveButton });
             tool.Location = new Point(0, 28);
             tool.Name = "tool";
             tool.Size = new Size(800, 27);
@@ -142,7 +148,7 @@
             tabs.Location = new Point(0, 55);
             tabs.Name = "tabs";
             tabs.SelectedIndex = 0;
-            tabs.Size = new Size(800, 371);
+            tabs.Size = new Size(800, 373);
             tabs.TabIndex = 3;
             // 
             // tabSudoku
@@ -150,15 +156,19 @@
             tabSudoku.Location = new Point(4, 29);
             tabSudoku.Name = "tabSudoku";
             tabSudoku.Padding = new Padding(3);
-            tabSudoku.Size = new Size(792, 338);
+            tabSudoku.Size = new Size(792, 340);
             tabSudoku.TabIndex = 0;
             tabSudoku.Text = "Судоку";
             tabSudoku.UseVisualStyleBackColor = true;
             // 
-            // statusLabel
+            // solveButton
             // 
-            statusLabel.Name = "statusLabel";
-            statusLabel.Size = new Size(0, 18);
+            solveButton.Image = (Image)resources.GetObject("solveButton.Image");
+            solveButton.ImageTransparentColor = Color.Magenta;
+            solveButton.Name = "solveButton";
+            solveButton.Size = new Size(143, 24);
+            solveButton.Text = "Найти решение";
+            solveButton.Click += solveButton_Click;
             // 
             // MainForm
             // 
@@ -201,5 +211,6 @@
         private TabPage tabSudoku;
         private ToolStripButton initButton;
         private ToolStripStatusLabel statusLabel;
+        private ToolStripButton solveButton;
     }
 }

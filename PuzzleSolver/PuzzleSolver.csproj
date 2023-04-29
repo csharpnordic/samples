@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="NLog" Version="5.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="sudoku.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

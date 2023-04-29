@@ -47,5 +47,11 @@ namespace PuzzleSolver.Puzzles.Sudoku
         /// Является ли клетка фиксированной (заданной в начальном условии)
         /// </summary>
         public bool Fixed { get; set; }
+
+        /// <summary>
+        /// Строковое представление обьекта
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString() => Number.ToString("#");
     }
 }
