@@ -148,7 +148,7 @@ namespace PuzzleSolver
             if (sender is Button button && button.Tag is Cell cell)
             {
                 int number = (cell.Number + 1) % (state.Size * state.Size + 1);
-                button.BackColor = SystemColors.Control;
+                button.BackColor = Control.DefaultBackColor;
                 if (!initButton.Checked && number > 0) // проверка на корректность хода
                 {
                     var move = new Move()
