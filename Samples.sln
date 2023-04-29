@@ -34,6 +34,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserInformation", "UserInfo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Queens", "Queens\Queens.csproj", "{04871591-07D3-41B4-8782-F113A61A7FEF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuzzleSolver", "PuzzleSolver\PuzzleSolver.csproj", "{997FCF51-0E55-4D93-917A-8AD21899BAC6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -92,6 +94,10 @@ Global
 		{04871591-07D3-41B4-8782-F113A61A7FEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04871591-07D3-41B4-8782-F113A61A7FEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04871591-07D3-41B4-8782-F113A61A7FEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{997FCF51-0E55-4D93-917A-8AD21899BAC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{997FCF51-0E55-4D93-917A-8AD21899BAC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{997FCF51-0E55-4D93-917A-8AD21899BAC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{997FCF51-0E55-4D93-917A-8AD21899BAC6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
