@@ -15,6 +15,7 @@ namespace PuzzleSolver
 
         private Dictionary<Cell, Button> buttons = new();
 
+        
         private string[] images = new string[] {
             string.Empty,
             "\U0001f9F8", // мишка
@@ -27,6 +28,7 @@ namespace PuzzleSolver
             "\U00002615", // чашка (чайник)
             "\U0001f3a9", // шапка (ведро)
         };
+        
 
         /// <summary>
         /// Конструктор формы
@@ -129,7 +131,7 @@ namespace PuzzleSolver
             {
                 if (button != null)
                 {
-                    button.Text = images[number];
+                    button.Text = state.Images[number];
                     // разрешаем редактирование клетки при начальной расстановке
                     // или если клетка не фиксированная (не условие задачи)
                     button.Enabled = initButton.Checked || !cell.Fixed;
@@ -197,6 +199,8 @@ namespace PuzzleSolver
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 state = Core.LoadJson<State>(dialog.FileName);
+                // Инициализация изображения клеток по умолчанию
+                state.Images ??= images;
                 state.InitLines();
                 InitPanel(tabSudoku);
                 string name = System.IO.Path.GetFileName(dialog.FileName);

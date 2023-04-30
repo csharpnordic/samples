@@ -29,6 +29,10 @@ namespace PuzzleSolver.Puzzles.Sudoku
         /// Игровое поле
         /// </summary>
         public Cell[][] Cells { get; set; }
+        /// <summary>
+        /// Изображения клеток
+        /// </summary>
+        public string[] Images { get; set; }
 
         /// <summary>
         /// Группировки клеток поля для проверки уникальности
