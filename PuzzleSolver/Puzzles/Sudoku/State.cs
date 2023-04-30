@@ -58,6 +58,7 @@ namespace PuzzleSolver.Puzzles.Sudoku
             SizeY = sizeY;
             Size = size;
             Cells = new Cell[SizeX][];
+            Images = new string[Size * Size + 1];
 
             for (int x = 0; x < SizeX; x++)
             {
@@ -66,6 +67,11 @@ namespace PuzzleSolver.Puzzles.Sudoku
                 {
                     Cells[x][y] = new Cell();
                 }
+            }
+
+            for (int i = 1; i < Images.Length; i++)
+            {
+                Images[i] = i.ToString();
             }
 
             InitLines();

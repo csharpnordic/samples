@@ -1,0 +1,361 @@
+{
+  "SizeX": 9,
+  "SizeY": 9,
+  "Size": 3,
+  "Cells": [
+    [
+      {
+        "Number": 6,
+        "Fixed": true
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 3,
+        "Fixed": true
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 7,
+        "Fixed": true
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 5,
+        "Fixed": true
+      }
+    ],
+    [
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 2,
+        "Fixed": true
+      },
+      {
+        "Number": 9,
+        "Fixed": true
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      }
+    ],
+    [
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 9,
+        "Fixed": true
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 2,
+        "Fixed": true
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 8,
+        "Fixed": true
+      }
+    ],
+    [
+      {
+        "Number": 9,
+        "Fixed": true
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 3,
+        "Fixed": true
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 4,
+        "Fixed": true
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 1,
+        "Fixed": true
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      }
+    ],
+    [
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 4,
+        "Fixed": true
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 7,
+        "Fixed": true
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 2,
+        "Fixed": true
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      }
+    ],
+    [
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 1,
+        "Fixed": true
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 5,
+        "Fixed": true
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 2,
+        "Fixed": true
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 4,
+        "Fixed": true
+      }
+    ],
+    [
+      {
+        "Number": 2,
+        "Fixed": true
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 6,
+        "Fixed": true
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 7,
+        "Fixed": true
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      }
+    ],
+    [
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 1,
+        "Fixed": true
+      },
+      {
+        "Number": 3,
+        "Fixed": true
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      }
+    ],
+    [
+      {
+        "Number": 1,
+        "Fixed": true
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 4,
+        "Fixed": true
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 8,
+        "Fixed": true
+      },
+      {
+        "Number": 0,
+        "Fixed": false
+      },
+      {
+        "Number": 9,
+        "Fixed": true
+      }
+    ]
+  ],
+  "Images": [
+    null,
+    "\u221A",
+    "II",
+    "\u03A9",
+    "\u0393",
+    "*",
+    "\u03A0",
+    "Ч",
+    "\u2C75",
+    "И"
+  ]
+}
