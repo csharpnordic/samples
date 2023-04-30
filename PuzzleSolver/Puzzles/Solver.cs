@@ -14,10 +14,12 @@ namespace PuzzleSolver.Puzzles
     {
         public State? Solve(State state)
         {
-            foreach (var move in state.GetMoves())
+            var moves = state.GetMoves();
+            foreach (var move in moves)
             {
+                state.Log();
                 var newState = state.Move(move);
-                return newState;
+                // return newState;
 
                 if (!newState.Done())
                 {

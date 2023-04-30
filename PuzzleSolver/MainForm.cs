@@ -214,6 +214,7 @@ namespace PuzzleSolver
         private void solveButton_Click(object sender, EventArgs e)
         {
             var solver = new Solver();
+            state.Log();
             solver.Solve(state);
         }
     }

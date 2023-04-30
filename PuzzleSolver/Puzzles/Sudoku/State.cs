@@ -14,6 +14,11 @@ namespace PuzzleSolver.Puzzles.Sudoku
     public class State : IState
     {
         /// <summary>
+        /// Протоколирование
+        /// </summary>
+        private static readonly NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
+
+        /// <summary>
         /// Размер игрового поля по горизонтали
         /// </summary>
         public int SizeX { get; set; }
@@ -69,6 +74,8 @@ namespace PuzzleSolver.Puzzles.Sudoku
                 }
             }
 
+            // Инициализация обозначений клеток по умолчанию
+            Images[0] = " ";
             for (int i = 1; i < Images.Length; i++)
             {
                 Images[i] = i.ToString();
@@ -198,5 +205,27 @@ namespace PuzzleSolver.Puzzles.Sudoku
         /// </summary>
         /// <returns></returns>
         public bool Done() => Cells.All(x => x.All(x => x.Fixed));
+
+        /// <summary>
+        /// Протоколирование
+        /// </summary>
+        public void Log()
+        {
+            log.Trace(string.Join("", Enumerable.Repeat("-", SizeX + SizeX / Size - 1)));
+            for (int y = 0; y < SizeY; y++)
+            {
+                if (y > 0 && y % Size == 0)
+                {
+                    log.Trace(string.Empty);
+                }
+                string s = "";
+                for (int x = 0; x < SizeX; x++)
+                {
+                    if (x > 0 && x % Size == 0) s += ' ';
+                    s += Cells[x][y].Number > 0 ? Cells[x][y].Number.ToString() : ".";
+                }
+                log.Trace(s);
+            }
+        }
     }
 }
