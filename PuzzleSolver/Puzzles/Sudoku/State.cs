@@ -144,26 +144,21 @@ namespace PuzzleSolver.Puzzles.Sudoku
             {
                 for (int y = 0; y < SizeY; y++)
                 {
-                    // Пропуск фиксированных ячеек
-                    if (Cells[x][y].Fixed) continue;
+                    // Пропуск ячеек со значениями
+                    if (Cells[x][y].Number > 0) continue;
 
-                    List<Move> moves = new List<Move>();
-
+                    List<Move> moves = new();
                     // Перебор всех возможных чисел
                     for (int number = 1; number <= Size * Size; number++)
                     {
-                        Move move = new Move()
-                        {
-                            Number = number,
-                            Cell = Cells[x][y]
-                        };
+                        Move move = new Move(Cells[x][y], number);
                         if (PossibleMove(move))
                         {
                             moves.Add(move);
                         }
                     }
-                    // выбираем клетку с минимально возможным количеством вариантов ходов
-                    if (result.Count() == 0 || result.Count() > moves.Count())
+                    // выбираем клетку с минимально возможным количеством вариантов существующих ходов
+                    if (moves.Count > 0 && (result.Count == 0 || result.Count > moves.Count))
                     {
                         result = moves;
                     }
@@ -182,8 +177,8 @@ namespace PuzzleSolver.Puzzles.Sudoku
             // Проверяем группы клеток, в которые входит клетка хода
             foreach (var line in Lines.Where(x => x.Contains(move.Cell)))
             {
-                // проверка на неуникальность номера
-                if (line.Any(x => x.Number == move.Number)) return false;
+                // проверка на неуникальность номера (исключая из проверки саму клетку)
+                if (line.Where(x => x != move.Cell).Any(x => x.Number == move.Number)) return false;
             }
             return true;
         }
@@ -191,7 +186,7 @@ namespace PuzzleSolver.Puzzles.Sudoku
         /// <summary>
         /// Построение нового состояния после хода
         /// </summary>
-        /// <param name="move"></param>
+        /// <param name="move">Возможный ход</param>
         /// <returns></returns>
         public State Move(Move move)
         {
@@ -201,10 +196,22 @@ namespace PuzzleSolver.Puzzles.Sudoku
         }
 
         /// <summary>
-        /// Решение найдено
+        /// Возврат к предыдущему состоянию после отмены хода
+        /// </summary>
+        /// <param name="move">Возможный ход</param>
+        /// <returns></returns>
+        public State MoveBack(Move move)
+        {
+            move.Cell.Number = 0;
+            move.Cell.Fixed = false;
+            return this;
+        }
+
+        /// <summary>
+        /// Решение найдено - все клетки заполнены ненулевыми числами
         /// </summary>
         /// <returns></returns>
-        public bool Done() => Cells.All(x => x.All(x => x.Fixed));
+        public bool Done() => Cells.All(x => x.All(x => x.Number > 0));
 
         /// <summary>
         /// Протоколирование

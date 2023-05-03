@@ -21,14 +21,17 @@ namespace PuzzleSolver.Puzzles
                 var newState = state.Move(move);
                 // return newState;
 
-                if (!newState.Done())
-                {
-                    return Solve(newState);
-                }
-                else
+                if (newState.Done())
                 {
                     return newState;
                 }
+                var solution = Solve(newState);
+                if (solution != null) // если же решение не найдено, попробуем следующий ход
+                {
+                    return solution;
+                }
+                // откат последнего сделанного хода
+                state = state.MoveBack(move);
             }
             return null;
         }

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace PuzzleSolver.Puzzles.Sudoku
 {
+    /// <summary>
+    /// Игровой ход
+    /// </summary>
     public class Move
     {
         /// <summary>
@@ -16,5 +19,16 @@ namespace PuzzleSolver.Puzzles.Sudoku
         /// Новое значение ячейки после хода
         /// </summary>
         public int Number { get; set; }
+
+        /// <summary>
+        /// Конструктор со значениями
+        /// </summary>
+        /// <param name="cell">Ячейка игрового поля</param>
+        /// <param name="number">Новое значение ячейки после хода</param>
+        public Move(Cell cell, int number)
+        {
+            Cell = cell;
+            Number = number;
+        }
     }
 }

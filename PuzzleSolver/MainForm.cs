@@ -153,11 +153,7 @@ namespace PuzzleSolver
                 button.BackColor = Control.DefaultBackColor;
                 if (!initButton.Checked && number > 0) // проверка на корректность хода
                 {
-                    var move = new Move()
-                    {
-                        Cell = cell,
-                        Number = number
-                    };
+                    var move = new Move(cell, number);
                     button.BackColor = state.PossibleMove(move) ? Color.LightGreen : Color.Orange;
                 }
                 cell.Fixed = initButton.Checked;
@@ -198,7 +194,7 @@ namespace PuzzleSolver
             };
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                state = Core.LoadJson<State>(dialog.FileName);                
+                state = Core.LoadJson<State>(dialog.FileName);
                 state.InitLines();
                 InitPanel(tabSudoku);
                 string name = System.IO.Path.GetFileName(dialog.FileName);
@@ -216,6 +212,15 @@ namespace PuzzleSolver
             var solver = new Solver();
             state.Log();
             solver.Solve(state);
+        }
+
+        private void validateButton_Click(object sender, EventArgs e)
+        {
+            foreach (var kv in buttons)
+            {
+                var move = new Move(kv.Key, kv.Key.Number);
+                kv.Value.BackColor = state.PossibleMove(move) ? Color.LightGreen : Color.Orange;
+            }
         }
     }
 }

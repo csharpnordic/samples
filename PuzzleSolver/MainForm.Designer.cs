@@ -41,9 +41,10 @@
             statusLabel = new ToolStripStatusLabel();
             tool = new ToolStrip();
             initButton = new ToolStripButton();
+            solveButton = new ToolStripButton();
             tabs = new TabControl();
             tabSudoku = new TabPage();
-            solveButton = new ToolStripButton();
+            validateButton = new ToolStripButton();
             menu.SuspendLayout();
             status.SuspendLayout();
             tool.SuspendLayout();
@@ -125,7 +126,7 @@
             // tool
             // 
             tool.ImageScalingSize = new Size(20, 20);
-            tool.Items.AddRange(new ToolStripItem[] { initButton, solveButton });
+            tool.Items.AddRange(new ToolStripItem[] { initButton, solveButton, validateButton });
             tool.Location = new Point(0, 28);
             tool.Name = "tool";
             tool.Size = new Size(800, 27);
@@ -140,6 +141,15 @@
             initButton.Name = "initButton";
             initButton.Size = new Size(199, 24);
             initButton.Text = "Начальная расстановка";
+            // 
+            // solveButton
+            // 
+            solveButton.Image = (Image)resources.GetObject("solveButton.Image");
+            solveButton.ImageTransparentColor = Color.Magenta;
+            solveButton.Name = "solveButton";
+            solveButton.Size = new Size(143, 24);
+            solveButton.Text = "Найти решение";
+            solveButton.Click += solveButton_Click;
             // 
             // tabs
             // 
@@ -161,14 +171,14 @@
             tabSudoku.Text = "Судоку";
             tabSudoku.UseVisualStyleBackColor = true;
             // 
-            // solveButton
+            // validateButton
             // 
-            solveButton.Image = (Image)resources.GetObject("solveButton.Image");
-            solveButton.ImageTransparentColor = Color.Magenta;
-            solveButton.Name = "solveButton";
-            solveButton.Size = new Size(143, 24);
-            solveButton.Text = "Найти решение";
-            solveButton.Click += solveButton_Click;
+            validateButton.Image = (Image)resources.GetObject("validateButton.Image");
+            validateButton.ImageTransparentColor = Color.Magenta;
+            validateButton.Name = "validateButton";
+            validateButton.Size = new Size(177, 24);
+            validateButton.Text = "Проверить решение";
+            validateButton.Click += validateButton_Click;
             // 
             // MainForm
             // 
@@ -212,5 +222,6 @@
         private ToolStripButton initButton;
         private ToolStripStatusLabel statusLabel;
         private ToolStripButton solveButton;
+        private ToolStripButton validateButton;
     }
 }
