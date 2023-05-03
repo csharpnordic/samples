@@ -1,4 +1,5 @@
-﻿using PuzzleSolver.Puzzles.Sudoku;
+﻿using PuzzleSolver.Interfaces;
+using PuzzleSolver.Puzzles.Sudoku;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,30 +11,34 @@ namespace PuzzleSolver.Puzzles
     /// <summary>
     /// Решатель головоломок
     /// </summary>
-    public class Solver
+    public static class Solver
     {
-        public State? Solve(State state)
+        /// <summary>
+        /// Универсальный алгоритм рекурсивного спуска по ходам головоломки
+        /// </summary>
+        /// <param name="state">Изменяемое состояние головоломки</param>
+        /// <returns></returns>
+        public static bool Solve(this IState state)
         {
+            state.Log();
             var moves = state.GetMoves();
             foreach (var move in moves)
             {
-                state.Log();
-                var newState = state.Move(move);
-                // return newState;
-
-                if (newState.Done())
+                // Выполняем очередной возможный ход
+                state.Move(move);              
+                // Проверка нахождения решения
+                if (state.Done())
                 {
-                    return newState;
-                }
-                var solution = Solve(newState);
-                if (solution != null) // если же решение не найдено, попробуем следующий ход
+                    return true;
+                }               
+                if (Solve(state)) // если же решение не найдено, рекурсивно попробуем следующий ход
                 {
-                    return solution;
+                    return true;
                 }
-                // откат последнего сделанного хода
-                state = state.MoveBack(move);
+                // Отмена последнего сделанного хода
+                state.UndoMove(move);
             }
-            return null;
+            return false;
         }
     }
 }

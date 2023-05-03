@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PuzzleSolver.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace PuzzleSolver.Puzzles.Sudoku
     /// <summary>
     /// Игровой ход
     /// </summary>
-    public class Move
+    public class Move : IMove
     {
         /// <summary>
         /// Ячейка игрового поля

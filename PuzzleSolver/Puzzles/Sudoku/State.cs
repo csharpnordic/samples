@@ -137,7 +137,7 @@ namespace PuzzleSolver.Puzzles.Sudoku
         /// Перечень возможных ходов
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Move> GetMoves()
+        public IEnumerable<IMove> GetMoves()
         {
             List<Move> result = new();
             for (int x = 0; x < SizeX; x++)
@@ -188,11 +188,13 @@ namespace PuzzleSolver.Puzzles.Sudoku
         /// </summary>
         /// <param name="move">Возможный ход</param>
         /// <returns></returns>
-        public State Move(Move move)
+        public void Move(IMove imove)
         {
-            move.Cell.Number = move.Number;
-            move.Cell.Fixed = true;
-            return this;
+            if (imove is Move move)
+            {
+                move.Cell.Number = move.Number;
+                move.Cell.Fixed = true;
+            }
         }
 
         /// <summary>
@@ -200,11 +202,13 @@ namespace PuzzleSolver.Puzzles.Sudoku
         /// </summary>
         /// <param name="move">Возможный ход</param>
         /// <returns></returns>
-        public State MoveBack(Move move)
+        public void UndoMove(IMove imove)
         {
-            move.Cell.Number = 0;
-            move.Cell.Fixed = false;
-            return this;
+            if (imove is Move move)
+            {
+                move.Cell.Number = 0;
+                move.Cell.Fixed = false;
+            }
         }
 
         /// <summary>

@@ -208,10 +208,8 @@ namespace PuzzleSolver
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void solveButton_Click(object sender, EventArgs e)
-        {
-            var solver = new Solver();
-            state.Log();
-            solver.Solve(state);
+        {                 
+            state.Solve();
         }
 
         private void validateButton_Click(object sender, EventArgs e)
