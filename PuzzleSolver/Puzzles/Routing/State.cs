@@ -10,6 +10,11 @@ namespace PuzzleSolver.Puzzles.Routing
     public class State : IState
     {
         /// <summary>
+        /// Полное имя класса
+        /// </summary>
+        public string ClassName => GetType().FullName;
+
+        /// <summary>
         /// Размер игрового поля по горизонтали
         /// </summary>
         public int SizeX { get; set; }

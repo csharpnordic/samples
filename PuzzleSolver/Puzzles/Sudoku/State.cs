@@ -19,6 +19,11 @@ namespace PuzzleSolver.Puzzles.Sudoku
         private static readonly NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
 
         /// <summary>
+        /// Полное имя класса
+        /// </summary>
+        public string ClassName => GetType().FullName;
+
+        /// <summary>
         /// Размер игрового поля по горизонтали
         /// </summary>
         public int SizeX { get; set; }
@@ -48,7 +53,7 @@ namespace PuzzleSolver.Puzzles.Sudoku
         /// <para>Горизонтали, диагонали, квадраты <seealso cref="Size"/>*<seealso cref="Size"/></para>
         /// </summary>
         [JsonIgnore]
-        public List<Cell[]> Lines { get; set; }
+        public List<Cell[]> Lines { get; set; }       
 
         /// <summary>
         /// Беспараметрический конструктор для сериализации

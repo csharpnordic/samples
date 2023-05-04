@@ -1,4 +1,5 @@
 {
+  "ClassName": "PuzzleSolver.Puzzles.Routing.State",
   "SizeX": 6,
   "SizeY": 4,
   "Colors": 2,

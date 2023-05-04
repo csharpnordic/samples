@@ -149,7 +149,7 @@ namespace PuzzleSolver
                     Left = (x + 1) * cellSize,
                     Top = 0,
                     Width = cellSize,
-                    Height = cellSize,                 
+                    Height = cellSize,
                     Cell = state[Side.Top, x],
                     Colors = state.Colors
                 };
@@ -159,7 +159,7 @@ namespace PuzzleSolver
                     Left = (x + 1) * cellSize,
                     Top = (cellCountY + 1) * cellSize,
                     Width = cellSize,
-                    Height = cellSize,                 
+                    Height = cellSize,
                     Cell = state[Side.Bottom, x],
                     Colors = state.Colors
 
@@ -187,7 +187,7 @@ namespace PuzzleSolver
                     Left = 0,
                     Top = (y + 1) * cellSize,
                     Width = cellSize,
-                    Height = cellSize,                  
+                    Height = cellSize,
                     Cell = state[Side.Left, y],
                     Colors = state.Colors
                 };
@@ -197,7 +197,7 @@ namespace PuzzleSolver
                     Left = (cellCountX + 1) * cellSize,
                     Top = (y + 1) * cellSize,
                     Width = cellSize,
-                    Height = cellSize,                    
+                    Height = cellSize,
                     Cell = state[Side.Right, y],
                     Colors = state.Colors
                 };
@@ -309,22 +309,26 @@ namespace PuzzleSolver
             OpenFileDialog dialog = new OpenFileDialog
             {
                 Title = "Загрузка набора фигур",
-                Filter = "Файлы судоку (*.json)|*.json|Файлы маршрутов (*.json)|*.json|Все файлы (*.*)|*.*"
+                Filter = "Файлы (*.json)|*.json|Все файлы (*.*)|*.*"
             };
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                switch (dialog.FilterIndex)
+                Puzzles.State s = Core.LoadJson<Puzzles.State>(dialog.FileName);
+                if (s.ClassName == typeof(Puzzles.Sudoku.State).FullName)
                 {
-                    case 1:
-                        state = Core.LoadJson<Puzzles.Sudoku.State>(dialog.FileName);
-                        state.InitLines();
-                        InitSudokuPanel(tabSudoku);
-                        break;
-                    case 2:
-                        stater = Core.LoadJson<Puzzles.Routing.State>(dialog.FileName);
-                        game = stater;
-                        InitRoutingPanel(tabRouting, stater);
-                        break;
+                    state = Core.LoadJson<Puzzles.Sudoku.State>(dialog.FileName);
+                    state.InitLines();
+                    InitSudokuPanel(tabSudoku);
+                }
+                else if (s.ClassName == typeof(Puzzles.Routing.State).FullName)
+                {
+                    stater = Core.LoadJson<Puzzles.Routing.State>(dialog.FileName);
+                    game = stater;
+                    InitRoutingPanel(tabRouting, stater);
+                }
+                else
+                {
+                    throw new Exception();
                 }
                 string name = System.IO.Path.GetFileName(dialog.FileName);
                 statusLabel.Text = $"Файл {name} загружен успешно";

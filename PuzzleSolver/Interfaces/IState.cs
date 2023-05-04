@@ -12,10 +12,15 @@ namespace PuzzleSolver.Interfaces
     public interface IState
     {
         /// <summary>
+        /// Фактическое имя класса состояния
+        /// </summary>
+        string ClassName { get; }
+
+        /// <summary>
         /// Перечень возможных ходов
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<IMove> GetMoves();
+        IEnumerable<IMove> GetMoves();
 
         /// <summary>
         /// Обновление состояния после хода
