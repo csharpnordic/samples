@@ -60,8 +60,11 @@ namespace PuzzleSolver.Controls
             set
             {
                 cell = value;
+
                 // Автоматическое создание объекта при необходимости
                 cell.Tile ??= new Tile { Side = Side.None };
+
+                UpdateColor();
                 Invalidate();
             }
         }
@@ -72,6 +75,20 @@ namespace PuzzleSolver.Controls
         public TileControl()
         {
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// Обновление фонового цвета компонента
+        /// </summary>
+        private void UpdateColor()
+        {
+            // автоматическое определение цвета
+            if (cell.Border)
+                BackColor = Color.DarkGray;
+            else if (cell.Fixed)
+                BackColor = Color.LightGray;
+            else
+                BackColor = Color.White;
         }
 
         /// <summary>
@@ -150,17 +167,30 @@ namespace PuzzleSolver.Controls
             }
             else if (e is MouseEventArgs me)
             {
-                // правый верхний треугольник
-                bool rT = me.X > me.Y;
-                // левый верхний треугольник
-                bool lT = me.X + me.Y < Math.Min(Width, Height);
-                Side side;
-                if (lT)
-                    side = rT ? Side.Top : Side.Left;
-                else
-                    side = rT ? Side.Right : Side.Bottom;
+                switch (me.Button)
+                {
+                    case MouseButtons.Left:
+                        // правый верхний треугольник
+                        bool rT = me.X > me.Y;
+                        // левый верхний треугольник
+                        bool lT = me.X + me.Y < Math.Min(Width, Height);
+                        Side side;
+                        if (lT)
+                            side = rT ? Side.Top : Side.Left;
+                        else
+                            side = rT ? Side.Right : Side.Bottom;
 
-                Cell.Tile[side] = (Cell.Tile[side] + 1) % (int)Math.Pow(2, Colors);
+                        Cell.Tile[side] = (Cell.Tile[side] + 1) % (int)Math.Pow(2, Colors);
+                        break;
+
+                    case MouseButtons.Right: // изменение фиксированности клетки
+                        if (!Cell.Border)
+                        {
+                            Cell.Fixed = !Cell.Fixed;
+                            UpdateColor();
+                        }
+                        break;
+                }
             }
             Invalidate();
         }

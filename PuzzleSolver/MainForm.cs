@@ -149,8 +149,7 @@ namespace PuzzleSolver
                     Left = (x + 1) * cellSize,
                     Top = 0,
                     Width = cellSize,
-                    Height = cellSize,
-                    BackColor = Color.DarkGray,
+                    Height = cellSize,                 
                     Cell = state[Side.Top, x],
                     Colors = state.Colors
                 };
@@ -160,8 +159,7 @@ namespace PuzzleSolver
                     Left = (x + 1) * cellSize,
                     Top = (cellCountY + 1) * cellSize,
                     Width = cellSize,
-                    Height = cellSize,
-                    BackColor = Color.DarkGray,
+                    Height = cellSize,                 
                     Cell = state[Side.Bottom, x],
                     Colors = state.Colors
 
@@ -189,8 +187,7 @@ namespace PuzzleSolver
                     Left = 0,
                     Top = (y + 1) * cellSize,
                     Width = cellSize,
-                    Height = cellSize,
-                    BackColor = Color.DarkGray,
+                    Height = cellSize,                  
                     Cell = state[Side.Left, y],
                     Colors = state.Colors
                 };
@@ -200,8 +197,7 @@ namespace PuzzleSolver
                     Left = (cellCountX + 1) * cellSize,
                     Top = (y + 1) * cellSize,
                     Width = cellSize,
-                    Height = cellSize,
-                    BackColor = Color.DarkGray,
+                    Height = cellSize,                    
                     Cell = state[Side.Right, y],
                     Colors = state.Colors
                 };
