@@ -74,22 +74,20 @@ namespace PuzzleSolver.Controls
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Визуализауция плитки
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
-            Side[] sides;
-            if (Cell.Border)
-            {
-                sides = new Side[] { Cell.Tile.Side };
-            }
-            else
-            {
-                sides = new Side[] { Side.Top, Side.Bottom, Side.Left, Side.Right };
-            }
-
-            foreach (var side in sides)
+            foreach (var side in Enum.GetValues<Side>().Where(x => x != Side.None))
             {
                 int x = 0, y = 0;
                 int dx = 0, dy = 0;
+                // размеры по умолчанию
+                int sx = Width / Rate;
+                int sy = Height / Rate;
+
                 switch (side)
                 {
                     case Puzzles.Routing.Side.Top:
@@ -97,13 +95,15 @@ namespace PuzzleSolver.Controls
                         dx = Width / Rate;
                         y = 0;
                         dy = 0;
+                        sy = Cell.Border ? Height / Rate : Height / 2;
                         break;
 
                     case Puzzles.Routing.Side.Bottom:
                         x = (Width - Width * Colors / Rate) / 2;
                         dx = Width / Rate;
-                        y = Height * (Rate - 1) / Rate;
+                        y = Cell.Border ? Height * (Rate - 1) / Rate : Height / 2;
                         dy = 0;
+                        sy = Cell.Border ? Height / Rate : Height / 2;
                         break;
 
                     case Puzzles.Routing.Side.Left:
@@ -111,20 +111,22 @@ namespace PuzzleSolver.Controls
                         dx = 0;
                         y = (Height - Height * Colors / Rate) / 2;
                         dy = Height / Rate;
+                        sx = Cell.Border ? Width / Rate : Width / 2;
                         break;
 
                     case Puzzles.Routing.Side.Right:
-                        x = Width * (Rate - 1) / Rate;
+                        x = Cell.Border ? Width * (Rate - 1) / Rate : Width / 2;
                         dx = 0;
                         y = (Height - Height * Colors / Rate) / 2;
                         dy = Height / Rate;
+                        sx = Cell.Border ? Width / Rate : Width / 2;
                         break;
                 }
                 for (int i = 0; i < Colors; i++)
                 {
                     if ((1 << i & Cell.Tile[side]) > 0)
                     {
-                        Rectangle rect = new Rectangle(x, y, Width / Rate, Height / Rate);
+                        Rectangle rect = new Rectangle(x, y, sx, sy);
                         e.Graphics.FillRectangle(Brush[i], rect);
                     }
                     x += dx;
@@ -135,6 +137,10 @@ namespace PuzzleSolver.Controls
             base.OnPaint(e);
         }
 
+        /// <summary>
+        /// Изменение значения плитки
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnClick(EventArgs e)
         {
             if (Cell.Border)
