@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PuzzleSolver.Puzzles.Routing;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -40,12 +41,30 @@ namespace PuzzleSolver.Controls
             {
                 return Brush?.Length ?? 0;
             }
-        }      
+        }
 
         /// <summary>
-        /// Плитка, с которой связан
+        /// Плитка, с которой связан компонент
         /// </summary>
-        public Puzzles.Routing.Cell Cell { get; set; }
+        private Puzzles.Routing.Cell cell;
+
+        /// <summary>
+        /// Плитка, с которой связан компонент
+        /// </summary>
+        public Puzzles.Routing.Cell Cell
+        {
+            get
+            {
+                return cell;
+            }
+            set
+            {
+                cell = value;
+                // Автоматическое создание объекта при необходимости
+                cell.Tile ??= new Tile { Side = Side.None };
+                Invalidate();
+            }
+        }
 
         /// <summary>
         /// Беспараметрический конструктор
@@ -57,11 +76,21 @@ namespace PuzzleSolver.Controls
 
         protected override void OnPaint(PaintEventArgs e)
         {
+            Side[] sides;
             if (Cell.Border)
+            {
+                sides = new Side[] { Cell.Tile.Side };
+            }
+            else
+            {
+                sides = new Side[] { Side.Top, Side.Bottom, Side.Left, Side.Right };
+            }
+
+            foreach (var side in sides)
             {
                 int x = 0, y = 0;
                 int dx = 0, dy = 0;
-                switch (Cell.Tile.Side)
+                switch (side)
                 {
                     case Puzzles.Routing.Side.Top:
                         x = (Width - Width * Colors / Rate) / 2;
@@ -93,7 +122,7 @@ namespace PuzzleSolver.Controls
                 }
                 for (int i = 0; i < Colors; i++)
                 {
-                    if ((1 << i & Cell.Tile[Cell.Tile.Side]) > 0)
+                    if ((1 << i & Cell.Tile[side]) > 0)
                     {
                         Rectangle rect = new Rectangle(x, y, Width / Rate, Height / Rate);
                         e.Graphics.FillRectangle(Brush[i], rect);
@@ -108,7 +137,25 @@ namespace PuzzleSolver.Controls
 
         protected override void OnClick(EventArgs e)
         {
-            Cell.Tile[Cell.Tile.Side] = (Cell.Tile[Cell.Tile.Side] + 1) % (int)Math.Pow(2, Colors);
+            if (Cell.Border)
+            {
+                // координаты щелчка неважы
+                Cell.Tile[Cell.Tile.Side] = (Cell.Tile[Cell.Tile.Side] + 1) % (int)Math.Pow(2, Colors);
+            }
+            else if (e is MouseEventArgs me)
+            {
+                // правый верхний треугольник
+                bool rT = me.X > me.Y;
+                // левый верхний треугольник
+                bool lT = me.X + me.Y < Math.Min(Width, Height);
+                Side side;
+                if (lT)
+                    side = rT ? Side.Top : Side.Left;
+                else
+                    side = rT ? Side.Right : Side.Bottom;
+
+                Cell.Tile[side] = (Cell.Tile[side] + 1) % (int)Math.Pow(2, Colors);
+            }
             Invalidate();
         }
     }

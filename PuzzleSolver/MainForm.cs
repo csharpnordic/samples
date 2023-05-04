@@ -121,6 +121,8 @@ namespace PuzzleSolver
                     parent.Controls.Add(panel);
                 }
             }
+
+            tabs.SelectTab(tabSudoku);
         }
 
         /// <summary>
@@ -205,6 +207,8 @@ namespace PuzzleSolver
                 };
                 parent.Controls.Add(button);
             }
+
+            tabs.SelectTab(tabRouting);
         }
 
         /// <summary>
@@ -287,7 +291,15 @@ namespace PuzzleSolver
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                state.SaveJson(dialog.FileName);
+                switch (tabs.SelectedIndex)
+                {
+                    case 0:
+                        state?.SaveJson(dialog.FileName);
+                        break;
+                    case 1:
+                        stater?.SaveJson(dialog.FileName);
+                        break;
+                }
             }
         }
 
@@ -315,7 +327,7 @@ namespace PuzzleSolver
                     case 2:
                         stater = Core.LoadJson<Puzzles.Routing.State>(dialog.FileName);
                         game = stater;
-                        InitRoutingPanel(tabSudoku, stater);
+                        InitRoutingPanel(tabRouting, stater);
                         break;
                 }
                 string name = System.IO.Path.GetFileName(dialog.FileName);
@@ -346,7 +358,5 @@ namespace PuzzleSolver
                 kv.Value.BackColor = state.PossibleMove(move) ? Color.LightGreen : Color.Orange;
             }
         }
-
-
     }
 }
