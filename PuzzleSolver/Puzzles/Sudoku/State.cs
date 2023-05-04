@@ -22,18 +22,22 @@ namespace PuzzleSolver.Puzzles.Sudoku
         /// Размер игрового поля по горизонтали
         /// </summary>
         public int SizeX { get; set; }
+
         /// <summary>
         /// Размер игрового поля по вертикали
         /// </summary>
         public int SizeY { get; set; }
+
         /// <summary>
         /// Размер квадрата
         /// </summary>
         public int Size { get; set; }
+
         /// <summary>
         /// Игровое поле
         /// </summary>
         public Cell[][] Cells { get; set; }
+
         /// <summary>
         /// Изображения клеток
         /// </summary>
@@ -62,17 +66,8 @@ namespace PuzzleSolver.Puzzles.Sudoku
             SizeX = sizeX;
             SizeY = sizeY;
             Size = size;
-            Cells = new Cell[SizeX][];
+            Cells = Solver.Array2<Cell>(sizeX, sizeY, true);
             Images = new string[Size * Size + 1];
-
-            for (int x = 0; x < SizeX; x++)
-            {
-                Cells[x] = new Cell[SizeY];
-                for (int y = 0; y < SizeY; y++)
-                {
-                    Cells[x][y] = new Cell();
-                }
-            }
 
             // Инициализация обозначений клеток по умолчанию
             Images[0] = " ";

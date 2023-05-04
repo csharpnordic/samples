@@ -1,7 +1,11 @@
+using PuzzleSolver.Controls;
 using PuzzleSolver.Extenders;
 using PuzzleSolver.Puzzles;
+using PuzzleSolver.Puzzles.Routing;
 using PuzzleSolver.Puzzles.Sudoku;
 using System;
+using System.Runtime.CompilerServices;
+using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace PuzzleSolver
@@ -11,9 +15,22 @@ namespace PuzzleSolver
     /// </summary>
     public partial class MainForm : Form
     {
-        private State state;
+        /// <summary>
+        /// Состояние текущей головоломки
+        /// </summary>
+        private Interfaces.IState game;
 
-        private Dictionary<Cell, Button> buttons = new();
+        /// <summary>
+        /// Состояние головоломки
+        /// </summary>
+        private Puzzles.Sudoku.State state;
+
+        private Puzzles.Routing.State stater;
+
+        /// <summary>
+        /// Отображение клеток судоку на кнопки
+        /// </summary>
+        private Dictionary<Puzzles.Sudoku.Cell, Button> buttons = new();
 
         /*
         private string[] images = new string[] {
@@ -49,10 +66,10 @@ namespace PuzzleSolver
         }
 
         /// <summary>
-        /// Инициализация интерфейса игрового поля
+        /// Инициализация интерфейса игрового поля судоку
         /// </summary>
         /// <param name="parent"></param>
-        private void InitPanel(Control parent)
+        private void InitSudokuPanel(Control parent)
         {
             // Сброс глобальных переменных
             parent.Controls.Clear();
@@ -107,17 +124,111 @@ namespace PuzzleSolver
         }
 
         /// <summary>
+        /// Инициализация интерфейса маршрутизации
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="state"></param>
+        private void InitRoutingPanel(Control parent, Puzzles.Routing.State state)
+        {
+            // Сброс глобальных переменных
+            parent.Controls.Clear();
+
+            // количество ячеек
+            int cellCountX = state.SizeX;
+            int cellCountY = state.SizeY;
+            // размер ячеек, учитывая граничные ячейки
+            int cellSize = Math.Min(parent.Width / (cellCountX + 2), parent.Height / (cellCountY + 2));
+
+            TileControl button;
+            for (int x = 0; x < cellCountX; x++)
+            {
+                button = new TileControl()
+                {
+                    Left = (x + 1) * cellSize,
+                    Top = 0,
+                    Width = cellSize,
+                    Height = cellSize,
+                    BackColor = Color.DarkGray,
+                    Cell = state[Side.Top, x],
+                    Colors = state.Colors
+                };
+                parent.Controls.Add(button);
+                button = new TileControl()
+                {
+                    Left = (x + 1) * cellSize,
+                    Top = (cellCountY + 1) * cellSize,
+                    Width = cellSize,
+                    Height = cellSize,
+                    BackColor = Color.DarkGray,
+                    Cell = state[Side.Bottom, x],
+                    Colors = state.Colors
+
+                };
+                parent.Controls.Add(button);
+
+                for (int y = 0; y < cellCountY; y++)
+                {
+                    button = new TileControl()
+                    {
+                        Left = (x + 1) * cellSize,
+                        Top = (y + 1) * cellSize,
+                        Width = cellSize,
+                        Height = cellSize,
+                        Cell = state.Field[x][y],
+                        Colors = state.Colors
+                    };
+                    parent.Controls.Add(button);
+                }
+            }
+            for (int y = 0; y < cellCountY; y++)
+            {
+                button = new TileControl()
+                {
+                    Left = 0,
+                    Top = (y + 1) * cellSize,
+                    Width = cellSize,
+                    Height = cellSize,
+                    BackColor = Color.DarkGray,
+                    Cell = state[Side.Left, y],
+                    Colors = state.Colors
+                };
+                parent.Controls.Add(button);
+                button = new TileControl()
+                {
+                    Left = (cellCountX + 1) * cellSize,
+                    Top = (y + 1) * cellSize,
+                    Width = cellSize,
+                    Height = cellSize,
+                    BackColor = Color.DarkGray,
+                    Cell = state[Side.Right, y],
+                    Colors = state.Colors
+                };
+                parent.Controls.Add(button);
+            }
+        }
+
+        /// <summary>
         /// Переключение в режим судоку
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void sudokuToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            tabSudoku.Select();
+            tabs.SelectTab(tabSudoku);
+            state = new Puzzles.Sudoku.State(9, 9, 3);
+            InitSudokuPanel(tabSudoku);
+        }
 
-            state = new(9, 9, 3);
-
-            InitPanel(tabSudoku);
+        /// <summary>
+        /// Переключение в режим маршрутизации
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void routingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            tabs.SelectTab(tabRouting);
+            stater = new Puzzles.Routing.State(6, 4, 2);
+            InitRoutingPanel(tabRouting, stater);
         }
 
         /// <summary>
@@ -127,7 +238,7 @@ namespace PuzzleSolver
         /// <param name="number"></param>
         private void CellValueChanged(object sender, int number)
         {
-            if (sender is Cell cell && buttons.TryGetValue(cell, out Button? button))
+            if (sender is Puzzles.Sudoku.Cell cell && buttons.TryGetValue(cell, out Button? button))
             {
                 if (button != null)
                 {
@@ -147,13 +258,13 @@ namespace PuzzleSolver
         /// <exception cref="NotImplementedException"></exception>
         private void SudokuButtonClick(object? sender, EventArgs e)
         {
-            if (sender is Button button && button.Tag is Cell cell)
+            if (sender is Button button && button.Tag is Puzzles.Sudoku.Cell cell)
             {
                 int number = (cell.Number + 1) % (state.Size * state.Size + 1);
                 button.BackColor = Control.DefaultBackColor;
                 if (!initButton.Checked && number > 0) // проверка на корректность хода
                 {
-                    var move = new Move(cell, number);
+                    var move = new Puzzles.Sudoku.Move(cell, number);
                     button.BackColor = state.PossibleMove(move) ? Color.LightGreen : Color.Orange;
                 }
                 cell.Fixed = initButton.Checked;
@@ -190,35 +301,52 @@ namespace PuzzleSolver
             OpenFileDialog dialog = new OpenFileDialog
             {
                 Title = "Загрузка набора фигур",
-                Filter = "Файлы (*.json)|*.json|Все файлы (*.*)|*.*"
+                Filter = "Файлы судоку (*.json)|*.json|Файлы маршрутов (*.json)|*.json|Все файлы (*.*)|*.*"
             };
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                state = Core.LoadJson<State>(dialog.FileName);
-                state.InitLines();
-                InitPanel(tabSudoku);
+                switch (dialog.FilterIndex)
+                {
+                    case 1:
+                        state = Core.LoadJson<Puzzles.Sudoku.State>(dialog.FileName);
+                        state.InitLines();
+                        InitSudokuPanel(tabSudoku);
+                        break;
+                    case 2:
+                        stater = Core.LoadJson<Puzzles.Routing.State>(dialog.FileName);
+                        game = stater;
+                        InitRoutingPanel(tabSudoku, stater);
+                        break;
+                }
                 string name = System.IO.Path.GetFileName(dialog.FileName);
                 statusLabel.Text = $"Файл {name} загружен успешно";
             }
         }
 
         /// <summary>
-        /// Решение головоломки
+        /// Решение головоломки Судоку
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void solveButton_Click(object sender, EventArgs e)
-        {                 
+        {
             state.Solve();
         }
 
+        /// <summary>
+        /// Проверка судоку на корректность
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void validateButton_Click(object sender, EventArgs e)
         {
             foreach (var kv in buttons)
             {
-                var move = new Move(kv.Key, kv.Key.Number);
+                var move = new Puzzles.Sudoku.Move(kv.Key, kv.Key.Number);
                 kv.Value.BackColor = state.PossibleMove(move) ? Color.LightGreen : Color.Orange;
             }
         }
+
+
     }
 }

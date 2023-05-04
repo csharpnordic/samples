@@ -42,9 +42,11 @@
             tool = new ToolStrip();
             initButton = new ToolStripButton();
             solveButton = new ToolStripButton();
+            validateButton = new ToolStripButton();
             tabs = new TabControl();
             tabSudoku = new TabPage();
-            validateButton = new ToolStripButton();
+            tabRouting = new TabPage();
+            routingToolStripMenuItem = new ToolStripMenuItem();
             menu.SuspendLayout();
             status.SuspendLayout();
             tool.SuspendLayout();
@@ -96,7 +98,7 @@
             // 
             // puzzleToolStripMenuItem
             // 
-            puzzleToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { sudokuToolStripMenuItem });
+            puzzleToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { sudokuToolStripMenuItem, routingToolStripMenuItem });
             puzzleToolStripMenuItem.Name = "puzzleToolStripMenuItem";
             puzzleToolStripMenuItem.Size = new Size(116, 24);
             puzzleToolStripMenuItem.Text = "&Головоломка";
@@ -104,7 +106,7 @@
             // sudokuToolStripMenuItem
             // 
             sudokuToolStripMenuItem.Name = "sudokuToolStripMenuItem";
-            sudokuToolStripMenuItem.Size = new Size(139, 26);
+            sudokuToolStripMenuItem.Size = new Size(224, 26);
             sudokuToolStripMenuItem.Text = "&Судоку";
             sudokuToolStripMenuItem.Click += sudokuToolStripMenuItem_Click;
             // 
@@ -151,9 +153,19 @@
             solveButton.Text = "Найти решение";
             solveButton.Click += solveButton_Click;
             // 
+            // validateButton
+            // 
+            validateButton.Image = (Image)resources.GetObject("validateButton.Image");
+            validateButton.ImageTransparentColor = Color.Magenta;
+            validateButton.Name = "validateButton";
+            validateButton.Size = new Size(177, 24);
+            validateButton.Text = "Проверить решение";
+            validateButton.Click += validateButton_Click;
+            // 
             // tabs
             // 
             tabs.Controls.Add(tabSudoku);
+            tabs.Controls.Add(tabRouting);
             tabs.Dock = DockStyle.Fill;
             tabs.Location = new Point(0, 55);
             tabs.Name = "tabs";
@@ -171,14 +183,21 @@
             tabSudoku.Text = "Судоку";
             tabSudoku.UseVisualStyleBackColor = true;
             // 
-            // validateButton
+            // tabRouting
             // 
-            validateButton.Image = (Image)resources.GetObject("validateButton.Image");
-            validateButton.ImageTransparentColor = Color.Magenta;
-            validateButton.Name = "validateButton";
-            validateButton.Size = new Size(177, 24);
-            validateButton.Text = "Проверить решение";
-            validateButton.Click += validateButton_Click;
+            tabRouting.Location = new Point(4, 29);
+            tabRouting.Name = "tabRouting";
+            tabRouting.Size = new Size(792, 340);
+            tabRouting.TabIndex = 1;
+            tabRouting.Text = "Маршруты";
+            tabRouting.UseVisualStyleBackColor = true;
+            // 
+            // routingToolStripMenuItem
+            // 
+            routingToolStripMenuItem.Name = "routingToolStripMenuItem";
+            routingToolStripMenuItem.Size = new Size(224, 26);
+            routingToolStripMenuItem.Text = "&Маршруты";
+            routingToolStripMenuItem.Click += routingToolStripMenuItem_Click;
             // 
             // MainForm
             // 
@@ -223,5 +242,7 @@
         private ToolStripStatusLabel statusLabel;
         private ToolStripButton solveButton;
         private ToolStripButton validateButton;
+        private ToolStripMenuItem routingToolStripMenuItem;
+        private TabPage tabRouting;
     }
 }
