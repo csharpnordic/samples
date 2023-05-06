@@ -97,6 +97,10 @@ namespace PuzzleSolver.Controls
         /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
+            // Если плитка не задана, то и рисовать нечего
+            if (Cell.Tile == null) return;
+
+            // Рисуем четыре стороны плитки
             foreach (var side in Enum.GetValues<Side>().Where(x => x != Side.None))
             {
                 int x = 0, y = 0;
@@ -162,7 +166,7 @@ namespace PuzzleSolver.Controls
         {
             if (Cell.Border)
             {
-                // координаты щелчка неважы
+                // координаты щелчка неважны
                 Cell.Tile[Cell.Tile.Side] = (Cell.Tile[Cell.Tile.Side] + 1) % (int)Math.Pow(2, Colors);
             }
             else if (e is MouseEventArgs me)

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,6 +10,17 @@ namespace PuzzleSolver.Puzzles.Routing
 {
     public class State : IState
     {
+        /// <summary>
+        /// Соседние клетки
+        /// </summary>
+        private static readonly Neighbour[] Neighbours = new Neighbour[]
+        {
+            new Neighbour(-1, 0, Side.Left),
+            new Neighbour(0, -1, Side.Top),
+            new Neighbour(1,0, Side.Right),
+            new Neighbour(0,1, Side.Bottom)
+        };
+
         /// <summary>
         /// Полное имя класса
         /// </summary>
@@ -51,14 +63,32 @@ namespace PuzzleSolver.Puzzles.Routing
         public State() { }
 
         /// <summary>
-        /// Граничная плитка
+        /// Граничная клетка
         /// </summary>
         /// <param name="side">Сторона границы</param>
-        /// <param name="index">Индекс плитки, начиная с 0</param>
+        /// <param name="index">Индекс клетки, начиная с 0</param>
         /// <returns></returns>
         public Cell this[Side side, int index]
         {
             get => Border[(int)side][index];
+        }
+
+        /// <summary>
+        /// Клетка игрового поля, включая граничные
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public Cell this[int x, int y]
+        {
+            get
+            {
+                if (x < 0) return this[Side.Left, y];
+                if (y < 0) return this[Side.Top, x];
+                if (x >= SizeX) return this[Side.Right, y];
+                if (y >= SizeY) return this[Side.Bottom, x];
+                return Field[x][y];
+            }
         }
 
         /// <summary>
@@ -106,7 +136,7 @@ namespace PuzzleSolver.Puzzles.Routing
         /// <param name="side">Сторона плитки</param>
         /// <returns>Сторона, противоположная заданной</returns>
         /// <exception cref="Exception"></exception>
-        private Side OppositeSide(Side side)
+        private static Side OppositeSide(Side side)
         {
             switch (side)
             {
@@ -119,37 +149,127 @@ namespace PuzzleSolver.Puzzles.Routing
         }
 
         /// <summary>
+        /// Заполнение набора возможных фигур
+        /// <para>Все фигуры, кроме зафиксированных, удаляются с поля и помещаются в набор фигур</para>
+        /// </summary>
+        public void InitTileSet()
+        {
+            for (int x = 0; x < SizeX; x++)
+            {
+                for (int y = 0; y < SizeY; y++)
+                {
+                    if (!Field[x][y].Fixed)
+                    {
+                        TileSet.Add(Field[x][y].Tile);
+                        Field[x][y].Tile = null;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Поиск первой свободной клетки
+        /// </summary>
+        /// <param name="xCell"></param>
+        /// <param name="yCell"></param>
+        /// <returns></returns>
+        private bool FindEmplyCell(out int xCell, out int yCell)
+        {
+            xCell = -1;
+            yCell = -1;
+            for (int x = 0; x < SizeX; x++)
+            {
+                for (int y = 0; y < SizeY; y++)
+                {
+                    if (Field[x][y].Tile == null)
+                    {
+                        xCell = x;
+                        yCell = y;
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Проверка хода на корректность
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="tile"></param>
+        /// <returns></returns>
+        public bool PossibleMove(int x, int y, Tile tile)
+        {
+            foreach (var neighbour in Neighbours)
+            {
+                var cell = this[x + neighbour.DX, y + neighbour.DY];
+                if (cell.Tile == null) continue; // пропуск пустых клеток
+                if (cell.Tile[OppositeSide(neighbour.Side)] != tile[neighbour.Side])
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
         /// Список возможных ходов
         /// </summary>
         /// <returns></returns>
         public IEnumerable<IMove> GetMoves()
         {
-            return new List<Move>();
+            List<Move> moves = new();
+
+            // Поиск свободной клетки
+            if (!FindEmplyCell(out int xCell, out int yCell))
+            {
+                return moves; // если свободной ячейки нет, возвращаем пустой список
+            }
+
+            // Перебираем все оставшиеся плитки
+            foreach (var tile in TileSet)
+            {
+                if (PossibleMove(xCell, yCell, tile))
+                {
+                    Move move = new Move(Field[xCell][xCell], tile);
+                    moves.Add(move);
+                }
+            }
+
+            return moves;
         }
 
         /// <summary>
         /// Ход
         /// </summary>
-        /// <param name="move"></param>
-        /// <exception cref="NotImplementedException"></exception>
-        public void Move(IMove move)
+        /// <param name="move"></param>        
+        public void Move(IMove imove)
         {
-            throw new NotImplementedException();
+            if (imove is Move move)
+            {
+                move.Cell.Tile = move.Tile;
+                TileSet.Remove(move.Tile);
+            }
         }
 
         /// <summary>
         /// Отмена хода
         /// </summary>
-        /// <param name="move"></param>
-        /// <exception cref="NotImplementedException"></exception>
-        public void UndoMove(IMove move)
+        /// <param name="move"></param>      
+        public void UndoMove(IMove imove)
         {
-            throw new NotImplementedException();
+            if (imove is Move move)
+            {
+                TileSet.Add(move.Tile);
+                move.Cell.Tile = null;
+            }
         }
 
         public bool Done()
         {
-            throw new NotImplementedException();
+            return true;
+            return !FindEmplyCell(out int _, out int _);
         }
 
         /// <summary>

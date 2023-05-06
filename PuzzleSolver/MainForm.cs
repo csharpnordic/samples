@@ -32,6 +32,11 @@ namespace PuzzleSolver
         /// </summary>
         private Dictionary<Puzzles.Sudoku.Cell, Button> buttons = new();
 
+        /// <summary>
+        /// Отображение клеток маршрутов на элементы управления
+        /// </summary>
+        private Dictionary<Puzzles.Routing.Cell, TileControl> dict = new();
+
         /*
         private string[] images = new string[] {
             string.Empty,
@@ -134,6 +139,7 @@ namespace PuzzleSolver
         {
             // Сброс глобальных переменных
             parent.Controls.Clear();
+            dict.Clear();
 
             // количество ячеек
             int cellCountX = state.SizeX;
@@ -144,6 +150,7 @@ namespace PuzzleSolver
             TileControl button;
             for (int x = 0; x < cellCountX; x++)
             {
+                // Верхняя граница игрового поля
                 button = new TileControl()
                 {
                     Left = (x + 1) * cellSize,
@@ -154,6 +161,8 @@ namespace PuzzleSolver
                     Colors = state.Colors
                 };
                 parent.Controls.Add(button);
+
+                // Нижняя граница игрового поля
                 button = new TileControl()
                 {
                     Left = (x + 1) * cellSize,
@@ -166,6 +175,7 @@ namespace PuzzleSolver
                 };
                 parent.Controls.Add(button);
 
+                // Игровое поле
                 for (int y = 0; y < cellCountY; y++)
                 {
                     button = new TileControl()
@@ -177,11 +187,15 @@ namespace PuzzleSolver
                         Cell = state.Field[x][y],
                         Colors = state.Colors
                     };
+                    dict.Add(button.Cell, button);
+                    state.Field[x][y].ValueChanged += RoutingTile_ValueChanged;
                     parent.Controls.Add(button);
                 }
             }
+
             for (int y = 0; y < cellCountY; y++)
             {
+                // Левая граница игрового поля
                 button = new TileControl()
                 {
                     Left = 0,
@@ -192,6 +206,8 @@ namespace PuzzleSolver
                     Colors = state.Colors
                 };
                 parent.Controls.Add(button);
+
+                // Правая граница игрового поля
                 button = new TileControl()
                 {
                     Left = (cellCountX + 1) * cellSize,
@@ -205,6 +221,14 @@ namespace PuzzleSolver
             }
 
             tabs.SelectTab(tabRouting);
+        }
+
+        private void RoutingTile_ValueChanged(object sender, Tile? tile)
+        {
+            if (sender is Puzzles.Routing.Cell cell && dict.TryGetValue(cell, out TileControl control))
+            {
+                control.Invalidate();
+            }
         }
 
         /// <summary>
@@ -342,7 +366,19 @@ namespace PuzzleSolver
         /// <param name="e"></param>
         private void solveButton_Click(object sender, EventArgs e)
         {
-            state.Solve();
+            switch (tabs.SelectedIndex)
+            {
+                case 0:
+                    state.Solve();
+                    break;
+                case 1:
+                    if (stater.TileSet.Count == 0)
+                    {
+                        stater.InitTileSet();
+                    }
+                    stater.Solve();
+                    break;
+            }
         }
 
         /// <summary>

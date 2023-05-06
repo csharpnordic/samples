@@ -47,6 +47,9 @@ namespace PuzzleSolver.Puzzles
         /// <returns></returns>
         public static bool Solve(this IState state)
         {
+            // Проверка на корректность запуска
+            if (state == null) return false;
+
             state.Log();
             var moves = state.GetMoves();
             foreach (var move in moves)

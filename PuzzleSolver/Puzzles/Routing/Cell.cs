@@ -15,7 +15,7 @@ namespace PuzzleSolver.Puzzles.Routing
         /// Метод обработки изменения значения 
         /// </summary>
         /// <param name="number">Новое значение клетки</param>
-        public delegate void ChangeValue(object sender, Tile tile);
+        public delegate void ChangeValue(object sender, Tile? tile);
 
         /// <summary>
         /// Событие изменения значения
@@ -25,12 +25,12 @@ namespace PuzzleSolver.Puzzles.Routing
         /// <summary>
         /// Плитка
         /// </summary>
-        private Tile tile;
+        private Tile? tile;
 
         /// <summary>
         /// Индекс плитки в наборе плиток
         /// </summary>
-        public Tile Tile
+        public Tile? Tile
         {
             get
             {
