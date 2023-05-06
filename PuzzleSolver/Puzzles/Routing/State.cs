@@ -207,6 +207,8 @@ namespace PuzzleSolver.Puzzles.Routing
                 if (cell.Tile == null) continue; // пропуск пустых клеток
                 if (cell.Tile[OppositeSide(neighbour.Side)] != tile[neighbour.Side])
                 {
+                    // Если не совпадают соединения на прилегающих к друг другу сторонах,
+                    // ход невозможен
                     return false;
                 }
             }
@@ -232,7 +234,7 @@ namespace PuzzleSolver.Puzzles.Routing
             {
                 if (PossibleMove(xCell, yCell, tile))
                 {
-                    Move move = new Move(Field[xCell][xCell], tile);
+                    Move move = new Move(Field[xCell][yCell], tile);
                     moves.Add(move);
                 }
             }
@@ -248,7 +250,7 @@ namespace PuzzleSolver.Puzzles.Routing
         {
             if (imove is Move move)
             {
-                move.Cell.Tile = move.Tile;
+                move.Cell.Tile = move.Tile;              
                 TileSet.Remove(move.Tile);
             }
         }
@@ -262,13 +264,12 @@ namespace PuzzleSolver.Puzzles.Routing
             if (imove is Move move)
             {
                 TileSet.Add(move.Tile);
-                move.Cell.Tile = null;
+                move.Cell.Tile = null;             
             }
         }
 
         public bool Done()
-        {
-            return true;
+        {         
             return !FindEmplyCell(out int _, out int _);
         }
 
