@@ -64,6 +64,18 @@ namespace PuzzleSolver.Puzzles.Sudoku
             {
                 Images[i] = i.ToString();
             }
+
+            /*
+            Images[1] = "\U0001F41F"; // рыба
+            Images[2] = "\U000026F0"; // гора
+            Images[3] = "\U0001F480"; // череп
+            Images[4] = "\U00002197"; // стрелка 
+            Images[5] = "\U0001F334"; // пальма
+            Images[6] = "@"; // спираль
+            Images[7] = "\U0001F41A"; // ракушка
+            Images[8] = "\U0001F41E"; // божья коровка (жучок)
+            Images[9] = "\U0001f99c"; // птица
+            */
         }
 
         /// <summary>

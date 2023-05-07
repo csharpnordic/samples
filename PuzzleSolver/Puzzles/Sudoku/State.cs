@@ -81,6 +81,18 @@ namespace PuzzleSolver.Puzzles.Sudoku
                 Images[i] = i.ToString();
             }
 
+            /*
+            Images[1] = "\U0001f9F8"; // мишка
+            Images[2] = "\U0001f99c"; // птица
+            Images[3] = "\U0001f382"; // торт
+            Images[4] = "\U0001f697"; // машина
+            Images[5] = "\U0001fa91"; // кресло
+            Images[6] = "\U0001f467"; // кукла
+            Images[7] = "\U0001f460"; // женская туфля
+            Images[8] = "\U00002615"; // чашка (чайник)
+            Images[9] = "\U0001f3a9"; // шапка (ведро)
+            */
+
             InitLines();
         }
 

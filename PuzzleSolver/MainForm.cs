@@ -38,21 +38,6 @@ namespace PuzzleSolver
         /// </summary>
         private Dictionary<Puzzles.Sudoku.Cell, TriangleControl> triangles = new();
 
-        /*
-        private string[] images = new string[] {
-            string.Empty,
-            "\U0001f9F8", // мишка
-            "\U0001f99c", // птица
-            "\U0001f382", // торт
-            "\U0001f697", // машина
-            "\U0001fa91", // кресло
-            "\U0001f467", // кукла
-            "\U0001f460", // женская туфля
-            "\U00002615", // чашка (чайник)
-            "\U0001f3a9", // шапка (ведро)
-        };
-        */
-
         /// <summary>
         /// Конструктор формы
         /// </summary>
@@ -122,7 +107,7 @@ namespace PuzzleSolver
                 else if (s.ClassName == typeof(Puzzles.Sudoku.State3).FullName)
                 {
                     state3 = Core.LoadJson<Puzzles.Sudoku.State3>(dialog.FileName);
-                    InitTrianglePanel(tabSudoku, state3);
+                    InitTrianglePanel(tabTriangle, state3);
                 }
                 else
                 {
@@ -378,15 +363,17 @@ namespace PuzzleSolver
                             Width = width,
                             Height = height,
                             Up = z == 0,
-                            Tag = state3.Cells?[x][y][z]
+                            Tag = state.Cells?[x][y][z]
                         };
-                        state3.Cells[x][y][z].ValueChanged += TriangleValueChanged;
+                        state.Cells[x][y][z].ValueChanged += TriangleValueChanged;
                         control.Click += SudokuTriangleClick;
-                        triangles.Add(state3.Cells[x][y][z], control);
+                        triangles.Add(state.Cells[x][y][z], control);
                         parent.Controls.Add(control);
                     }
                 }
             }
+
+            tabs.SelectTab(tabTriangle);
         }
 
         #endregion

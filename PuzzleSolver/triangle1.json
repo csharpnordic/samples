@@ -1,0 +1,278 @@
+{
+  "ClassName": "PuzzleSolver.Puzzles.Sudoku.State3",
+  "Size": 5,
+  "Cells": [
+    [
+      [
+        {
+          "Number": 0,
+          "Fixed": false
+        },
+        {
+          "Number": 0,
+          "Fixed": false
+        }
+      ],
+      [
+        {
+          "Number": 0,
+          "Fixed": false
+        },
+        {
+          "Number": 0,
+          "Fixed": false
+        }
+      ],
+      [
+        {
+          "Number": 0,
+          "Fixed": false
+        },
+        {
+          "Number": 0,
+          "Fixed": false
+        }
+      ],
+      [
+        {
+          "Number": 0,
+          "Fixed": false
+        },
+        {
+          "Number": 0,
+          "Fixed": false
+        }
+      ],
+      [
+        {
+          "Number": 0,
+          "Fixed": false
+        },
+        {
+          "Number": 0,
+          "Fixed": false
+        }
+      ]
+    ],
+    [
+      [
+        {
+          "Number": 0,
+          "Fixed": false
+        },
+        {
+          "Number": 0,
+          "Fixed": false
+        }
+      ],
+      [
+        {
+          "Number": 0,
+          "Fixed": false
+        },
+        {
+          "Number": 0,
+          "Fixed": false
+        }
+      ],
+      [
+        {
+          "Number": 0,
+          "Fixed": false
+        },
+        {
+          "Number": 0,
+          "Fixed": false
+        }
+      ],
+      [
+        {
+          "Number": 0,
+          "Fixed": false
+        },
+        {
+          "Number": 0,
+          "Fixed": false
+        }
+      ],
+      [
+        {
+          "Number": 0,
+          "Fixed": false
+        },
+        {
+          "Number": 0,
+          "Fixed": false
+        }
+      ]
+    ],
+    [
+      [
+        {
+          "Number": 0,
+          "Fixed": false
+        },
+        {
+          "Number": 0,
+          "Fixed": false
+        }
+      ],
+      [
+        {
+          "Number": 0,
+          "Fixed": false
+        },
+        {
+          "Number": 0,
+          "Fixed": false
+        }
+      ],
+      [
+        {
+          "Number": 0,
+          "Fixed": false
+        },
+        {
+          "Number": 0,
+          "Fixed": false
+        }
+      ],
+      [
+        {
+          "Number": 0,
+          "Fixed": false
+        },
+        {
+          "Number": 0,
+          "Fixed": false
+        }
+      ],
+      [
+        {
+          "Number": 0,
+          "Fixed": false
+        },
+        {
+          "Number": 0,
+          "Fixed": false
+        }
+      ]
+    ],
+    [
+      [
+        {
+          "Number": 0,
+          "Fixed": false
+        },
+        {
+          "Number": 0,
+          "Fixed": false
+        }
+      ],
+      [
+        {
+          "Number": 0,
+          "Fixed": false
+        },
+        {
+          "Number": 0,
+          "Fixed": false
+        }
+      ],
+      [
+        {
+          "Number": 0,
+          "Fixed": false
+        },
+        {
+          "Number": 0,
+          "Fixed": false
+        }
+      ],
+      [
+        {
+          "Number": 0,
+          "Fixed": false
+        },
+        {
+          "Number": 0,
+          "Fixed": false
+        }
+      ],
+      [
+        {
+          "Number": 0,
+          "Fixed": false
+        },
+        {
+          "Number": 0,
+          "Fixed": false
+        }
+      ]
+    ],
+    [
+      [
+        {
+          "Number": 0,
+          "Fixed": false
+        },
+        {
+          "Number": 0,
+          "Fixed": false
+        }
+      ],
+      [
+        {
+          "Number": 0,
+          "Fixed": false
+        },
+        {
+          "Number": 0,
+          "Fixed": false
+        }
+      ],
+      [
+        {
+          "Number": 0,
+          "Fixed": false
+        },
+        {
+          "Number": 0,
+          "Fixed": false
+        }
+      ],
+      [
+        {
+          "Number": 0,
+          "Fixed": false
+        },
+        {
+          "Number": 0,
+          "Fixed": false
+        }
+      ],
+      [
+        {
+          "Number": 0,
+          "Fixed": false
+        },
+        {
+          "Number": 0,
+          "Fixed": false
+        }
+      ]
+    ]
+  ],
+  "Images": [
+    " ",
+    "\uD83D\uDC1F",
+    "\u26F0",
+    "\uD83D\uDC80",
+    "\u2197",
+    "\uD83C\uDF34",
+    "@",
+    "\uD83D\uDC1A",
+    "\uD83D\uDC1E",
+    "\uD83E\uDD9C"
+  ]
+}
