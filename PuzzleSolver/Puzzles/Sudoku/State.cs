@@ -11,7 +11,7 @@ namespace PuzzleSolver.Puzzles.Sudoku
     /// <summary>
     /// Состояние игрового поля
     /// </summary>
-    public class State : IState
+    public class State : IState, IPossibleMove
     {
         /// <summary>
         /// Протоколирование
@@ -19,21 +19,30 @@ namespace PuzzleSolver.Puzzles.Sudoku
         private static readonly NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
 
         /// <summary>
+        /// Полное имя класса
+        /// </summary>
+        public string ClassName => GetType().FullName;
+
+        /// <summary>
         /// Размер игрового поля по горизонтали
         /// </summary>
         public int SizeX { get; set; }
+
         /// <summary>
         /// Размер игрового поля по вертикали
         /// </summary>
         public int SizeY { get; set; }
+
         /// <summary>
         /// Размер квадрата
         /// </summary>
         public int Size { get; set; }
+
         /// <summary>
         /// Игровое поле
         /// </summary>
         public Cell[][] Cells { get; set; }
+
         /// <summary>
         /// Изображения клеток
         /// </summary>
@@ -62,17 +71,8 @@ namespace PuzzleSolver.Puzzles.Sudoku
             SizeX = sizeX;
             SizeY = sizeY;
             Size = size;
-            Cells = new Cell[SizeX][];
+            Cells = Solver.Array2<Cell>(sizeX, sizeY, true);
             Images = new string[Size * Size + 1];
-
-            for (int x = 0; x < SizeX; x++)
-            {
-                Cells[x] = new Cell[SizeY];
-                for (int y = 0; y < SizeY; y++)
-                {
-                    Cells[x][y] = new Cell();
-                }
-            }
 
             // Инициализация обозначений клеток по умолчанию
             Images[0] = " ";
@@ -80,6 +80,18 @@ namespace PuzzleSolver.Puzzles.Sudoku
             {
                 Images[i] = i.ToString();
             }
+
+            /*
+            Images[1] = "\U0001f9F8"; // мишка
+            Images[2] = "\U0001f99c"; // птица
+            Images[3] = "\U0001f382"; // торт
+            Images[4] = "\U0001f697"; // машина
+            Images[5] = "\U0001fa91"; // кресло
+            Images[6] = "\U0001f467"; // кукла
+            Images[7] = "\U0001f460"; // женская туфля
+            Images[8] = "\U00002615"; // чашка (чайник)
+            Images[9] = "\U0001f3a9"; // шапка (ведро)
+            */
 
             InitLines();
         }
@@ -172,8 +184,9 @@ namespace PuzzleSolver.Puzzles.Sudoku
         /// </summary>
         /// <param name="move"></param>
         /// <returns></returns>
-        public bool PossibleMove(Move move)
+        public bool PossibleMove(IMove imove)
         {
+            if (!(imove is Move move)) return false;
             // Проверяем группы клеток, в которые входит клетка хода
             foreach (var line in Lines.Where(x => x.Contains(move.Cell)))
             {

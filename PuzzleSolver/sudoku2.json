@@ -1,4 +1,5 @@
 {
+  "ClassName": "PuzzleSolver.Puzzles.Sudoku.State",
   "SizeX": 9,
   "SizeY": 9,
   "Size": 3,
