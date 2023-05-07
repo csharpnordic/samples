@@ -37,6 +37,8 @@
             exitToolStripMenuItem = new ToolStripMenuItem();
             puzzleToolStripMenuItem = new ToolStripMenuItem();
             sudokuToolStripMenuItem = new ToolStripMenuItem();
+            routingToolStripMenuItem = new ToolStripMenuItem();
+            triangleToolStripMenuItem = new ToolStripMenuItem();
             status = new StatusStrip();
             statusLabel = new ToolStripStatusLabel();
             tool = new ToolStrip();
@@ -46,7 +48,7 @@
             tabs = new TabControl();
             tabSudoku = new TabPage();
             tabRouting = new TabPage();
-            routingToolStripMenuItem = new ToolStripMenuItem();
+            tabTriangle = new TabPage();
             menu.SuspendLayout();
             status.SuspendLayout();
             tool.SuspendLayout();
@@ -98,7 +100,7 @@
             // 
             // puzzleToolStripMenuItem
             // 
-            puzzleToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { sudokuToolStripMenuItem, routingToolStripMenuItem });
+            puzzleToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { sudokuToolStripMenuItem, routingToolStripMenuItem, triangleToolStripMenuItem });
             puzzleToolStripMenuItem.Name = "puzzleToolStripMenuItem";
             puzzleToolStripMenuItem.Size = new Size(116, 24);
             puzzleToolStripMenuItem.Text = "&Головоломка";
@@ -109,6 +111,20 @@
             sudokuToolStripMenuItem.Size = new Size(224, 26);
             sudokuToolStripMenuItem.Text = "&Судоку";
             sudokuToolStripMenuItem.Click += sudokuToolStripMenuItem_Click;
+            // 
+            // routingToolStripMenuItem
+            // 
+            routingToolStripMenuItem.Name = "routingToolStripMenuItem";
+            routingToolStripMenuItem.Size = new Size(224, 26);
+            routingToolStripMenuItem.Text = "&Маршруты";
+            routingToolStripMenuItem.Click += routingToolStripMenuItem_Click;
+            // 
+            // triangleToolStripMenuItem
+            // 
+            triangleToolStripMenuItem.Name = "triangleToolStripMenuItem";
+            triangleToolStripMenuItem.Size = new Size(224, 26);
+            triangleToolStripMenuItem.Text = "&Треугольник";
+            triangleToolStripMenuItem.Click += triangleToolStripMenuItem_Click;
             // 
             // status
             // 
@@ -166,6 +182,7 @@
             // 
             tabs.Controls.Add(tabSudoku);
             tabs.Controls.Add(tabRouting);
+            tabs.Controls.Add(tabTriangle);
             tabs.Dock = DockStyle.Fill;
             tabs.Location = new Point(0, 55);
             tabs.Name = "tabs";
@@ -192,12 +209,15 @@
             tabRouting.Text = "Маршруты";
             tabRouting.UseVisualStyleBackColor = true;
             // 
-            // routingToolStripMenuItem
+            // tabTriangle
             // 
-            routingToolStripMenuItem.Name = "routingToolStripMenuItem";
-            routingToolStripMenuItem.Size = new Size(224, 26);
-            routingToolStripMenuItem.Text = "&Маршруты";
-            routingToolStripMenuItem.Click += routingToolStripMenuItem_Click;
+            tabTriangle.Location = new Point(4, 29);
+            tabTriangle.Name = "tabTriangle";
+            tabTriangle.Padding = new Padding(3);
+            tabTriangle.Size = new Size(792, 340);
+            tabTriangle.TabIndex = 2;
+            tabTriangle.Text = "Треугольник";
+            tabTriangle.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -244,5 +264,7 @@
         private ToolStripButton validateButton;
         private ToolStripMenuItem routingToolStripMenuItem;
         private TabPage tabRouting;
+        private ToolStripMenuItem triangleToolStripMenuItem;
+        private TabPage tabTriangle;
     }
 }

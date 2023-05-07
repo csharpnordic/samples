@@ -24,8 +24,8 @@ namespace PuzzleSolver
         /// —осто€ние головоломки
         /// </summary>
         private Puzzles.Sudoku.State state;
-
         private Puzzles.Routing.State stater;
+        private Puzzles.Sudoku.State3 state3;
 
         /// <summary>
         /// ќтображение клеток судоку на кнопки
@@ -223,6 +223,42 @@ namespace PuzzleSolver
             tabs.SelectTab(tabRouting);
         }
 
+        private void InitTrianglePanel(Control parent, Puzzles.Sudoku.State3 state)
+        {
+            // —брос глобальных переменных
+            parent.Controls.Clear();
+
+            double rate = Math.Sqrt(3) / 2;
+
+            // размер €чеек, учитыва€ граничные €чейки
+            int width = parent.Width / state.Size;
+            int height = (int)(parent.Height / state.Size / rate);
+            width = Math.Min(width, height);
+            height = (int)(width * rate);
+            for (int x = 0; x < state.Size; x++)
+            {
+                for (int y = 0; y < state.Size - x; y++)
+                {
+                    for (int z = 0; z <= 1; z++)
+                    {
+                        // пропуск верхнего треугольника за границей
+                        if (x + y + z >= state.Size) continue;
+
+                        var control = new TriangleControl()
+                        {
+                            BackColor = Color.Transparent,
+                            Left = (int)((x + y / 2.0 + z / 2.0) * width),
+                            Top = height * (state.Size - y - 1),
+                            Width = width,
+                            Height = height,
+                            Up = z == 0
+                        };
+                        parent.Controls.Add(control);
+                    }
+                }
+            }
+        }
+
         private void RoutingTile_ValueChanged(object sender, Tile? tile)
         {
             if (sender is Puzzles.Routing.Cell cell && dict.TryGetValue(cell, out TileControl control))
@@ -393,6 +429,13 @@ namespace PuzzleSolver
                 var move = new Puzzles.Sudoku.Move(kv.Key, kv.Key.Number);
                 kv.Value.BackColor = state.PossibleMove(move) ? Color.LightGreen : Color.Orange;
             }
+        }
+
+        private void triangleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            tabs.SelectTab(tabTriangle);
+            state3 = new Puzzles.Sudoku.State3(5);
+            InitTrianglePanel(tabTriangle, state3);
         }
     }
 }
