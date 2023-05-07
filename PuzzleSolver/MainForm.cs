@@ -107,6 +107,7 @@ namespace PuzzleSolver
                 else if (s.ClassName == typeof(Puzzles.Sudoku.State3).FullName)
                 {
                     state3 = Core.LoadJson<Puzzles.Sudoku.State3>(dialog.FileName);
+                    state3.InitLines();
                     InitTrianglePanel(tabTriangle, state3);
                 }
                 else
@@ -489,7 +490,7 @@ namespace PuzzleSolver
                     stater.Solve();
                     break;
                 case 2:
-                    // state3.Solve();
+                    state3.Solve();
                     break;
             }
         }

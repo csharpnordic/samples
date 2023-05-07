@@ -76,6 +76,7 @@ namespace PuzzleSolver.Puzzles
             {
                 // Выполняем очередной возможный ход
                 state.Move(move);
+                //return true;
                 // Проверка нахождения решения
                 if (state.Done())
                 {
