@@ -11,7 +11,7 @@ namespace PuzzleSolver.Puzzles.Sudoku
     /// <summary>
     /// Состояние игрового поля
     /// </summary>
-    public class State : IState
+    public class State : IState, IPossibleMove
     {
         /// <summary>
         /// Протоколирование
@@ -53,7 +53,7 @@ namespace PuzzleSolver.Puzzles.Sudoku
         /// <para>Горизонтали, диагонали, квадраты <seealso cref="Size"/>*<seealso cref="Size"/></para>
         /// </summary>
         [JsonIgnore]
-        public List<Cell[]> Lines { get; set; }       
+        public List<Cell[]> Lines { get; set; }
 
         /// <summary>
         /// Беспараметрический конструктор для сериализации
@@ -172,8 +172,9 @@ namespace PuzzleSolver.Puzzles.Sudoku
         /// </summary>
         /// <param name="move"></param>
         /// <returns></returns>
-        public bool PossibleMove(Move move)
+        public bool PossibleMove(IMove imove)
         {
+            if (!(imove is Move move)) return false;
             // Проверяем группы клеток, в которые входит клетка хода
             foreach (var line in Lines.Where(x => x.Contains(move.Cell)))
             {

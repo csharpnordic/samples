@@ -39,6 +39,7 @@
             labelValue.Size = new Size(150, 150);
             labelValue.TabIndex = 0;
             labelValue.TextAlign = ContentAlignment.MiddleCenter;
+            labelValue.Click += labelValue_Click;
             // 
             // TriangleControl
             // 

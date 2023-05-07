@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PuzzleSolver.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace PuzzleSolver.Puzzles.Sudoku
     /// <summary>
     /// Состояние для треугольного судоку
     /// </summary>
-    public class State3
+    public class State3 : IPossibleMove
     {
         /// <summary>
         /// Полное имя класса
@@ -49,9 +50,31 @@ namespace PuzzleSolver.Puzzles.Sudoku
         /// Конструктор по размеру игрового поля
         /// </summary>
         /// <param name="size">Размер игрового поля</param>
-        public State3(int size)
+        /// <param name="numbers">Число вариантов значений</param>
+        public State3(int size, int numbers)
         {
             Size = size;
+
+            Cells = Solver.Array3<Cell>(size, size, 2, true);
+            Images = new string[numbers + 1];
+
+            // Инициализация обозначений клеток по умолчанию
+            Images[0] = " ";
+            for (int i = 1; i < Images.Length; i++)
+            {
+                Images[i] = i.ToString();
+            }
+        }
+
+        /// <summary>
+        /// Проверка хода на корректность
+        /// </summary>
+        /// <param name="imove"></param>
+        /// <returns></returns>
+        public bool PossibleMove(IMove imove)
+        {
+            if (!(imove is Move move)) return false;
+            return false;
         }
     }
 }

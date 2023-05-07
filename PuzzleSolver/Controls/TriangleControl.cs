@@ -23,7 +23,7 @@ namespace PuzzleSolver.Controls
         /// </summary>
         public bool Up
         {
-            get => up; 
+            get => up;
             set
             {
                 up = value;
@@ -53,7 +53,7 @@ namespace PuzzleSolver.Controls
         /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
-            base.OnPaint(e);
+          //  base.OnPaint(e);
             using var brush = new SolidBrush(Up ? Color.Orange : Color.DarkOrange);
             var text = new SolidBrush(Color.Black);
             using var pen = new Pen(Color.DarkBlue, Width / 20);
@@ -71,7 +71,7 @@ namespace PuzzleSolver.Controls
             {
                 points = new Point[]
                 {
-                    new Point(0,0),
+                    new Point(0, 0),
                     new Point(Width, 0),
                     new Point (Width/2, Height),
                 };
@@ -86,9 +86,23 @@ namespace PuzzleSolver.Controls
             e.Graphics.DrawPolygon(pen, points);
         }
 
+        /// <summary>
+        /// Размер шрифта следует за размером треугольника
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnSizeChanged(EventArgs e)
         {
             labelValue.Font = new Font(FontFamily.GenericSansSerif, Height / 4);
+        }
+
+        /// <summary>
+        /// Щелчок по метке
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void labelValue_Click(object sender, EventArgs e)
+        {
+            InvokeOnClick(this, e);
         }
     }
 }

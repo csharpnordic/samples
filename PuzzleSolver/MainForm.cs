@@ -1,5 +1,6 @@
 using PuzzleSolver.Controls;
 using PuzzleSolver.Extenders;
+using PuzzleSolver.Interfaces;
 using PuzzleSolver.Puzzles;
 using PuzzleSolver.Puzzles.Routing;
 using PuzzleSolver.Puzzles.Sudoku;
@@ -16,11 +17,6 @@ namespace PuzzleSolver
     public partial class MainForm : Form
     {
         /// <summary>
-        /// Состояние текущей головоломки
-        /// </summary>
-        private Interfaces.IState game;
-
-        /// <summary>
         /// Состояние головоломки
         /// </summary>
         private Puzzles.Sudoku.State state;
@@ -36,6 +32,11 @@ namespace PuzzleSolver
         /// Отображение клеток маршрутов на элементы управления
         /// </summary>
         private Dictionary<Puzzles.Routing.Cell, TileControl> dict = new();
+
+        /// <summary>
+        /// Отображение треугольных клеток судоку на треугольники
+        /// </summary>
+        private Dictionary<Puzzles.Sudoku.Cell, TriangleControl> triangles = new();
 
         /*
         private string[] images = new string[] {
@@ -60,6 +61,78 @@ namespace PuzzleSolver
             InitializeComponent();
         }
 
+        #region "Пункт меню 'Игра'"
+
+        /// <summary>
+        /// Сохранить состояние
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog dialog = new SaveFileDialog
+            {
+                Title = "Сохранение головоломки",
+                Filter = "Файлы (*.json)|*.json|Все файлы (*.*)|*.*"
+            };
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                switch (tabs.SelectedIndex)
+                {
+                    case 0:
+                        state?.SaveJson(dialog.FileName);
+                        break;
+                    case 1:
+                        stater?.SaveJson(dialog.FileName);
+                        break;
+                    case 2:
+                        state3?.SaveJson(dialog.FileName);
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Загрузка файла
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog
+            {
+                Title = "Загрузка набора фигур",
+                Filter = "Файлы (*.json)|*.json|Все файлы (*.*)|*.*"
+            };
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                Puzzles.State s = Core.LoadJson<Puzzles.State>(dialog.FileName);
+                if (s.ClassName == typeof(Puzzles.Sudoku.State).FullName)
+                {
+                    state = Core.LoadJson<Puzzles.Sudoku.State>(dialog.FileName);
+                    state.InitLines();
+                    InitSudokuPanel(tabSudoku, state);
+                }
+                else if (s.ClassName == typeof(Puzzles.Routing.State).FullName)
+                {
+                    stater = Core.LoadJson<Puzzles.Routing.State>(dialog.FileName);
+                    InitRoutingPanel(tabRouting, stater);
+                }
+                else if (s.ClassName == typeof(Puzzles.Sudoku.State3).FullName)
+                {
+                    state3 = Core.LoadJson<Puzzles.Sudoku.State3>(dialog.FileName);
+                    InitTrianglePanel(tabSudoku, state3);
+                }
+                else
+                {
+                    throw new Exception();
+                }
+                string name = System.IO.Path.GetFileName(dialog.FileName);
+                statusLabel.Text = $"Файл {name} загружен успешно";
+            }
+        }
+
         /// <summary>
         /// Выход из приложения
         /// </summary>
@@ -70,15 +143,60 @@ namespace PuzzleSolver
             Close();
         }
 
+        #endregion
+
+        #region "Начало игры"
+
+        /// <summary>
+        /// Переключение в режим судоку
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void sudokuToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            tabs.SelectTab(tabSudoku);
+            state = new Puzzles.Sudoku.State(9, 9, 3);
+            InitSudokuPanel(tabSudoku, state);
+        }
+
+        /// <summary>
+        /// Переключение в режим маршрутизации
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void routingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            tabs.SelectTab(tabRouting);
+            stater = new Puzzles.Routing.State(6, 4, 2);
+            InitRoutingPanel(tabRouting, stater);
+        }
+
+        /// <summary>
+        /// Переключение в режим треугольного судоку
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void triangleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            tabs.SelectTab(tabTriangle);
+            state3 = new Puzzles.Sudoku.State3(5, 9);
+            InitTrianglePanel(tabTriangle, state3);
+        }
+
+        #endregion
+
+        #region "Инициализация интерфейса"
+
         /// <summary>
         /// Инициализация интерфейса игрового поля судоку
         /// </summary>
         /// <param name="parent"></param>
-        private void InitSudokuPanel(Control parent)
+        private void InitSudokuPanel(Control parent, Puzzles.Sudoku.State state)
         {
-            // Сброс глобальных переменных
+            // Инициализация глобальных переменных
             parent.Controls.Clear();
             buttons.Clear();
+            parent.Tag = state;
 
             // генерация интерфейса
             // количество больших ячеек
@@ -137,9 +255,10 @@ namespace PuzzleSolver
         /// <param name="state"></param>
         private void InitRoutingPanel(Control parent, Puzzles.Routing.State state)
         {
-            // Сброс глобальных переменных
+            // Инициализация глобальных переменных
             parent.Controls.Clear();
             dict.Clear();
+            parent.Tag = state;
 
             // количество ячеек
             int cellCountX = state.SizeX;
@@ -223,10 +342,17 @@ namespace PuzzleSolver
             tabs.SelectTab(tabRouting);
         }
 
+        /// <summary>
+        /// Инициализация интерфейса треугольного судоку
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="state"></param>
         private void InitTrianglePanel(Control parent, Puzzles.Sudoku.State3 state)
         {
-            // Сброс глобальных переменных
+            // Инициализация глобальных переменных
             parent.Controls.Clear();
+            triangles.Clear();
+            parent.Tag = state;
 
             double rate = Math.Sqrt(3) / 2;
 
@@ -252,14 +378,67 @@ namespace PuzzleSolver
                             Width = width,
                             Height = height,
                             Up = z == 0,
-                            Text = "Ш"
+                            Tag = state3.Cells?[x][y][z]
                         };
+                        state3.Cells[x][y][z].ValueChanged += TriangleValueChanged;
+                        control.Click += SudokuTriangleClick;
+                        triangles.Add(state3.Cells[x][y][z], control);
                         parent.Controls.Add(control);
                     }
                 }
             }
         }
 
+        #endregion
+
+        /// <summary>
+        /// Нажатие кнопки судоку
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private void SudokuButtonClick(object? sender, EventArgs e)
+        {
+            if (sender is Control control && control.Tag is Puzzles.Sudoku.Cell cell && tabs.SelectedTab.Tag is Puzzles.Sudoku.State state)
+            {
+                int number = (cell.Number + 1) % state.Images.Length;
+                control.BackColor = Control.DefaultBackColor;
+                if (!initButton.Checked && number > 0) // проверка на корректность хода
+                {
+                    var move = new Puzzles.Sudoku.Move(cell, number);
+                    control.BackColor = state.PossibleMove(move) ? Color.LightGreen : Color.Orange;
+                }
+                cell.Fixed = initButton.Checked;
+                cell.Number = number;
+            }
+        }
+
+        /// <summary>
+        /// Нажатие треугольника судоку
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private void SudokuTriangleClick(object? sender, EventArgs e)
+        {
+            if (sender is Control control && control.Tag is Puzzles.Sudoku.Cell cell && tabs.SelectedTab.Tag is Puzzles.Sudoku.State3 state)
+            {
+                int number = (cell.Number + 1) % state.Images.Length;
+                if (!initButton.Checked && number > 0) // проверка на корректность хода
+                {
+                    var move = new Puzzles.Sudoku.Move(cell, number);
+                    // state.PossibleMove(move) ? Color.LightGreen : Color.Orange;
+                }
+                cell.Fixed = initButton.Checked;
+                cell.Number = number;
+            }
+        }
+
+        /// <summary>
+        /// Перерисовка клетки маршрутизации
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="tile"></param>
         private void RoutingTile_ValueChanged(object sender, Tile? tile)
         {
             if (sender is Puzzles.Routing.Cell cell && dict.TryGetValue(cell, out TileControl control))
@@ -269,31 +448,7 @@ namespace PuzzleSolver
         }
 
         /// <summary>
-        /// Переключение в режим судоку
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void sudokuToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            tabs.SelectTab(tabSudoku);
-            state = new Puzzles.Sudoku.State(9, 9, 3);
-            InitSudokuPanel(tabSudoku);
-        }
-
-        /// <summary>
-        /// Переключение в режим маршрутизации
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void routingToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            tabs.SelectTab(tabRouting);
-            stater = new Puzzles.Routing.State(6, 4, 2);
-            InitRoutingPanel(tabRouting, stater);
-        }
-
-        /// <summary>
-        /// Изменение значения клетки
+        /// Изменение значения клетки судоку
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="number"></param>
@@ -312,92 +467,21 @@ namespace PuzzleSolver
         }
 
         /// <summary>
-        /// Нажатие кнопки
+        /// Изменение значения треугольной клетки
         /// </summary>
         /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="number"></param>
         /// <exception cref="NotImplementedException"></exception>
-        private void SudokuButtonClick(object? sender, EventArgs e)
+        private void TriangleValueChanged(object sender, int number)
         {
-            if (sender is Button button && button.Tag is Puzzles.Sudoku.Cell cell)
+            if (sender is Puzzles.Sudoku.Cell cell && triangles.TryGetValue(cell, out TriangleControl control))
             {
-                int number = (cell.Number + 1) % (state.Size * state.Size + 1);
-                button.BackColor = Control.DefaultBackColor;
-                if (!initButton.Checked && number > 0) // проверка на корректность хода
-                {
-                    var move = new Puzzles.Sudoku.Move(cell, number);
-                    button.BackColor = state.PossibleMove(move) ? Color.LightGreen : Color.Orange;
-                }
-                cell.Fixed = initButton.Checked;
-                cell.Number = number;
+                control.Text = state3.Images[cell.Number];
             }
         }
 
         /// <summary>
-        /// Сохранить состояние
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SaveFileDialog dialog = new SaveFileDialog
-            {
-                Title = "Сохранение головоломки",
-                Filter = "Файлы (*.json)|*.json|Все файлы (*.*)|*.*"
-            };
-
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                switch (tabs.SelectedIndex)
-                {
-                    case 0:
-                        state?.SaveJson(dialog.FileName);
-                        break;
-                    case 1:
-                        stater?.SaveJson(dialog.FileName);
-                        break;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Загрузка файла
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog dialog = new OpenFileDialog
-            {
-                Title = "Загрузка набора фигур",
-                Filter = "Файлы (*.json)|*.json|Все файлы (*.*)|*.*"
-            };
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                Puzzles.State s = Core.LoadJson<Puzzles.State>(dialog.FileName);
-                if (s.ClassName == typeof(Puzzles.Sudoku.State).FullName)
-                {
-                    state = Core.LoadJson<Puzzles.Sudoku.State>(dialog.FileName);
-                    state.InitLines();
-                    InitSudokuPanel(tabSudoku);
-                }
-                else if (s.ClassName == typeof(Puzzles.Routing.State).FullName)
-                {
-                    stater = Core.LoadJson<Puzzles.Routing.State>(dialog.FileName);
-                    game = stater;
-                    InitRoutingPanel(tabRouting, stater);
-                }
-                else
-                {
-                    throw new Exception();
-                }
-                string name = System.IO.Path.GetFileName(dialog.FileName);
-                statusLabel.Text = $"Файл {name} загружен успешно";
-            }
-        }
-
-        /// <summary>
-        /// Решение головоломки Судоку
+        /// Решение головоломки 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -415,6 +499,9 @@ namespace PuzzleSolver
                     }
                     stater.Solve();
                     break;
+                case 2:
+                    // state3.Solve();
+                    break;
             }
         }
 
@@ -430,13 +517,6 @@ namespace PuzzleSolver
                 var move = new Puzzles.Sudoku.Move(kv.Key, kv.Key.Number);
                 kv.Value.BackColor = state.PossibleMove(move) ? Color.LightGreen : Color.Orange;
             }
-        }
-
-        private void triangleToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            tabs.SelectTab(tabTriangle);
-            state3 = new Puzzles.Sudoku.State3(5);
-            InitTrianglePanel(tabTriangle, state3);
         }
     }
 }
