@@ -355,6 +355,7 @@ namespace PuzzleSolver
                         // пропуск верхнего треугольника за границей
                         if (x + y + z >= state.Size) continue;
 
+                        var cell = state.Cells[x][y][z];
                         var control = new TriangleControl()
                         {
                             BackColor = Color.Transparent,
@@ -363,11 +364,12 @@ namespace PuzzleSolver
                             Width = width,
                             Height = height,
                             Up = z == 0,
-                            Tag = state.Cells?[x][y][z]
+                            Tag = cell,
+                            Text = state.Images[cell.Number]
                         };
-                        state.Cells[x][y][z].ValueChanged += TriangleValueChanged;
+                        cell.ValueChanged += TriangleValueChanged;
                         control.Click += SudokuTriangleClick;
-                        triangles.Add(state.Cells[x][y][z], control);
+                        triangles.Add(cell, control);
                         parent.Controls.Add(control);
                     }
                 }

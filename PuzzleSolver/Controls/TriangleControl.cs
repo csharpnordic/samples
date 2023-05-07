@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PuzzleSolver.Puzzles.Sudoku;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -53,8 +54,12 @@ namespace PuzzleSolver.Controls
         /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
-          //  base.OnPaint(e);
-            using var brush = new SolidBrush(Up ? Color.Orange : Color.DarkOrange);
+            bool flag = false; // признак зафиксированной клетки
+            if (Tag is Cell cell)
+            {
+                flag = cell.Fixed;
+            }
+            using var brush = new SolidBrush(flag ? Color.DarkOrange : Color.Orange);
             var text = new SolidBrush(Color.Black);
             using var pen = new Pen(Color.DarkBlue, Width / 20);
             Point[] points;
