@@ -28,17 +28,30 @@
         /// </summary>
         private void InitializeComponent()
         {
+            labelValue = new Label();
             SuspendLayout();
+            // 
+            // labelValue
+            // 
+            labelValue.Dock = DockStyle.Fill;
+            labelValue.Location = new Point(0, 0);
+            labelValue.Name = "labelValue";
+            labelValue.Size = new Size(150, 150);
+            labelValue.TabIndex = 0;
+            labelValue.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // TriangleControl
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Transparent;
+            Controls.Add(labelValue);
             Name = "TriangleControl";
             ResumeLayout(false);
         }
 
         #endregion
+
+        private Label labelValue;
     }
 }

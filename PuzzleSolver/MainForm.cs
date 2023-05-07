@@ -251,7 +251,8 @@ namespace PuzzleSolver
                             Top = height * (state.Size - y - 1),
                             Width = width,
                             Height = height,
-                            Up = z == 0
+                            Up = z == 0,
+                            Text = "Ø"
                         };
                         parent.Controls.Add(control);
                     }

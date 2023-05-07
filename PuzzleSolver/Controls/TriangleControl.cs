@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,31 @@ namespace PuzzleSolver.Controls
         /// <summary>
         /// Треугольник направлен вверх (Z = 0)
         /// </summary>
-        public bool Up { get; set; }
+        private bool up;
+
+        /// <summary>
+        /// Треугольник направлен вверх (Z = 0)
+        /// </summary>
+        public bool Up
+        {
+            get => up; 
+            set
+            {
+                up = value;
+                labelValue.TextAlign = up ? ContentAlignment.BottomCenter : ContentAlignment.TopCenter;
+            }
+        }
+
+        /// <summary>
+        /// Отображаемый текст
+        /// </summary>
+        public new string Text
+        {
+            set
+            {
+                labelValue.Text = value;
+            }
+        }
 
         public TriangleControl()
         {
@@ -28,8 +53,10 @@ namespace PuzzleSolver.Controls
         /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
-            var brush = new SolidBrush(Up ? Color.Orange : Color.DarkOrange);
-            var pen = new Pen(Color.DarkBlue, Width / 20);
+            base.OnPaint(e);
+            using var brush = new SolidBrush(Up ? Color.Orange : Color.DarkOrange);
+            var text = new SolidBrush(Color.Black);
+            using var pen = new Pen(Color.DarkBlue, Width / 20);
             Point[] points;
             if (Up)
             {
@@ -49,10 +76,19 @@ namespace PuzzleSolver.Controls
                     new Point (Width/2, Height),
                 };
             }
+            // Треугольник в виде пути
+            var path = new GraphicsPath(points, new byte[] { 0, 1, 1 });
+            // Закрашиваемая область - треугольник
+            Region = new Region(path);
+
+            // Отрисовка фигуры
             e.Graphics.FillPolygon(brush, points);
             e.Graphics.DrawPolygon(pen, points);
+        }
 
-            //  base.OnPaint(e);
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            labelValue.Font = new Font(FontFamily.GenericSansSerif, Height / 4);
         }
     }
 }
