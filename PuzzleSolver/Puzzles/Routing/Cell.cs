@@ -52,5 +52,10 @@ namespace PuzzleSolver.Puzzles.Routing
         /// Является ли клетка граничной
         /// </summary>
         public bool Border { get; set; }
+
+        /// <summary>
+        /// Тип плитки
+        /// </summary>
+        public CellType Type { get; set; }
     }
 }

@@ -1,15 +1,5 @@
 ﻿using PuzzleSolver.Puzzles.Routing;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Security.Cryptography.Xml;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace PuzzleSolver.Controls
 {
@@ -98,6 +88,13 @@ namespace PuzzleSolver.Controls
                 BackColor = Color.White;
         }
 
+        /// <summary>
+        /// Отрисовка домов вокруг дороги
+        /// <para>Вся плитка разбивается на квадраты 3*3</para>
+        /// </summary>
+        /// <param name="graphics"></param>
+        /// <param name="x">Относительная координата по горизонтали</param>
+        /// <param name="y">Относительная координата по вертикали</param>
         private void DrawHouse(Graphics graphics, int x, int y)
         {
             var brush = new SolidBrush(Color.DarkGreen);
@@ -189,47 +186,69 @@ namespace PuzzleSolver.Controls
                     DrawHouse(e.Graphics, 1, 1);
             }
 
+            // Стартовая/финишная точка
+            Color color;
+            switch (Cell.Type)
+            {
+                case CellType.Start: color = Color.Yellow; break;
+                case CellType.Finish: color = Color.Red; break;
+                default: color = Color.Transparent; break;
+            }
+            if (color != Color.Transparent)
+            {
+                var brush = new SolidBrush(color);
+                e.Graphics.FillEllipse(brush, Width / 3, Height / 3, Width / 3, Height / 3);
+            }
+
             base.OnPaint(e);
         }
 
         /// <summary>
-        /// Изменение значения плитки
+        /// Обработка щелчка мышкой
         /// </summary>
-        /// <param name="e"></param>
-        protected override void OnClick(EventArgs e)
+        /// <param name="me"></param>
+        protected override void OnMouseClick(MouseEventArgs me)
         {
-            if (Cell?.Border ?? false)
+            bool border = Cell?.Border ?? false; // граничная клетка
+            switch (me.Button)
             {
-                // координаты щелчка неважны
-                Cell.Tile[Cell.Tile.Side] = (Cell.Tile[Cell.Tile.Side] + 1) % (int)Math.Pow(2, Colors);
-            }
-            else if (e is MouseEventArgs me)
-            {
-                switch (me.Button)
-                {
-                    case MouseButtons.Left:
+                case MouseButtons.Left:
+                    Side side;
+                    if (border) // координаты щелчка неважны
+                    {
+                        side = Cell.Tile.Side;
+                    }
+                    else
+                    {
                         // правый верхний треугольник
                         bool rT = me.X > me.Y;
                         // левый верхний треугольник
                         bool lT = me.X + me.Y < Math.Min(Width, Height);
-                        Side side;
+
                         if (lT)
                             side = rT ? Side.Top : Side.Left;
                         else
                             side = rT ? Side.Right : Side.Bottom;
+                    }
+                    Cell.Tile[side] = (Cell.Tile[side] + 1) % (int)Math.Pow(2, Colors);
+                    break;
 
-                        Cell.Tile[side] = (Cell.Tile[side] + 1) % (int)Math.Pow(2, Colors);
-                        break;
+                case MouseButtons.Right: // изменение фиксированности клетки
+                    if (!border)
+                    {
+                        Cell.Fixed = !Cell.Fixed;
+                        UpdateColor();
+                    }
+                    break;
 
-                    case MouseButtons.Right: // изменение фиксированности клетки
-                        if (!Cell.Border)
-                        {
-                            Cell.Fixed = !Cell.Fixed;
-                            UpdateColor();
-                        }
-                        break;
-                }
+                case MouseButtons.Middle: // задание стартовой / финишной точки
+                    if (!border)
+                    {
+                        Cell.Type = (CellType)(((int)Cell.Type + 1) % Enum.GetValues<CellType>().Length);
+                    }
+                    break;
             }
+
             Invalidate();
         }
     }
