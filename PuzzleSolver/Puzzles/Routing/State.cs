@@ -17,8 +17,8 @@ namespace PuzzleSolver.Puzzles.Routing
         {
             new Neighbour(-1, 0, Side.Left),
             new Neighbour(0, -1, Side.Top),
-            new Neighbour(1,0, Side.Right),
-            new Neighbour(0,1, Side.Bottom)
+            new Neighbour(1,  0, Side.Right),
+            new Neighbour(0,  1, Side.Bottom)
         };
 
         /// <summary>

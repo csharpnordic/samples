@@ -5,6 +5,8 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography.Xml;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -34,8 +36,8 @@ namespace PuzzleSolver.Controls
             set
             {
                 Brush = new Brush[value];
-                if (value >= 0) Brush[0] = new SolidBrush(Color.Cyan);
-                if (value >= 1) Brush[1] = new SolidBrush(Color.Blue);
+                if (value >= 1) Brush[0] = new SolidBrush(Color.Cyan);
+                if (value >= 2) Brush[1] = new SolidBrush(Color.Blue);
             }
             get
             {
@@ -70,6 +72,11 @@ namespace PuzzleSolver.Controls
         }
 
         /// <summary>
+        /// Признак отрисовки зданий для задачи маршрута
+        /// </summary>
+        public bool DrawHouses { get; set; }
+
+        /// <summary>
         /// Беспараметрический конструктор
         /// </summary>
         public TileControl()
@@ -91,6 +98,15 @@ namespace PuzzleSolver.Controls
                 BackColor = Color.White;
         }
 
+        private void DrawHouse(Graphics graphics, int x, int y)
+        {
+            var brush = new SolidBrush(Color.DarkGreen);
+            // размеры квадрата
+            int sx = Width / 3;
+            int sy = Height / 3;
+            graphics.FillRectangle(brush, x * sx, y * sy, sx, sy);
+        }
+
         /// <summary>
         /// Визуализауция плитки
         /// </summary>
@@ -98,7 +114,7 @@ namespace PuzzleSolver.Controls
         protected override void OnPaint(PaintEventArgs e)
         {
             // Если плитка не задана, то и рисовать нечего
-            if (Cell.Tile == null) return;
+            if (Cell?.Tile == null) return;
 
             // Рисуем четыре стороны плитки
             foreach (var side in Enum.GetValues<Side>().Where(x => x != Side.None))
@@ -155,6 +171,24 @@ namespace PuzzleSolver.Controls
                 }
             }
 
+            if (DrawHouses)
+            {
+                DrawHouse(e.Graphics, 0, 0);
+                DrawHouse(e.Graphics, 0, 2);
+                DrawHouse(e.Graphics, 2, 0);
+                DrawHouse(e.Graphics, 2, 2);
+                if (Cell.Tile[Side.Top] == 0)
+                    DrawHouse(e.Graphics, 1, 0);
+                if (Cell.Tile[Side.Bottom] == 0)
+                    DrawHouse(e.Graphics, 1, 2);
+                if (Cell.Tile[Side.Left] == 0)
+                    DrawHouse(e.Graphics, 0, 1);
+                if (Cell.Tile[Side.Right] == 0)
+                    DrawHouse(e.Graphics, 2, 1);
+                if (cell.Tile.Pipe.Max() == 0)
+                    DrawHouse(e.Graphics, 1, 1);
+            }
+
             base.OnPaint(e);
         }
 
@@ -164,7 +198,7 @@ namespace PuzzleSolver.Controls
         /// <param name="e"></param>
         protected override void OnClick(EventArgs e)
         {
-            if (Cell.Border)
+            if (Cell?.Border ?? false)
             {
                 // координаты щелчка неважны
                 Cell.Tile[Cell.Tile.Side] = (Cell.Tile[Cell.Tile.Side] + 1) % (int)Math.Pow(2, Colors);
