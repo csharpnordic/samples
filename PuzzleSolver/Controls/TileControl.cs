@@ -190,7 +190,7 @@ namespace PuzzleSolver.Controls
             Color color;
             switch (Cell.Type)
             {
-                case CellType.Start: color = Color.Yellow; break;
+                case CellType.Start: color = Color.Orange; break;
                 case CellType.Finish: color = Color.Red; break;
                 default: color = Color.Transparent; break;
             }
