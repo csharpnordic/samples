@@ -104,8 +104,22 @@ namespace PuzzleSolver.Puzzles.Routing
             return null;
         }
 
-        private bool PossibleMove(Car car)
+        /// <summary>
+        /// Проверка на корректность хода
+        /// </summary>
+        /// <param name="car"></param>
+        /// <returns></returns>
+        private bool PossibleMove(MoveT move)
         {
+            // проверка наличия выездной дороги
+            int wayOut = this[move.From].Tile[move.From.Side];
+            if (wayOut == 0) return false; // нет выездной дороги
+            
+            // проверка наличия въездной дороги
+            int wayIn = this[move.To].Tile[Solver.OppositeSide(move.To.Side)];
+            if (wayIn == 0) return false; //нет въездной дороги
+
+            // можно проехать, всё хорошо
             return true;
         }
 
@@ -146,15 +160,15 @@ namespace PuzzleSolver.Puzzles.Routing
             else
             {
                 current = moves.Peek().To;
-            }           
+            }
 
             // Перебор возможных направлений
             foreach (var turn in Enum.GetValues<Turn>())
             {
                 var next = current.Move(turn);
-                if (PossibleMove(next))
+                var move = new MoveT(current, turn, next);
+                if (PossibleMove(move))
                 {
-                    var move = new MoveT(current, turn, next);
                     result.Add(move);
                 }
             }

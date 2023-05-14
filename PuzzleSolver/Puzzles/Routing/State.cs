@@ -109,7 +109,7 @@ namespace PuzzleSolver.Puzzles.Routing
                         Border = true,
                         Tile = new Tile()
                         {
-                            Side = OppositeSide((Side)i)
+                            Side = Solver.OppositeSide((Side)i)
                         }
                     };
                 };
@@ -117,25 +117,7 @@ namespace PuzzleSolver.Puzzles.Routing
 
             // Набор фигур
             TileSet = new();
-        }
-
-        /// <summary>
-        /// Сторона, противоположная заданной
-        /// </summary>
-        /// <param name="side">Сторона плитки</param>
-        /// <returns>Сторона, противоположная заданной</returns>
-        /// <exception cref="Exception"></exception>
-        private static Side OppositeSide(Side side)
-        {
-            switch (side)
-            {
-                case Side.Left: return Side.Right;
-                case Side.Right: return Side.Left;
-                case Side.Up: return Side.Down;
-                case Side.Down: return Side.Up;
-                default: throw new Exception();
-            }
-        }
+        }        
 
         /// <summary>
         /// Заполнение набора возможных фигур
@@ -194,7 +176,7 @@ namespace PuzzleSolver.Puzzles.Routing
             {
                 var cell = this[x + neighbour.DX, y + neighbour.DY];
                 if (cell.Tile == null) continue; // пропуск пустых клеток
-                if (cell.Tile[OppositeSide(neighbour.Side)] != tile[neighbour.Side])
+                if (cell.Tile[Solver.OppositeSide(neighbour.Side)] != tile[neighbour.Side])
                 {
                     // Если не совпадают соединения на прилегающих к друг другу сторонах,
                     // ход невозможен
