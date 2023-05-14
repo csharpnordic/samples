@@ -533,6 +533,10 @@ namespace PuzzleSolver
                 state.InitTileSet();
             }
             istate.Solve();
+            if (istate is Puzzles.Routing.StateT statet)
+            {
+                statet.LogSolution();
+            }
             panel.Invalidate(true); // принудительно перерисовать всё
         }
 

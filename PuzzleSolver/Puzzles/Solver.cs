@@ -95,8 +95,8 @@ namespace PuzzleSolver.Puzzles
                 // Выполняем очередной возможный ход
                 state.Move(move);
 
-                // Для отладки
-                 return true;
+                // Для отладки - делает только один ход
+                // return true;
                 
                 // Проверка нахождения решения
                 if (state.Done())

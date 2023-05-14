@@ -45,5 +45,11 @@ namespace PuzzleSolver.Puzzles
             var point = new Point(X + delta.DX, Y + delta.DY);
             return point;
         }
+
+        /// <summary>
+        /// Строковое представление точки
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString() => $"({X},{Y})";
     }
 }

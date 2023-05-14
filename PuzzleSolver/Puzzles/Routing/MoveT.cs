@@ -39,5 +39,11 @@ namespace PuzzleSolver.Puzzles.Routing
             To = to;
             Direction = direction;
         }
+
+        /// <summary>
+        /// Строковое представление хода
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString() => $"{From} {Direction} {To}";
     }
 }

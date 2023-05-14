@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -51,6 +52,34 @@ namespace PuzzleSolver.Puzzles.Routing
                 Side = side
             };
             return car;
+        }
+
+        /// <summary>
+        /// Строковое представление машинки
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString() => $"{base.ToString()} {Side}";
+
+        /// <summary>
+        /// Сравнение на равенство, включая направление движения
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static bool operator ==(Car left, Car right)
+        {
+            return left.X == right.X && left.Y == right.Y && left.Side == right.Side;
+        }
+
+        /// <summary>
+        /// Сравнение на неравенство, включая направление движения
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static bool operator !=(Car left, Car right)
+        {
+            return left.X != right.X || left.Y != right.Y || left.Side != right.Side;
         }
     }
 }

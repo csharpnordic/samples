@@ -13,11 +13,14 @@ namespace PuzzleSolver.Puzzles.Routing
     public class StateT : IState
     {
         /// <summary>
+        /// Протоколирование
+        /// </summary>
+        private static readonly NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
+
+        /// <summary>
         /// Полное имя класса
         /// </summary>
         public string ClassName => GetType().FullName;
-
-
 
         /// <summary>
         /// Стек ходов
@@ -111,10 +114,17 @@ namespace PuzzleSolver.Puzzles.Routing
         /// <returns></returns>
         private bool PossibleMove(MoveT move)
         {
+            // проверка на нахождение в пределах поля
+            if (move.To.X < 0 || move.To.Y < 0) return false;
+            if (move.To.X >= SizeX || move.To.Y >= SizeY) return false;
+
+            // проверка на повторный вход в ту же точку
+            if (moves.Any(x => x.From == move.To)) return false; // тут мы уже были           
+
             // проверка наличия выездной дороги
             int wayOut = this[move.From].Tile[move.From.Side];
             if (wayOut == 0) return false; // нет выездной дороги
-            
+
             // проверка наличия въездной дороги
             int wayIn = this[move.To].Tile[Solver.OppositeSide(move.To.Side)];
             if (wayIn == 0) return false; //нет въездной дороги
@@ -156,6 +166,8 @@ namespace PuzzleSolver.Puzzles.Routing
                     Y = start.Y,
                     Side = Side.Right // по умолчанию едем сначала направо
                 };
+                // отметим стартовую точку
+                this[current].Mark = true;
             }
             else
             {
@@ -183,6 +195,7 @@ namespace PuzzleSolver.Puzzles.Routing
             {
                 this[move.To].Mark = true;
                 moves.Push(move);
+                log.Trace($"+ {moves.Count,2}: {move}");
             }
         }
 
@@ -193,6 +206,7 @@ namespace PuzzleSolver.Puzzles.Routing
             {
                 var move = moves.Pop();
                 this[move.To].Mark = false;
+                log.Trace($"- {moves.Count,2}: {move}");
             }
             else
             {
@@ -213,6 +227,16 @@ namespace PuzzleSolver.Puzzles.Routing
         /// <inheritdoc/>
         public void Log()
         {
+        }
+
+        /// <inheritdoc/>
+        public void LogSolution()
+        {
+            log.Info("Найденное решение:");
+            foreach (var move in moves)
+            {
+                log.Info($"* {moves.Count,2}: {move}");
+            }
         }
     }
 }
