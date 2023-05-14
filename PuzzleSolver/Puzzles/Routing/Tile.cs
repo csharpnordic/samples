@@ -19,7 +19,7 @@ namespace PuzzleSolver.Puzzles.Routing
         /// <summary>
         /// Для граничной плитки - сторона, которой она граничит с игровым полем. Для игровой плитки - <seealso cref="Side.None"/>
         /// </summary>
-        public Side Side { get; set; }
+        public Side Side { get; set; }       
 
         /// <summary>
         /// Индексатор по стороне плитки

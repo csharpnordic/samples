@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PuzzleSolver.Puzzles.Routing
+namespace PuzzleSolver.Puzzles
 {
     /// <summary>
-    /// Сторона плитки 
+    /// Сторона плитки / направление движения 
     /// </summary>
     public enum Side
     {
@@ -22,11 +22,11 @@ namespace PuzzleSolver.Puzzles.Routing
         /// <summary>
         /// Верхняя сторона
         /// </summary>
-        Top = 2,
+        Up = 2,
         /// <summary>
         /// Нижняя сторона
         /// </summary>
-        Bottom = 3,
+        Down = 3,
         /// <summary>
         /// Сторона не задана
         /// </summary>

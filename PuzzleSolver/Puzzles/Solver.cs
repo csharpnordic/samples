@@ -61,6 +61,24 @@ namespace PuzzleSolver.Puzzles
         }
 
         /// <summary>
+        /// Сторона, противоположная заданной
+        /// </summary>
+        /// <param name="side">Сторона плитки</param>
+        /// <returns>Сторона, противоположная заданной</returns>
+        /// <exception cref="Exception"></exception>
+        internal static Side OppositeSide(Side side)
+        {
+            switch (side)
+            {
+                case Side.Left: return Side.Right;
+                case Side.Right: return Side.Left;
+                case Side.Up: return Side.Down;
+                case Side.Down: return Side.Up;
+                default: throw new Exception();
+            }
+        }
+
+        /// <summary>
         /// Универсальный алгоритм рекурсивного спуска по ходам головоломки
         /// </summary>
         /// <param name="state">Изменяемое состояние головоломки</param>
@@ -76,7 +94,10 @@ namespace PuzzleSolver.Puzzles
             {
                 // Выполняем очередной возможный ход
                 state.Move(move);
-                //return true;
+
+                // Для отладки - делает только один ход
+                // return true;
+                
                 // Проверка нахождения решения
                 if (state.Done())
                 {

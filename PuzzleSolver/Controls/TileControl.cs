@@ -1,13 +1,6 @@
-﻿using PuzzleSolver.Puzzles.Routing;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using PuzzleSolver.Puzzles;
+using PuzzleSolver.Puzzles.Routing;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace PuzzleSolver.Controls
 {
@@ -24,24 +17,16 @@ namespace PuzzleSolver.Controls
         /// <summary>
         /// Набор кистей для отрисовки
         /// </summary>
-        private Brush[] Brush;
+        private readonly static Brush[] Brush = new Brush[2] 
+        { 
+            new SolidBrush(Color.Cyan),
+            new SolidBrush(Color.Blue)
+        };
 
         /// <summary>
         /// Возможное количество цветов
         /// </summary>
-        public int Colors
-        {
-            set
-            {
-                Brush = new Brush[value];
-                if (value >= 0) Brush[0] = new SolidBrush(Color.Cyan);
-                if (value >= 1) Brush[1] = new SolidBrush(Color.Blue);
-            }
-            get
-            {
-                return Brush?.Length ?? 0;
-            }
-        }
+        public int Colors { get; set; }
 
         /// <summary>
         /// Плитка, с которой связан компонент
@@ -70,6 +55,11 @@ namespace PuzzleSolver.Controls
         }
 
         /// <summary>
+        /// Признак отрисовки зданий для задачи маршрута
+        /// </summary>
+        public bool DrawHouses { get; set; }
+
+        /// <summary>
         /// Беспараметрический конструктор
         /// </summary>
         public TileControl()
@@ -92,13 +82,29 @@ namespace PuzzleSolver.Controls
         }
 
         /// <summary>
+        /// Отрисовка домов вокруг дороги
+        /// <para>Вся плитка разбивается на квадраты 3*3</para>
+        /// </summary>
+        /// <param name="graphics"></param>
+        /// <param name="x">Относительная координата по горизонтали</param>
+        /// <param name="y">Относительная координата по вертикали</param>
+        private void DrawHouse(Graphics graphics, int x, int y)
+        {
+            var brush = new SolidBrush(Color.DarkGreen);
+            // размеры квадрата
+            int sx = Width / 3;
+            int sy = Height / 3;
+            graphics.FillRectangle(brush, x * sx, y * sy, sx, sy);
+        }
+
+        /// <summary>
         /// Визуализауция плитки
         /// </summary>
         /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
             // Если плитка не задана, то и рисовать нечего
-            if (Cell.Tile == null) return;
+            if (Cell?.Tile == null) return;
 
             // Рисуем четыре стороны плитки
             foreach (var side in Enum.GetValues<Side>().Where(x => x != Side.None))
@@ -111,7 +117,7 @@ namespace PuzzleSolver.Controls
 
                 switch (side)
                 {
-                    case Puzzles.Routing.Side.Top:
+                    case Side.Up:
                         x = (Width - Width * Colors / Rate) / 2;
                         dx = Width / Rate;
                         y = 0;
@@ -119,7 +125,7 @@ namespace PuzzleSolver.Controls
                         sy = Cell.Border ? Height / Rate : Height / 2;
                         break;
 
-                    case Puzzles.Routing.Side.Bottom:
+                    case Side.Down:
                         x = (Width - Width * Colors / Rate) / 2;
                         dx = Width / Rate;
                         y = Cell.Border ? Height * (Rate - 1) / Rate : Height / 2;
@@ -127,7 +133,7 @@ namespace PuzzleSolver.Controls
                         sy = Cell.Border ? Height / Rate : Height / 2;
                         break;
 
-                    case Puzzles.Routing.Side.Left:
+                    case Side.Left:
                         x = 0;
                         dx = 0;
                         y = (Height - Height * Colors / Rate) / 2;
@@ -135,7 +141,7 @@ namespace PuzzleSolver.Controls
                         sx = Cell.Border ? Width / Rate : Width / 2;
                         break;
 
-                    case Puzzles.Routing.Side.Right:
+                    case Side.Right:
                         x = Cell.Border ? Width * (Rate - 1) / Rate : Width / 2;
                         dx = 0;
                         y = (Height - Height * Colors / Rate) / 2;
@@ -155,47 +161,94 @@ namespace PuzzleSolver.Controls
                 }
             }
 
+            if (DrawHouses)
+            {
+                DrawHouse(e.Graphics, 0, 0);
+                DrawHouse(e.Graphics, 0, 2);
+                DrawHouse(e.Graphics, 2, 0);
+                DrawHouse(e.Graphics, 2, 2);
+                if (Cell.Tile[Side.Up] == 0)
+                    DrawHouse(e.Graphics, 1, 0);
+                if (Cell.Tile[Side.Down] == 0)
+                    DrawHouse(e.Graphics, 1, 2);
+                if (Cell.Tile[Side.Left] == 0)
+                    DrawHouse(e.Graphics, 0, 1);
+                if (Cell.Tile[Side.Right] == 0)
+                    DrawHouse(e.Graphics, 2, 1);
+                if (cell.Tile.Pipe.Max() == 0)
+                    DrawHouse(e.Graphics, 1, 1);
+            }
+
+            // Помеченная клетка
+            if (Cell.Mark)
+            {
+                var blue = new SolidBrush(Color.Navy);
+                e.Graphics.FillRectangle(blue, Width / 3, Height / 3, Width / 3, Height / 3);
+            }
+
+            // Стартовая/финишная точка
+            Color color;
+            switch (Cell.Type)
+            {
+                case CellType.Start: color = Color.Orange; break;
+                case CellType.Finish: color = Color.Red; break;
+                default: color = Color.Transparent; break;
+            }
+            if (color != Color.Transparent)
+            {
+                var brush = new SolidBrush(color);
+                e.Graphics.FillEllipse(brush, Width / 3, Height / 3, Width / 3, Height / 3);
+            }
+
             base.OnPaint(e);
         }
 
         /// <summary>
-        /// Изменение значения плитки
+        /// Обработка щелчка мышкой
         /// </summary>
-        /// <param name="e"></param>
-        protected override void OnClick(EventArgs e)
+        /// <param name="me"></param>
+        protected override void OnMouseClick(MouseEventArgs me)
         {
-            if (Cell.Border)
+            bool border = Cell?.Border ?? false; // граничная клетка
+            switch (me.Button)
             {
-                // координаты щелчка неважны
-                Cell.Tile[Cell.Tile.Side] = (Cell.Tile[Cell.Tile.Side] + 1) % (int)Math.Pow(2, Colors);
-            }
-            else if (e is MouseEventArgs me)
-            {
-                switch (me.Button)
-                {
-                    case MouseButtons.Left:
+                case MouseButtons.Left:
+                    Side side;
+                    if (border) // координаты щелчка неважны
+                    {
+                        side = Cell.Tile.Side;
+                    }
+                    else
+                    {
                         // правый верхний треугольник
                         bool rT = me.X > me.Y;
                         // левый верхний треугольник
                         bool lT = me.X + me.Y < Math.Min(Width, Height);
-                        Side side;
+
                         if (lT)
-                            side = rT ? Side.Top : Side.Left;
+                            side = rT ? Side.Up : Side.Left;
                         else
-                            side = rT ? Side.Right : Side.Bottom;
+                            side = rT ? Side.Right : Side.Down;
+                    }
+                    Cell.Tile[side] = (Cell.Tile[side] + 1) % (int)Math.Pow(2, Colors);
+                    break;
 
-                        Cell.Tile[side] = (Cell.Tile[side] + 1) % (int)Math.Pow(2, Colors);
-                        break;
+                case MouseButtons.Right: // изменение фиксированности клетки
+                    if (!border)
+                    {
+                        Cell.Fixed = !Cell.Fixed;
+                        UpdateColor();
+                    }
+                    break;
 
-                    case MouseButtons.Right: // изменение фиксированности клетки
-                        if (!Cell.Border)
-                        {
-                            Cell.Fixed = !Cell.Fixed;
-                            UpdateColor();
-                        }
-                        break;
-                }
+                case MouseButtons.Middle: // задание стартовой / финишной точки
+                    if (!border)
+                    {
+                        Cell.Type = (CellType)(((int)Cell.Type + 1) % Enum.GetValues<CellType>().Length);
+                    }
+                    break;
             }
+
             Invalidate();
         }
     }

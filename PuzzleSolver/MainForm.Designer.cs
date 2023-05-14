@@ -39,20 +39,17 @@
             sudokuToolStripMenuItem = new ToolStripMenuItem();
             routingToolStripMenuItem = new ToolStripMenuItem();
             triangleToolStripMenuItem = new ToolStripMenuItem();
+            trafficToolStripMenuItem = new ToolStripMenuItem();
             status = new StatusStrip();
             statusLabel = new ToolStripStatusLabel();
             tool = new ToolStrip();
             initButton = new ToolStripButton();
             solveButton = new ToolStripButton();
             validateButton = new ToolStripButton();
-            tabs = new TabControl();
-            tabSudoku = new TabPage();
-            tabRouting = new TabPage();
-            tabTriangle = new TabPage();
+            panel = new Panel();
             menu.SuspendLayout();
             status.SuspendLayout();
             tool.SuspendLayout();
-            tabs.SuspendLayout();
             SuspendLayout();
             // 
             // menu
@@ -100,7 +97,7 @@
             // 
             // puzzleToolStripMenuItem
             // 
-            puzzleToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { sudokuToolStripMenuItem, routingToolStripMenuItem, triangleToolStripMenuItem });
+            puzzleToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { sudokuToolStripMenuItem, routingToolStripMenuItem, triangleToolStripMenuItem, trafficToolStripMenuItem });
             puzzleToolStripMenuItem.Name = "puzzleToolStripMenuItem";
             puzzleToolStripMenuItem.Size = new Size(116, 24);
             puzzleToolStripMenuItem.Text = "&Головоломка";
@@ -116,7 +113,7 @@
             // 
             routingToolStripMenuItem.Name = "routingToolStripMenuItem";
             routingToolStripMenuItem.Size = new Size(224, 26);
-            routingToolStripMenuItem.Text = "&Маршруты";
+            routingToolStripMenuItem.Text = "&Коммутация";
             routingToolStripMenuItem.Click += routingToolStripMenuItem_Click;
             // 
             // triangleToolStripMenuItem
@@ -125,6 +122,13 @@
             triangleToolStripMenuItem.Size = new Size(224, 26);
             triangleToolStripMenuItem.Text = "&Треугольник";
             triangleToolStripMenuItem.Click += triangleToolStripMenuItem_Click;
+            // 
+            // trafficToolStripMenuItem
+            // 
+            trafficToolStripMenuItem.Name = "trafficToolStripMenuItem";
+            trafficToolStripMenuItem.Size = new Size(224, 26);
+            trafficToolStripMenuItem.Text = "&Маршрут";
+            trafficToolStripMenuItem.Click += trafficToolStripMenuItem_Click;
             // 
             // status
             // 
@@ -178,53 +182,20 @@
             validateButton.Text = "Проверить решение";
             validateButton.Click += validateButton_Click;
             // 
-            // tabs
+            // panel
             // 
-            tabs.Controls.Add(tabSudoku);
-            tabs.Controls.Add(tabRouting);
-            tabs.Controls.Add(tabTriangle);
-            tabs.Dock = DockStyle.Fill;
-            tabs.Location = new Point(0, 55);
-            tabs.Name = "tabs";
-            tabs.SelectedIndex = 0;
-            tabs.Size = new Size(800, 373);
-            tabs.TabIndex = 3;
-            // 
-            // tabSudoku
-            // 
-            tabSudoku.Location = new Point(4, 29);
-            tabSudoku.Name = "tabSudoku";
-            tabSudoku.Padding = new Padding(3);
-            tabSudoku.Size = new Size(792, 340);
-            tabSudoku.TabIndex = 0;
-            tabSudoku.Text = "Судоку";
-            tabSudoku.UseVisualStyleBackColor = true;
-            // 
-            // tabRouting
-            // 
-            tabRouting.Location = new Point(4, 29);
-            tabRouting.Name = "tabRouting";
-            tabRouting.Size = new Size(792, 340);
-            tabRouting.TabIndex = 1;
-            tabRouting.Text = "Маршруты";
-            tabRouting.UseVisualStyleBackColor = true;
-            // 
-            // tabTriangle
-            // 
-            tabTriangle.Location = new Point(4, 29);
-            tabTriangle.Name = "tabTriangle";
-            tabTriangle.Padding = new Padding(3);
-            tabTriangle.Size = new Size(792, 340);
-            tabTriangle.TabIndex = 2;
-            tabTriangle.Text = "Треугольник";
-            tabTriangle.UseVisualStyleBackColor = true;
+            panel.Dock = DockStyle.Fill;
+            panel.Location = new Point(0, 55);
+            panel.Name = "panel";
+            panel.Size = new Size(800, 373);
+            panel.TabIndex = 3;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(tabs);
+            Controls.Add(panel);
             Controls.Add(tool);
             Controls.Add(status);
             Controls.Add(menu);
@@ -239,7 +210,6 @@
             status.PerformLayout();
             tool.ResumeLayout(false);
             tool.PerformLayout();
-            tabs.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -256,15 +226,13 @@
         private ToolStripMenuItem sudokuToolStripMenuItem;
         private StatusStrip status;
         private ToolStrip tool;
-        private TabControl tabs;
-        private TabPage tabSudoku;
         private ToolStripButton initButton;
         private ToolStripStatusLabel statusLabel;
         private ToolStripButton solveButton;
         private ToolStripButton validateButton;
         private ToolStripMenuItem routingToolStripMenuItem;
-        private TabPage tabRouting;
         private ToolStripMenuItem triangleToolStripMenuItem;
-        private TabPage tabTriangle;
+        private Panel panel;
+        private ToolStripMenuItem trafficToolStripMenuItem;
     }
 }
