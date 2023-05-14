@@ -184,7 +184,7 @@ namespace PuzzleSolver
         /// <param name="e"></param>
         private void trafficToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            istate = new Puzzles.Routing.StateT(19, 15);
+            istate = new Puzzles.Routing.StateT(19, 15, 40);
             InitTrafficPanel(panel, istate as Puzzles.Routing.StateT);
             checkMenuItem(sender);
         }
@@ -278,7 +278,7 @@ namespace PuzzleSolver
                     Top = 0,
                     Width = cellSize,
                     Height = cellSize,
-                    Cell = state[Side.Top, x],
+                    Cell = state[Side.Up, x],
                     Colors = state.Colors
                 };
                 parent.Controls.Add(button);
@@ -290,7 +290,7 @@ namespace PuzzleSolver
                     Top = (cellCountY + 1) * cellSize,
                     Width = cellSize,
                     Height = cellSize,
-                    Cell = state[Side.Bottom, x],
+                    Cell = state[Side.Down, x],
                     Colors = state.Colors
 
                 };
@@ -533,6 +533,7 @@ namespace PuzzleSolver
                 state.InitTileSet();
             }
             istate.Solve();
+            panel.Invalidate(true); // принудительно перерисовать всё
         }
 
         /// <summary>
@@ -542,10 +543,13 @@ namespace PuzzleSolver
         /// <param name="e"></param>
         private void validateButton_Click(object sender, EventArgs e)
         {
-            foreach (var kv in buttons)
+            if (istate is Puzzles.Sudoku.State state)
             {
-                var move = new Puzzles.Sudoku.Move(kv.Key, kv.Key.Number);
-                kv.Value.BackColor = ((Puzzles.Sudoku.State)istate).PossibleMove(move) ? Color.LightGreen : Color.Orange;
+                foreach (var kv in buttons)
+                {
+                    var move = new Puzzles.Sudoku.Move(kv.Key, kv.Key.Number);
+                    kv.Value.BackColor = state.PossibleMove(move) ? Color.LightGreen : Color.Orange;
+                }
             }
         }
     }

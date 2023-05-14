@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,5 +32,18 @@ namespace PuzzleSolver.Puzzles
         /// <param name="x">Абсцисса</param>
         /// <param name="y">Ордината</param>
         public Point(int x, int y) { X = x; Y = y; }
+
+        /// <summary>
+        /// Перемещение точки на один шаг в заданном направлении
+        /// </summary>
+        /// <param name="source">Исходная точка</param>
+        /// <param name="side">Направление перемещения</param>
+        /// <returns></returns>
+        public Point Move(Side side)
+        {
+            var delta = Neighbour.Neighbours.First(x => x.Side == side);
+            var point = new Point(X + delta.DX, Y + delta.DY);
+            return point;
+        }
     }
 }

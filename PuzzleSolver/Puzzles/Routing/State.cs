@@ -9,18 +9,7 @@ using System.Threading.Tasks;
 namespace PuzzleSolver.Puzzles.Routing
 {
     public class State : IState
-    {
-        /// <summary>
-        /// Соседние клетки
-        /// </summary>
-        private static readonly Neighbour[] Neighbours = new Neighbour[]
-        {
-            new Neighbour(-1, 0, Side.Left),
-            new Neighbour(0, -1, Side.Top),
-            new Neighbour(1,  0, Side.Right),
-            new Neighbour(0,  1, Side.Bottom)
-        };
-
+    {      
         /// <summary>
         /// Полное имя класса
         /// </summary>
@@ -84,9 +73,9 @@ namespace PuzzleSolver.Puzzles.Routing
             get
             {
                 if (x < 0) return this[Side.Left, y];
-                if (y < 0) return this[Side.Top, x];
+                if (y < 0) return this[Side.Up, x];
                 if (x >= SizeX) return this[Side.Right, y];
-                if (y >= SizeY) return this[Side.Bottom, x];
+                if (y >= SizeY) return this[Side.Down, x];
                 return Field[x][y];
             }
         }
@@ -109,8 +98,8 @@ namespace PuzzleSolver.Puzzles.Routing
             Border = new Cell[4][];
             Border[(int)Side.Left] = new Cell[sizeY];
             Border[(int)Side.Right] = new Cell[sizeY];
-            Border[(int)Side.Top] = new Cell[sizeX];
-            Border[(int)Side.Bottom] = new Cell[sizeX];
+            Border[(int)Side.Up] = new Cell[sizeX];
+            Border[(int)Side.Down] = new Cell[sizeX];
             for (int i = 0; i <= Border.GetUpperBound(0); i++)
             {
                 for (int j = 0; j <= Border[i].GetUpperBound(0); j++)
@@ -142,8 +131,8 @@ namespace PuzzleSolver.Puzzles.Routing
             {
                 case Side.Left: return Side.Right;
                 case Side.Right: return Side.Left;
-                case Side.Top: return Side.Bottom;
-                case Side.Bottom: return Side.Top;
+                case Side.Up: return Side.Down;
+                case Side.Down: return Side.Up;
                 default: throw new Exception();
             }
         }
@@ -201,7 +190,7 @@ namespace PuzzleSolver.Puzzles.Routing
         /// <returns></returns>
         public bool PossibleMove(int x, int y, Tile tile)
         {
-            foreach (var neighbour in Neighbours)
+            foreach (var neighbour in Neighbour.Neighbours)
             {
                 var cell = this[x + neighbour.DX, y + neighbour.DY];
                 if (cell.Tile == null) continue; // пропуск пустых клеток

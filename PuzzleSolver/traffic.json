@@ -2,6 +2,7 @@
   "ClassName": "PuzzleSolver.Puzzles.Routing.StateT",
   "SizeX": 19,
   "SizeY": 15,
+  "MaxMoves": 40,
   "Field": [
     [
       {

@@ -57,5 +57,10 @@ namespace PuzzleSolver.Puzzles.Routing
         /// Тип плитки
         /// </summary>
         public CellType Type { get; set; }
+
+        /// <summary>
+        /// Пометка клетки (клетка входит в маршрут решения)
+        /// </summary>
+        internal bool Mark { get; set; }
     }
 }

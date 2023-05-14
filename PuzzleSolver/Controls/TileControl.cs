@@ -1,4 +1,5 @@
-﻿using PuzzleSolver.Puzzles.Routing;
+﻿using PuzzleSolver.Puzzles;
+using PuzzleSolver.Puzzles.Routing;
 using System.Data;
 
 namespace PuzzleSolver.Controls
@@ -124,7 +125,7 @@ namespace PuzzleSolver.Controls
 
                 switch (side)
                 {
-                    case Puzzles.Routing.Side.Top:
+                    case Side.Up:
                         x = (Width - Width * Colors / Rate) / 2;
                         dx = Width / Rate;
                         y = 0;
@@ -132,7 +133,7 @@ namespace PuzzleSolver.Controls
                         sy = Cell.Border ? Height / Rate : Height / 2;
                         break;
 
-                    case Puzzles.Routing.Side.Bottom:
+                    case Side.Down:
                         x = (Width - Width * Colors / Rate) / 2;
                         dx = Width / Rate;
                         y = Cell.Border ? Height * (Rate - 1) / Rate : Height / 2;
@@ -140,7 +141,7 @@ namespace PuzzleSolver.Controls
                         sy = Cell.Border ? Height / Rate : Height / 2;
                         break;
 
-                    case Puzzles.Routing.Side.Left:
+                    case Side.Left:
                         x = 0;
                         dx = 0;
                         y = (Height - Height * Colors / Rate) / 2;
@@ -148,7 +149,7 @@ namespace PuzzleSolver.Controls
                         sx = Cell.Border ? Width / Rate : Width / 2;
                         break;
 
-                    case Puzzles.Routing.Side.Right:
+                    case Side.Right:
                         x = Cell.Border ? Width * (Rate - 1) / Rate : Width / 2;
                         dx = 0;
                         y = (Height - Height * Colors / Rate) / 2;
@@ -174,9 +175,9 @@ namespace PuzzleSolver.Controls
                 DrawHouse(e.Graphics, 0, 2);
                 DrawHouse(e.Graphics, 2, 0);
                 DrawHouse(e.Graphics, 2, 2);
-                if (Cell.Tile[Side.Top] == 0)
+                if (Cell.Tile[Side.Up] == 0)
                     DrawHouse(e.Graphics, 1, 0);
-                if (Cell.Tile[Side.Bottom] == 0)
+                if (Cell.Tile[Side.Down] == 0)
                     DrawHouse(e.Graphics, 1, 2);
                 if (Cell.Tile[Side.Left] == 0)
                     DrawHouse(e.Graphics, 0, 1);
@@ -184,6 +185,13 @@ namespace PuzzleSolver.Controls
                     DrawHouse(e.Graphics, 2, 1);
                 if (cell.Tile.Pipe.Max() == 0)
                     DrawHouse(e.Graphics, 1, 1);
+            }
+
+            // Помеченная клетка
+            if (Cell.Mark)
+            {
+                var blue = new SolidBrush(Color.Navy);
+                e.Graphics.FillRectangle(blue, Width / 3, Height / 3, Width / 3, Height / 3);
             }
 
             // Стартовая/финишная точка
@@ -226,9 +234,9 @@ namespace PuzzleSolver.Controls
                         bool lT = me.X + me.Y < Math.Min(Width, Height);
 
                         if (lT)
-                            side = rT ? Side.Top : Side.Left;
+                            side = rT ? Side.Up : Side.Left;
                         else
-                            side = rT ? Side.Right : Side.Bottom;
+                            side = rT ? Side.Right : Side.Down;
                     }
                     Cell.Tile[side] = (Cell.Tile[side] + 1) % (int)Math.Pow(2, Colors);
                     break;
