@@ -17,24 +17,16 @@ namespace PuzzleSolver.Controls
         /// <summary>
         /// Набор кистей для отрисовки
         /// </summary>
-        private Brush[] Brush;
+        private readonly static Brush[] Brush = new Brush[2] 
+        { 
+            new SolidBrush(Color.Cyan),
+            new SolidBrush(Color.Blue)
+        };
 
         /// <summary>
         /// Возможное количество цветов
         /// </summary>
-        public int Colors
-        {
-            set
-            {
-                Brush = new Brush[value];
-                if (value >= 1) Brush[0] = new SolidBrush(Color.Cyan);
-                if (value >= 2) Brush[1] = new SolidBrush(Color.Blue);
-            }
-            get
-            {
-                return Brush?.Length ?? 0;
-            }
-        }
+        public int Colors { get; set; }
 
         /// <summary>
         /// Плитка, с которой связан компонент

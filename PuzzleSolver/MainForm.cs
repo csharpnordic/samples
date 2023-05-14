@@ -419,7 +419,7 @@ namespace PuzzleSolver
                         Width = cellSize,
                         Height = cellSize,
                         Cell = state.Field[x][y],
-                        Colors = 1,
+                        Colors = 2, // надо подумать, как сделать
                         DrawHouses = true
 
                     };

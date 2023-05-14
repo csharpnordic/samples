@@ -165,9 +165,7 @@ namespace PuzzleSolver.Puzzles.Routing
                     X = start.X,
                     Y = start.Y,
                     Side = Side.Right // по умолчанию едем сначала направо
-                };
-                // отметим стартовую точку
-                this[current].Mark = true;
+                };               
             }
             else
             {
@@ -192,8 +190,7 @@ namespace PuzzleSolver.Puzzles.Routing
         public void Move(IMove imove)
         {
             if (imove is MoveT move)
-            {
-                this[move.To].Mark = true;
+            {                
                 moves.Push(move);
                 log.Trace($"+ {moves.Count,2}: {move}");
             }
@@ -204,8 +201,7 @@ namespace PuzzleSolver.Puzzles.Routing
         {
             if (moves.Peek() == imove)
             {
-                var move = moves.Pop();
-                this[move.To].Mark = false;
+                var move = moves.Pop();               
                 log.Trace($"- {moves.Count,2}: {move}");
             }
             else
@@ -235,6 +231,10 @@ namespace PuzzleSolver.Puzzles.Routing
             log.Info("Найденное решение:");
             foreach (var move in moves)
             {
+                // пометим для интерфейса
+                this[move.From].Tile[move.From.Side] += 2;
+                this[move.To].Tile[Solver.OppositeSide(move.To.Side)] += 2;
+                //                 this[move.To].Mark = true;
                 log.Info($"* {moves.Count,2}: {move}");
             }
         }
