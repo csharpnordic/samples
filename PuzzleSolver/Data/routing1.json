@@ -3,6 +3,7 @@
   "SizeX": 6,
   "SizeY": 4,
   "Colors": 2,
+  "MultiColor": true,
   "Field": [
     [
       {

@@ -5,7 +5,7 @@ using PuzzleSolver.Puzzles;
 using PuzzleSolver.Puzzles.Routing;
 using System.Reflection;
 
-namespace PuzzleSolver
+namespace PuzzleSolver.Forms
 {
     /// <summary>
     /// Главная форма
@@ -160,9 +160,24 @@ namespace PuzzleSolver
         /// <param name="e"></param>
         private void routingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            istate = new Puzzles.Routing.State(6, 4, 2);
-            InitRoutingPanel(panel, istate as Puzzles.Routing.State);
-            checkMenuItem(sender);
+            // Параметры по умолчанию
+            var o = new Puzzles.Routing.BaseState()
+            {
+                SizeX = 6,
+                SizeY = 4,
+                Colors = 2,
+                MultiColor = false
+            };
+            var form = new ObjectForm(o);
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                istate = new Puzzles.Routing.State(o.SizeX, o.SizeY, o.Colors)
+                {
+                    MultiColor = o.MultiColor
+                };
+                InitRoutingPanel(panel, istate as Puzzles.Routing.State);
+                checkMenuItem(sender);
+            }
         }
 
         /// <summary>
@@ -279,7 +294,8 @@ namespace PuzzleSolver
                     Width = cellSize,
                     Height = cellSize,
                     Cell = state[Side.Up, x],
-                    Colors = state.Colors
+                    Colors = state.Colors,
+                    MultiColor = state.MultiColor,
                 };
                 parent.Controls.Add(button);
 
@@ -291,8 +307,8 @@ namespace PuzzleSolver
                     Width = cellSize,
                     Height = cellSize,
                     Cell = state[Side.Down, x],
-                    Colors = state.Colors
-
+                    Colors = state.Colors,
+                    MultiColor = state.MultiColor,
                 };
                 parent.Controls.Add(button);
 
@@ -306,7 +322,8 @@ namespace PuzzleSolver
                         Width = cellSize,
                         Height = cellSize,
                         Cell = state.Field[x][y],
-                        Colors = state.Colors
+                        Colors = state.Colors,
+                        MultiColor = state.MultiColor,
                     };
                     dict.Add(button.Cell, button);
                     state.Field[x][y].ValueChanged += RoutingTile_ValueChanged;
@@ -324,7 +341,8 @@ namespace PuzzleSolver
                     Width = cellSize,
                     Height = cellSize,
                     Cell = state[Side.Left, y],
-                    Colors = state.Colors
+                    Colors = state.Colors,
+                    MultiColor = state.MultiColor,
                 };
                 parent.Controls.Add(button);
 
@@ -336,7 +354,8 @@ namespace PuzzleSolver
                     Width = cellSize,
                     Height = cellSize,
                     Cell = state[Side.Right, y],
-                    Colors = state.Colors
+                    Colors = state.Colors,
+                    MultiColor = state.MultiColor,
                 };
                 parent.Controls.Add(button);
             }

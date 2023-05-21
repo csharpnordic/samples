@@ -1,6 +1,7 @@
 ﻿using PuzzleSolver.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Security.Cryptography.Xml;
 using System.Text;
@@ -8,27 +9,15 @@ using System.Threading.Tasks;
 
 namespace PuzzleSolver.Puzzles.Routing
 {
-    public class State : IState
+    /// <summary>
+    /// Головоломка построения карты
+    /// </summary>
+    public class State : BaseState, IState
     {      
         /// <summary>
         /// Полное имя класса
         /// </summary>
-        public string ClassName => GetType().FullName;
-
-        /// <summary>
-        /// Размер игрового поля по горизонтали
-        /// </summary>
-        public int SizeX { get; set; }
-
-        /// <summary>
-        /// Размер игрового поля по вертикали
-        /// </summary>
-        public int SizeY { get; set; }
-
-        /// <summary>
-        /// Количество цветов маршрутов
-        /// </summary>
-        public int Colors { get; set; }
+        public string ClassName => GetType().FullName;      
 
         /// <summary>
         /// Игровое поле
@@ -45,6 +34,11 @@ namespace PuzzleSolver.Puzzles.Routing
         /// Набор плиток
         /// </summary>
         public List<Tile> TileSet { get; set; }
+
+        /// <summary>
+        /// Набор цветов
+        /// </summary>
+        public KnownColor[] Color { get; set; }
 
         /// <summary>
         /// Беспараметрический конструктор для сериализации

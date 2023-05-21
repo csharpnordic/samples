@@ -41,6 +41,11 @@
 
 * Решение задачи Mars
 
+## Puzzle Solver
+
+* Microsoft.NET Framework, Windows Forms
+* Решение различных головоломок
+
 ## Piano
 
 * Microsoft.NET Framework, Windows Forms, NAudio

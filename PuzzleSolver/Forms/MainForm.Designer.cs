@@ -1,4 +1,4 @@
-﻿namespace PuzzleSolver
+﻿namespace PuzzleSolver.Forms
 {
     partial class MainForm
     {
