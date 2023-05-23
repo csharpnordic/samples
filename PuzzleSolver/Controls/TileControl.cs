@@ -15,17 +15,22 @@ namespace PuzzleSolver.Controls
         private const int Rate = 8;
 
         /// <summary>
+        /// Цвета по умолчанию
+        /// </summary>
+        private static readonly KnownColor[] DefaultColor = new KnownColor[]
+        {
+            KnownColor.Green,
+            KnownColor.Blue,
+            KnownColor.Red,
+            KnownColor.Purple,
+            KnownColor.Yellow,
+            KnownColor.DeepPink,
+        };
+
+        /// <summary>
         /// Набор кистей для отрисовки
         /// </summary>
-        private readonly static Brush[] Brush = new Brush[]
-        {
-            new SolidBrush(Color.Cyan),
-            new SolidBrush(Color.Blue),
-            new SolidBrush(Color.Red),
-            new SolidBrush(Color.Purple),
-            new SolidBrush(Color.Yellow),
-            new SolidBrush(Color.Pink),
-        };
+        private static Brush[] Brush;
 
         /// <summary>
         /// Возможное количество цветов
@@ -67,6 +72,23 @@ namespace PuzzleSolver.Controls
         /// Признак отрисовки зданий для задачи маршрута
         /// </summary>
         public bool DrawHouses { get; set; }
+
+        /// <summary>
+        /// Палитра цветов для плиток
+        /// </summary>
+        /// <param name="color"></param>
+        public static void SetColor(string[] color)
+        {
+            Brush = new Brush[color.Length];
+            for (int i = 0; i < color.Length; i++)
+            {
+                if (!Enum.TryParse<KnownColor>(color[i], out KnownColor knownColor))
+                {
+                    knownColor = DefaultColor[i]; // черный цвет пока по умолчанию
+                }
+                Brush[i] = new SolidBrush(Color.FromKnownColor(knownColor));
+            }
+        }
 
         /// <summary>
         /// Беспараметрический конструктор
@@ -169,8 +191,8 @@ namespace PuzzleSolver.Controls
                         e.Graphics.FillRectangle(Brush[i], rect);
                     }
                     // В одноцветом режиме смещение не требуется
-                    x += MultiColor ? dx :0;
-                    y += MultiColor ? dy:0;
+                    x += MultiColor ? dx : 0;
+                    y += MultiColor ? dy : 0;
                 }
             }
 

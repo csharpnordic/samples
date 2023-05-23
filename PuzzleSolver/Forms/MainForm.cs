@@ -173,9 +173,10 @@ namespace PuzzleSolver.Forms
             {
                 istate = new Puzzles.Routing.State(o.SizeX, o.SizeY, o.Colors)
                 {
+                    CheckBorders = o.CheckBorders,
                     MultiColor = o.MultiColor
                 };
-                InitRoutingPanel(panel, istate as Puzzles.Routing.State);
+                InitRoutingPanel(panel, (Puzzles.Routing.State)istate);
                 checkMenuItem(sender);
             }
         }
@@ -188,7 +189,7 @@ namespace PuzzleSolver.Forms
         private void triangleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             istate = new Puzzles.Sudoku.State3(5, 9);
-            InitTrianglePanel(panel, istate as Puzzles.Sudoku.State3);
+            InitTrianglePanel(panel, (Puzzles.Sudoku.State3)istate);
             checkMenuItem(sender);
         }
 
@@ -276,6 +277,7 @@ namespace PuzzleSolver.Forms
             // »нициализаци€ глобальных переменных
             parent.Controls.Clear();
             dict.Clear();
+            TileControl.SetColor(state.Color);
 
             // количество €чеек
             int cellCountX = state.SizeX;

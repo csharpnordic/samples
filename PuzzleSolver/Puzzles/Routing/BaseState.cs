@@ -35,5 +35,11 @@ namespace PuzzleSolver.Puzzles.Routing
         /// </summary>
         [DisplayName("Несколько цветов сразу")]
         public bool MultiColor { get; set; }
+
+        /// <summary>
+        /// Контроль границ
+        /// </summary>
+        [DisplayName("Контроль границ")]
+        public bool CheckBorders { get; set; }
     }
 }

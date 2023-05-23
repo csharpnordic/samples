@@ -33,12 +33,12 @@ namespace PuzzleSolver.Puzzles.Routing
         /// <summary>
         /// Набор плиток
         /// </summary>
-        public List<Tile> TileSet { get; set; }
+        internal List<Tile> TileSet { get; set; } = new();
 
         /// <summary>
-        /// Набор цветов
+        /// Набор цветов (строковый эквивалент)
         /// </summary>
-        public KnownColor[] Color { get; set; }
+        public string[] Color { get; set; }
 
         /// <summary>
         /// Беспараметрический конструктор для сериализации
@@ -58,18 +58,19 @@ namespace PuzzleSolver.Puzzles.Routing
 
         /// <summary>
         /// Клетка игрового поля, включая граничные
+        /// <para>Если контроль границ отключён, вместо граничной клетки возвращается null</para>
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">Абсцисса клетки, начиная с 0. -1 для левой границы. <seealso cref="SizeX"/> для правой границы</param>
+        /// <param name="y">Ордината клетки, начиная с 0. -1 для верхней границы. <seealso cref="SizeY"/> для нижней границы</param>
         /// <returns></returns>
-        public Cell this[int x, int y]
+        public Cell? this[int x, int y]
         {
             get
             {
-                if (x < 0) return this[Side.Left, y];
-                if (y < 0) return this[Side.Up, x];
-                if (x >= SizeX) return this[Side.Right, y];
-                if (y >= SizeY) return this[Side.Down, x];
+                if (x < 0) return CheckBorders ? this[Side.Left, y]: null;
+                if (y < 0) return CheckBorders ? this[Side.Up, x] : null;
+                if (x >= SizeX) return CheckBorders ? this[Side.Right, y] : null;
+                if (y >= SizeY) return CheckBorders ? this[Side.Down, x] : null;
                 return Field[x][y];
             }
         }
@@ -84,6 +85,8 @@ namespace PuzzleSolver.Puzzles.Routing
             SizeX = sizeX;
             SizeY = sizeY;
             Colors = colors;
+            // Массив цветов
+            Color = new string[Colors];
 
             // Создание игрового поля
             Field = Solver.Array2<Cell>(sizeX, sizeY, true);
@@ -108,9 +111,6 @@ namespace PuzzleSolver.Puzzles.Routing
                     };
                 };
             }
-
-            // Набор фигур
-            TileSet = new();
         }        
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace PuzzleSolver.Puzzles.Routing
             foreach (var neighbour in Neighbour.Neighbours)
             {
                 var cell = this[x + neighbour.DX, y + neighbour.DY];
-                if (cell.Tile == null) continue; // пропуск пустых клеток
+                if (cell?.Tile == null) continue; // пропуск пустых или незначащих клеток
                 if (cell.Tile[Solver.OppositeSide(neighbour.Side)] != tile[neighbour.Side])
                 {
                     // Если не совпадают соединения на прилегающих к друг другу сторонах,
