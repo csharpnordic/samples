@@ -1,8 +1,5 @@
 {
   "ClassName": "PuzzleSolver.Puzzles.Routing.State",
-  "SizeX": 6,
-  "SizeY": 4,
-  "Colors": 2,
   "Field": [
     [
       {
@@ -16,7 +13,8 @@
           "Side": 4
         },
         "Fixed": false,
-        "Border": false
+        "Border": false,
+        "Type": 0
       },
       {
         "Tile": {
@@ -29,7 +27,8 @@
           "Side": 4
         },
         "Fixed": false,
-        "Border": false
+        "Border": false,
+        "Type": 0
       },
       {
         "Tile": {
@@ -42,7 +41,8 @@
           "Side": 4
         },
         "Fixed": false,
-        "Border": false
+        "Border": false,
+        "Type": 0
       },
       {
         "Tile": {
@@ -55,7 +55,8 @@
           "Side": 4
         },
         "Fixed": true,
-        "Border": false
+        "Border": false,
+        "Type": 0
       }
     ],
     [
@@ -70,7 +71,8 @@
           "Side": 4
         },
         "Fixed": false,
-        "Border": false
+        "Border": false,
+        "Type": 0
       },
       {
         "Tile": {
@@ -83,7 +85,8 @@
           "Side": 4
         },
         "Fixed": false,
-        "Border": false
+        "Border": false,
+        "Type": 0
       },
       {
         "Tile": {
@@ -96,7 +99,8 @@
           "Side": 4
         },
         "Fixed": false,
-        "Border": false
+        "Border": false,
+        "Type": 0
       },
       {
         "Tile": {
@@ -109,7 +113,8 @@
           "Side": 4
         },
         "Fixed": false,
-        "Border": false
+        "Border": false,
+        "Type": 0
       }
     ],
     [
@@ -124,7 +129,8 @@
           "Side": 4
         },
         "Fixed": false,
-        "Border": false
+        "Border": false,
+        "Type": 0
       },
       {
         "Tile": {
@@ -137,7 +143,8 @@
           "Side": 4
         },
         "Fixed": false,
-        "Border": false
+        "Border": false,
+        "Type": 0
       },
       {
         "Tile": {
@@ -150,7 +157,8 @@
           "Side": 4
         },
         "Fixed": false,
-        "Border": false
+        "Border": false,
+        "Type": 0
       },
       {
         "Tile": {
@@ -163,7 +171,8 @@
           "Side": 4
         },
         "Fixed": false,
-        "Border": false
+        "Border": false,
+        "Type": 0
       }
     ],
     [
@@ -178,7 +187,8 @@
           "Side": 4
         },
         "Fixed": false,
-        "Border": false
+        "Border": false,
+        "Type": 0
       },
       {
         "Tile": {
@@ -191,7 +201,8 @@
           "Side": 4
         },
         "Fixed": false,
-        "Border": false
+        "Border": false,
+        "Type": 0
       },
       {
         "Tile": {
@@ -204,7 +215,8 @@
           "Side": 4
         },
         "Fixed": false,
-        "Border": false
+        "Border": false,
+        "Type": 0
       },
       {
         "Tile": {
@@ -217,7 +229,8 @@
           "Side": 4
         },
         "Fixed": false,
-        "Border": false
+        "Border": false,
+        "Type": 0
       }
     ],
     [
@@ -232,7 +245,8 @@
           "Side": 4
         },
         "Fixed": false,
-        "Border": false
+        "Border": false,
+        "Type": 0
       },
       {
         "Tile": {
@@ -245,7 +259,8 @@
           "Side": 4
         },
         "Fixed": false,
-        "Border": false
+        "Border": false,
+        "Type": 0
       },
       {
         "Tile": {
@@ -258,7 +273,8 @@
           "Side": 4
         },
         "Fixed": false,
-        "Border": false
+        "Border": false,
+        "Type": 0
       },
       {
         "Tile": {
@@ -271,7 +287,8 @@
           "Side": 4
         },
         "Fixed": false,
-        "Border": false
+        "Border": false,
+        "Type": 0
       }
     ],
     [
@@ -286,7 +303,8 @@
           "Side": 4
         },
         "Fixed": false,
-        "Border": false
+        "Border": false,
+        "Type": 0
       },
       {
         "Tile": {
@@ -299,7 +317,8 @@
           "Side": 4
         },
         "Fixed": false,
-        "Border": false
+        "Border": false,
+        "Type": 0
       },
       {
         "Tile": {
@@ -312,7 +331,8 @@
           "Side": 4
         },
         "Fixed": false,
-        "Border": false
+        "Border": false,
+        "Type": 0
       },
       {
         "Tile": {
@@ -325,7 +345,8 @@
           "Side": 4
         },
         "Fixed": false,
-        "Border": false
+        "Border": false,
+        "Type": 0
       }
     ]
   ],
@@ -342,7 +363,8 @@
           "Side": 1
         },
         "Fixed": false,
-        "Border": true
+        "Border": true,
+        "Type": 0
       },
       {
         "Tile": {
@@ -355,7 +377,8 @@
           "Side": 1
         },
         "Fixed": false,
-        "Border": true
+        "Border": true,
+        "Type": 0
       },
       {
         "Tile": {
@@ -368,7 +391,8 @@
           "Side": 1
         },
         "Fixed": false,
-        "Border": true
+        "Border": true,
+        "Type": 0
       },
       {
         "Tile": {
@@ -381,7 +405,8 @@
           "Side": 1
         },
         "Fixed": false,
-        "Border": true
+        "Border": true,
+        "Type": 0
       }
     ],
     [
@@ -396,7 +421,8 @@
           "Side": 0
         },
         "Fixed": false,
-        "Border": true
+        "Border": true,
+        "Type": 0
       },
       {
         "Tile": {
@@ -409,7 +435,8 @@
           "Side": 0
         },
         "Fixed": false,
-        "Border": true
+        "Border": true,
+        "Type": 0
       },
       {
         "Tile": {
@@ -422,7 +449,8 @@
           "Side": 0
         },
         "Fixed": false,
-        "Border": true
+        "Border": true,
+        "Type": 0
       },
       {
         "Tile": {
@@ -435,7 +463,8 @@
           "Side": 0
         },
         "Fixed": false,
-        "Border": true
+        "Border": true,
+        "Type": 0
       }
     ],
     [
@@ -450,7 +479,8 @@
           "Side": 3
         },
         "Fixed": false,
-        "Border": true
+        "Border": true,
+        "Type": 0
       },
       {
         "Tile": {
@@ -463,7 +493,8 @@
           "Side": 3
         },
         "Fixed": false,
-        "Border": true
+        "Border": true,
+        "Type": 0
       },
       {
         "Tile": {
@@ -476,7 +507,8 @@
           "Side": 3
         },
         "Fixed": false,
-        "Border": true
+        "Border": true,
+        "Type": 0
       },
       {
         "Tile": {
@@ -489,7 +521,8 @@
           "Side": 3
         },
         "Fixed": false,
-        "Border": true
+        "Border": true,
+        "Type": 0
       },
       {
         "Tile": {
@@ -502,7 +535,8 @@
           "Side": 3
         },
         "Fixed": false,
-        "Border": true
+        "Border": true,
+        "Type": 0
       },
       {
         "Tile": {
@@ -515,7 +549,8 @@
           "Side": 3
         },
         "Fixed": false,
-        "Border": true
+        "Border": true,
+        "Type": 0
       }
     ],
     [
@@ -530,7 +565,8 @@
           "Side": 2
         },
         "Fixed": false,
-        "Border": true
+        "Border": true,
+        "Type": 0
       },
       {
         "Tile": {
@@ -543,7 +579,8 @@
           "Side": 2
         },
         "Fixed": false,
-        "Border": true
+        "Border": true,
+        "Type": 0
       },
       {
         "Tile": {
@@ -556,7 +593,8 @@
           "Side": 2
         },
         "Fixed": false,
-        "Border": true
+        "Border": true,
+        "Type": 0
       },
       {
         "Tile": {
@@ -569,7 +607,8 @@
           "Side": 2
         },
         "Fixed": false,
-        "Border": true
+        "Border": true,
+        "Type": 0
       },
       {
         "Tile": {
@@ -582,7 +621,8 @@
           "Side": 2
         },
         "Fixed": false,
-        "Border": true
+        "Border": true,
+        "Type": 0
       },
       {
         "Tile": {
@@ -595,9 +635,18 @@
           "Side": 2
         },
         "Fixed": false,
-        "Border": true
+        "Border": true,
+        "Type": 0
       }
     ]
   ],
-  "TileSet": []
+  "Color": [
+    "Cyan",
+    "Blue"
+  ],
+  "SizeX": 6,
+  "SizeY": 4,
+  "Colors": 2,
+  "MultiColor": true,
+  "CheckBorders": true
 }

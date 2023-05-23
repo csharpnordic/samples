@@ -5,7 +5,7 @@ using PuzzleSolver.Puzzles;
 using PuzzleSolver.Puzzles.Routing;
 using System.Reflection;
 
-namespace PuzzleSolver
+namespace PuzzleSolver.Forms
 {
     /// <summary>
     /// Главная форма
@@ -160,9 +160,25 @@ namespace PuzzleSolver
         /// <param name="e"></param>
         private void routingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            istate = new Puzzles.Routing.State(6, 4, 2);
-            InitRoutingPanel(panel, istate as Puzzles.Routing.State);
-            checkMenuItem(sender);
+            // Параметры по умолчанию
+            var o = new Puzzles.Routing.BaseState()
+            {
+                SizeX = 6,
+                SizeY = 4,
+                Colors = 2,
+                MultiColor = false
+            };
+            var form = new ObjectForm(o);
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                istate = new Puzzles.Routing.State(o.SizeX, o.SizeY, o.Colors)
+                {
+                    CheckBorders = o.CheckBorders,
+                    MultiColor = o.MultiColor
+                };
+                InitRoutingPanel(panel, (Puzzles.Routing.State)istate);
+                checkMenuItem(sender);
+            }
         }
 
         /// <summary>
@@ -173,7 +189,7 @@ namespace PuzzleSolver
         private void triangleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             istate = new Puzzles.Sudoku.State3(5, 9);
-            InitTrianglePanel(panel, istate as Puzzles.Sudoku.State3);
+            InitTrianglePanel(panel, (Puzzles.Sudoku.State3)istate);
             checkMenuItem(sender);
         }
 
@@ -261,6 +277,7 @@ namespace PuzzleSolver
             // Инициализация глобальных переменных
             parent.Controls.Clear();
             dict.Clear();
+            TileControl.SetColor(state.Color);
 
             // количество ячеек
             int cellCountX = state.SizeX;
@@ -279,7 +296,8 @@ namespace PuzzleSolver
                     Width = cellSize,
                     Height = cellSize,
                     Cell = state[Side.Up, x],
-                    Colors = state.Colors
+                    Colors = state.Colors,
+                    MultiColor = state.MultiColor,
                 };
                 parent.Controls.Add(button);
 
@@ -291,8 +309,8 @@ namespace PuzzleSolver
                     Width = cellSize,
                     Height = cellSize,
                     Cell = state[Side.Down, x],
-                    Colors = state.Colors
-
+                    Colors = state.Colors,
+                    MultiColor = state.MultiColor,
                 };
                 parent.Controls.Add(button);
 
@@ -306,7 +324,8 @@ namespace PuzzleSolver
                         Width = cellSize,
                         Height = cellSize,
                         Cell = state.Field[x][y],
-                        Colors = state.Colors
+                        Colors = state.Colors,
+                        MultiColor = state.MultiColor,
                     };
                     dict.Add(button.Cell, button);
                     state.Field[x][y].ValueChanged += RoutingTile_ValueChanged;
@@ -324,7 +343,8 @@ namespace PuzzleSolver
                     Width = cellSize,
                     Height = cellSize,
                     Cell = state[Side.Left, y],
-                    Colors = state.Colors
+                    Colors = state.Colors,
+                    MultiColor = state.MultiColor,
                 };
                 parent.Controls.Add(button);
 
@@ -336,7 +356,8 @@ namespace PuzzleSolver
                     Width = cellSize,
                     Height = cellSize,
                     Cell = state[Side.Right, y],
-                    Colors = state.Colors
+                    Colors = state.Colors,
+                    MultiColor = state.MultiColor,
                 };
                 parent.Controls.Add(button);
             }
@@ -528,11 +549,14 @@ namespace PuzzleSolver
         /// <param name="e"></param>
         private void solveButton_Click(object sender, EventArgs e)
         {
-            if (istate is Puzzles.Routing.State state)
+            // Контроль вызывающего объекта
+            if (!(sender is ToolStripButton button)) return;
+            if (istate is Puzzles.Routing.State state )
             {
                 state.InitTileSet();
             }
-            istate.Solve();
+
+            istate.Solve((string)button.Tag == "step");
             if (istate is Puzzles.Routing.StateT statet)
             {
                 statet.LogSolution();

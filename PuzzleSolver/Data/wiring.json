@@ -1,0 +1,668 @@
+{
+  "ClassName": "PuzzleSolver.Puzzles.Routing.State",
+  "Field": [
+    [
+      {
+        "Tile": {
+          "Pipe": [
+            16,
+            16,
+            16,
+            16
+          ],
+          "Side": 4
+        },
+        "Fixed": true,
+        "Border": false,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            16,
+            1,
+            16,
+            16
+          ],
+          "Side": 4
+        },
+        "Fixed": false,
+        "Border": false,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            1,
+            2,
+            1,
+            2
+          ],
+          "Side": 4
+        },
+        "Fixed": false,
+        "Border": false,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            1,
+            2,
+            1,
+            1
+          ],
+          "Side": 4
+        },
+        "Fixed": false,
+        "Border": false,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            4,
+            4,
+            4,
+            4
+          ],
+          "Side": 4
+        },
+        "Fixed": true,
+        "Border": false,
+        "Type": 0
+      }
+    ],
+    [
+      {
+        "Tile": {
+          "Pipe": [
+            4,
+            16,
+            2,
+            4
+          ],
+          "Side": 4
+        },
+        "Fixed": false,
+        "Border": false,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            1,
+            8,
+            8,
+            2
+          ],
+          "Side": 4
+        },
+        "Fixed": false,
+        "Border": false,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            16,
+            2,
+            16,
+            1
+          ],
+          "Side": 4
+        },
+        "Fixed": false,
+        "Border": false,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            16,
+            1,
+            1,
+            2
+          ],
+          "Side": 4
+        },
+        "Fixed": false,
+        "Border": false,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            2,
+            16,
+            16,
+            2
+          ],
+          "Side": 4
+        },
+        "Fixed": false,
+        "Border": false,
+        "Type": 0
+      }
+    ],
+    [
+      {
+        "Tile": {
+          "Pipe": [
+            16,
+            1,
+            16,
+            8
+          ],
+          "Side": 4
+        },
+        "Fixed": false,
+        "Border": false,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            4,
+            2,
+            4,
+            4
+          ],
+          "Side": 4
+        },
+        "Fixed": false,
+        "Border": false,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            16,
+            2,
+            1,
+            4
+          ],
+          "Side": 4
+        },
+        "Fixed": false,
+        "Border": false,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            16,
+            16,
+            16,
+            1
+          ],
+          "Side": 4
+        },
+        "Fixed": false,
+        "Border": false,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            2,
+            2,
+            1,
+            2
+          ],
+          "Side": 4
+        },
+        "Fixed": false,
+        "Border": false,
+        "Type": 0
+      }
+    ],
+    [
+      {
+        "Tile": {
+          "Pipe": [
+            32,
+            32,
+            32,
+            32
+          ],
+          "Side": 4
+        },
+        "Fixed": false,
+        "Border": false,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            32,
+            1,
+            32,
+            2
+          ],
+          "Side": 4
+        },
+        "Fixed": false,
+        "Border": false,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            1,
+            16,
+            2,
+            8
+          ],
+          "Side": 4
+        },
+        "Fixed": false,
+        "Border": false,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            16,
+            32,
+            32,
+            16
+          ],
+          "Side": 4
+        },
+        "Fixed": false,
+        "Border": false,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            2,
+            16,
+            2,
+            16
+          ],
+          "Side": 4
+        },
+        "Fixed": false,
+        "Border": false,
+        "Type": 0
+      }
+    ],
+    [
+      {
+        "Tile": {
+          "Pipe": [
+            2,
+            32,
+            2,
+            32
+          ],
+          "Side": 4
+        },
+        "Fixed": true,
+        "Border": false,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            2,
+            1,
+            2,
+            1
+          ],
+          "Side": 4
+        },
+        "Fixed": false,
+        "Border": false,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            2,
+            2,
+            2,
+            2
+          ],
+          "Side": 4
+        },
+        "Fixed": false,
+        "Border": false,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            2,
+            32,
+            2,
+            32
+          ],
+          "Side": 4
+        },
+        "Fixed": false,
+        "Border": false,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            8,
+            8,
+            8,
+            8
+          ],
+          "Side": 4
+        },
+        "Fixed": true,
+        "Border": false,
+        "Type": 0
+      }
+    ]
+  ],
+  "Border": [
+    [
+      {
+        "Tile": {
+          "Pipe": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "Side": 1
+        },
+        "Fixed": false,
+        "Border": true,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "Side": 1
+        },
+        "Fixed": false,
+        "Border": true,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "Side": 1
+        },
+        "Fixed": false,
+        "Border": true,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "Side": 1
+        },
+        "Fixed": false,
+        "Border": true,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "Side": 1
+        },
+        "Fixed": false,
+        "Border": true,
+        "Type": 0
+      }
+    ],
+    [
+      {
+        "Tile": {
+          "Pipe": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "Side": 0
+        },
+        "Fixed": false,
+        "Border": true,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "Side": 0
+        },
+        "Fixed": false,
+        "Border": true,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "Side": 0
+        },
+        "Fixed": false,
+        "Border": true,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "Side": 0
+        },
+        "Fixed": false,
+        "Border": true,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "Side": 0
+        },
+        "Fixed": false,
+        "Border": true,
+        "Type": 0
+      }
+    ],
+    [
+      {
+        "Tile": {
+          "Pipe": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "Side": 3
+        },
+        "Fixed": false,
+        "Border": true,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "Side": 3
+        },
+        "Fixed": false,
+        "Border": true,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "Side": 3
+        },
+        "Fixed": false,
+        "Border": true,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "Side": 3
+        },
+        "Fixed": false,
+        "Border": true,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "Side": 3
+        },
+        "Fixed": false,
+        "Border": true,
+        "Type": 0
+      }
+    ],
+    [
+      {
+        "Tile": {
+          "Pipe": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "Side": 2
+        },
+        "Fixed": false,
+        "Border": true,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "Side": 2
+        },
+        "Fixed": false,
+        "Border": true,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "Side": 2
+        },
+        "Fixed": false,
+        "Border": true,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "Side": 2
+        },
+        "Fixed": false,
+        "Border": true,
+        "Type": 0
+      },
+      {
+        "Tile": {
+          "Pipe": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "Side": 2
+        },
+        "Fixed": false,
+        "Border": true,
+        "Type": 0
+      }
+    ]
+  ],
+  "Color": [
+    "LightGreen",
+    "Blue",
+    "Red",
+    "Purple",
+    "Yellow",
+    "DeepPink"
+  ],
+  "SizeX": 5,
+  "SizeY": 5,
+  "Colors": 6,
+  "MultiColor": false,
+  "CheckBorders": false
+}

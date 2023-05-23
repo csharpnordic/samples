@@ -83,7 +83,7 @@ namespace PuzzleSolver.Puzzles
         /// </summary>
         /// <param name="state">Изменяемое состояние головоломки</param>
         /// <returns></returns>
-        public static bool Solve(this IState state)
+        public static bool Solve(this IState state, bool oneStep)
         {
             // Проверка на корректность запуска
             if (state == null) return false;
@@ -96,14 +96,14 @@ namespace PuzzleSolver.Puzzles
                 state.Move(move);
 
                 // Для отладки - делает только один ход
-                // return true;
-                
+                if (oneStep) return true;
+
                 // Проверка нахождения решения
                 if (state.Done())
                 {
                     return true;
                 }
-                if (Solve(state)) // если же решение не найдено, рекурсивно попробуем следующий ход
+                if (Solve(state, oneStep)) // если же решение не найдено, рекурсивно попробуем следующий ход
                 {
                     return true;
                 }

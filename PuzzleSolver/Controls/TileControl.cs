@@ -15,18 +15,32 @@ namespace PuzzleSolver.Controls
         private const int Rate = 8;
 
         /// <summary>
+        /// Цвета по умолчанию
+        /// </summary>
+        private static readonly KnownColor[] DefaultColor = new KnownColor[]
+        {
+            KnownColor.Green,
+            KnownColor.Blue,
+            KnownColor.Red,
+            KnownColor.Purple,
+            KnownColor.Yellow,
+            KnownColor.DeepPink,
+        };
+
+        /// <summary>
         /// Набор кистей для отрисовки
         /// </summary>
-        private readonly static Brush[] Brush = new Brush[2] 
-        { 
-            new SolidBrush(Color.Cyan),
-            new SolidBrush(Color.Blue)
-        };
+        private static Brush[] Brush;
 
         /// <summary>
         /// Возможное количество цветов
         /// </summary>
         public int Colors { get; set; }
+
+        /// <summary>
+        /// Возможность совмещения цветов
+        /// </summary>
+        public bool MultiColor { get; set; }
 
         /// <summary>
         /// Плитка, с которой связан компонент
@@ -58,6 +72,23 @@ namespace PuzzleSolver.Controls
         /// Признак отрисовки зданий для задачи маршрута
         /// </summary>
         public bool DrawHouses { get; set; }
+
+        /// <summary>
+        /// Палитра цветов для плиток
+        /// </summary>
+        /// <param name="color"></param>
+        public static void SetColor(string[] color)
+        {
+            Brush = new Brush[color.Length];
+            for (int i = 0; i < color.Length; i++)
+            {
+                if (!Enum.TryParse<KnownColor>(color[i], out KnownColor knownColor))
+                {
+                    knownColor = DefaultColor[i]; // черный цвет пока по умолчанию
+                }
+                Brush[i] = new SolidBrush(Color.FromKnownColor(knownColor));
+            }
+        }
 
         /// <summary>
         /// Беспараметрический конструктор
@@ -106,6 +137,9 @@ namespace PuzzleSolver.Controls
             // Если плитка не задана, то и рисовать нечего
             if (Cell?.Tile == null) return;
 
+            // Количество одновременно рисуемых цветов
+            int colors = MultiColor ? Colors : 1;
+
             // Рисуем четыре стороны плитки
             foreach (var side in Enum.GetValues<Side>().Where(x => x != Side.None))
             {
@@ -118,7 +152,7 @@ namespace PuzzleSolver.Controls
                 switch (side)
                 {
                     case Side.Up:
-                        x = (Width - Width * Colors / Rate) / 2;
+                        x = (Width - Width * colors / Rate) / 2;
                         dx = Width / Rate;
                         y = 0;
                         dy = 0;
@@ -126,7 +160,7 @@ namespace PuzzleSolver.Controls
                         break;
 
                     case Side.Down:
-                        x = (Width - Width * Colors / Rate) / 2;
+                        x = (Width - Width * colors / Rate) / 2;
                         dx = Width / Rate;
                         y = Cell.Border ? Height * (Rate - 1) / Rate : Height / 2;
                         dy = 0;
@@ -136,7 +170,7 @@ namespace PuzzleSolver.Controls
                     case Side.Left:
                         x = 0;
                         dx = 0;
-                        y = (Height - Height * Colors / Rate) / 2;
+                        y = (Height - Height * colors / Rate) / 2;
                         dy = Height / Rate;
                         sx = Cell.Border ? Width / Rate : Width / 2;
                         break;
@@ -144,7 +178,7 @@ namespace PuzzleSolver.Controls
                     case Side.Right:
                         x = Cell.Border ? Width * (Rate - 1) / Rate : Width / 2;
                         dx = 0;
-                        y = (Height - Height * Colors / Rate) / 2;
+                        y = (Height - Height * colors / Rate) / 2;
                         dy = Height / Rate;
                         sx = Cell.Border ? Width / Rate : Width / 2;
                         break;
@@ -156,8 +190,9 @@ namespace PuzzleSolver.Controls
                         Rectangle rect = new Rectangle(x, y, sx, sy);
                         e.Graphics.FillRectangle(Brush[i], rect);
                     }
-                    x += dx;
-                    y += dy;
+                    // В одноцветом режиме смещение не требуется
+                    x += MultiColor ? dx : 0;
+                    y += MultiColor ? dy : 0;
                 }
             }
 
@@ -230,7 +265,16 @@ namespace PuzzleSolver.Controls
                         else
                             side = rT ? Side.Right : Side.Down;
                     }
-                    Cell.Tile[side] = (Cell.Tile[side] + 1) % (int)Math.Pow(2, Colors);
+                    if (MultiColor)
+                    {
+                        Cell.Tile[side] = (Cell.Tile[side] + 1) % (int)Math.Pow(2, Colors);
+                    }
+                    else // циклический перебор цветов
+                    {
+                        Cell.Tile[side] = (Cell.Tile[side] == 0)
+                            ? 1
+                            : (Cell.Tile[side] << 1) % (int)Math.Pow(2, Colors);
+                    }
                     break;
 
                 case MouseButtons.Right: // изменение фиксированности клетки
