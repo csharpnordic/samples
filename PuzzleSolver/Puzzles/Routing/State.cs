@@ -13,11 +13,11 @@ namespace PuzzleSolver.Puzzles.Routing
     /// Головоломка построения карты
     /// </summary>
     public class State : BaseState, IState
-    {      
+    {
         /// <summary>
         /// Полное имя класса
         /// </summary>
-        public string ClassName => GetType().FullName;      
+        public string ClassName => GetType().FullName;
 
         /// <summary>
         /// Игровое поле
@@ -33,7 +33,7 @@ namespace PuzzleSolver.Puzzles.Routing
         /// <summary>
         /// Набор плиток
         /// </summary>
-        internal List<Tile> TileSet { get; set; } = new();
+        internal List<Tile>? TileSet { get; set; }
 
         /// <summary>
         /// Набор цветов (строковый эквивалент)
@@ -67,7 +67,7 @@ namespace PuzzleSolver.Puzzles.Routing
         {
             get
             {
-                if (x < 0) return CheckBorders ? this[Side.Left, y]: null;
+                if (x < 0) return CheckBorders ? this[Side.Left, y] : null;
                 if (y < 0) return CheckBorders ? this[Side.Up, x] : null;
                 if (x >= SizeX) return CheckBorders ? this[Side.Right, y] : null;
                 if (y >= SizeY) return CheckBorders ? this[Side.Down, x] : null;
@@ -111,7 +111,7 @@ namespace PuzzleSolver.Puzzles.Routing
                     };
                 };
             }
-        }        
+        }
 
         /// <summary>
         /// Заполнение набора возможных фигур
@@ -119,14 +119,18 @@ namespace PuzzleSolver.Puzzles.Routing
         /// </summary>
         public void InitTileSet()
         {
-            for (int x = 0; x < SizeX; x++)
+            if (TileSet == null)
             {
-                for (int y = 0; y < SizeY; y++)
+                TileSet = new();
+                for (int x = 0; x < SizeX; x++)
                 {
-                    if (!Field[x][y].Fixed)
+                    for (int y = 0; y < SizeY; y++)
                     {
-                        TileSet.Add(Field[x][y].Tile);
-                        Field[x][y].Tile = null;
+                        if (!Field[x][y].Fixed)
+                        {
+                            TileSet.Add(Field[x][y].Tile);
+                            Field[x][y].Tile = null;
+                        }
                     }
                 }
             }
@@ -215,7 +219,7 @@ namespace PuzzleSolver.Puzzles.Routing
         {
             if (imove is Move move)
             {
-                move.Cell.Tile = move.Tile;              
+                move.Cell.Tile = move.Tile;
                 TileSet.Remove(move.Tile);
             }
         }
@@ -229,12 +233,12 @@ namespace PuzzleSolver.Puzzles.Routing
             if (imove is Move move)
             {
                 TileSet.Add(move.Tile);
-                move.Cell.Tile = null;             
+                move.Cell.Tile = null;
             }
         }
 
         public bool Done()
-        {         
+        {
             return !FindEmplyCell(out int _, out int _);
         }
 

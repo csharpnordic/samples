@@ -549,11 +549,14 @@ namespace PuzzleSolver.Forms
         /// <param name="e"></param>
         private void solveButton_Click(object sender, EventArgs e)
         {
-            if (istate is Puzzles.Routing.State state)
+            // Контроль вызывающего объекта
+            if (!(sender is ToolStripButton button)) return;
+            if (istate is Puzzles.Routing.State state )
             {
                 state.InitTileSet();
             }
-            istate.Solve();
+
+            istate.Solve((string)button.Tag == "step");
             if (istate is Puzzles.Routing.StateT statet)
             {
                 statet.LogSolution();
