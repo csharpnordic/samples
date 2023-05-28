@@ -32,18 +32,27 @@ namespace PuzzleSolver.Controls
         }
 
         /// <summary>
-        /// Реакция на щелчок мышью
+        /// Размер шрифта следует за размером треугольника
         /// </summary>
         /// <param name="e"></param>
-        protected override void OnMouseClick(MouseEventArgs e)
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            labelValue.Font = new Font(FontFamily.GenericSansSerif, Height / 4);
+        }
+
+        /// <summary>
+        /// Реакция на щелчок мышью
+        /// </summary>
+        /// <param name="e"></param>       
+        private void labelValue_MouseClick(object sender, MouseEventArgs e)
         {
             switch (e.Button)
             {
                 case MouseButtons.Left:
                     if (Cell != null && Tag is Puzzles.Coverage.State state)
                     {
-                        Cell.Index++;
-                        Invalidate();
+                        Cell.Index = (Cell.Index + 1) % (state.Chars + 1);
+                        labelValue.Text = state.Image[Cell.Index].ToString(); Invalidate();
                     }
                     break;
 

@@ -28,10 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            labelValue = new Label();
+            SuspendLayout();
+            // 
+            // labelValue
+            // 
+            labelValue.BackColor = Color.Transparent;
+            labelValue.Dock = DockStyle.Fill;
+            labelValue.Location = new Point(0, 0);
+            labelValue.Name = "labelValue";
+            labelValue.Size = new Size(150, 150);
+            labelValue.TabIndex = 1;
+            labelValue.TextAlign = ContentAlignment.MiddleCenter;
+            labelValue.MouseClick += labelValue_MouseClick;
+            // 
+            // CellControl
+            // 
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(labelValue);
+            Name = "CellControl";
+            ResumeLayout(false);
         }
 
         #endregion
+
+        private Label labelValue;
     }
 }

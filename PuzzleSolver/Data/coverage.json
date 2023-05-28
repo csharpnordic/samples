@@ -1,0 +1,148 @@
+{
+  "Image": [
+    " ",
+    "O",
+    "X"
+  ],
+  "Field": [
+    [
+      {
+        "Index": 2,
+        "Value": " ",
+        "Available": true
+      },
+      {
+        "Index": 1,
+        "Value": " ",
+        "Available": true
+      },
+      {
+        "Index": 2,
+        "Value": " ",
+        "Available": true
+      },
+      {
+        "Index": 1,
+        "Value": " ",
+        "Available": true
+      },
+      {
+        "Index": 2,
+        "Value": " ",
+        "Available": true
+      }
+    ],
+    [
+      {
+        "Index": 1,
+        "Value": " ",
+        "Available": true
+      },
+      {
+        "Index": 2,
+        "Value": " ",
+        "Available": true
+      },
+      {
+        "Index": 1,
+        "Value": " ",
+        "Available": true
+      },
+      {
+        "Index": 1,
+        "Value": " ",
+        "Available": true
+      },
+      {
+        "Index": 1,
+        "Value": " ",
+        "Available": true
+      }
+    ],
+    [
+      {
+        "Index": 2,
+        "Value": " ",
+        "Available": true
+      },
+      {
+        "Index": 1,
+        "Value": " ",
+        "Available": true
+      },
+      {
+        "Index": 0,
+        "Value": " ",
+        "Available": false
+      },
+      {
+        "Index": 2,
+        "Value": " ",
+        "Available": true
+      },
+      {
+        "Index": 1,
+        "Value": " ",
+        "Available": true
+      }
+    ],
+    [
+      {
+        "Index": 2,
+        "Value": " ",
+        "Available": true
+      },
+      {
+        "Index": 1,
+        "Value": " ",
+        "Available": true
+      },
+      {
+        "Index": 2,
+        "Value": " ",
+        "Available": true
+      },
+      {
+        "Index": 1,
+        "Value": " ",
+        "Available": true
+      },
+      {
+        "Index": 2,
+        "Value": " ",
+        "Available": true
+      }
+    ],
+    [
+      {
+        "Index": 2,
+        "Value": " ",
+        "Available": true
+      },
+      {
+        "Index": 2,
+        "Value": " ",
+        "Available": true
+      },
+      {
+        "Index": 2,
+        "Value": " ",
+        "Available": true
+      },
+      {
+        "Index": 1,
+        "Value": " ",
+        "Available": true
+      },
+      {
+        "Index": 1,
+        "Value": " ",
+        "Available": true
+      }
+    ]
+  ],
+  "Chars": 2,
+  "ClassName": "PuzzleSolver.Puzzles.Coverage.State",
+  "SizeX": 5,
+  "SizeY": 5
+}
