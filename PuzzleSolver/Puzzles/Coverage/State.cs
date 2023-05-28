@@ -10,7 +10,7 @@ namespace PuzzleSolver.Puzzles.Coverage
     /// <summary>
     /// Состояние головоломки покрытия
     /// </summary>
-    public class State : BaseState, IState
+    public class State : BaseState, IState, ILoad
     {
         /// <summary>
         /// Символы по умолчанию, включая начальный пробел
@@ -49,6 +49,19 @@ namespace PuzzleSolver.Puzzles.Coverage
             }
 
             Field = Core.Array2<Cell>(SizeX, SizeY, true);
+        }
+
+        /// <inheritdoc/>
+        public void InitAfterLoad()
+        {
+            // Восстановление ссылки на состояние
+            for (int x = -0; x < SizeX; x++)
+            {
+                for (int y = 0; y < SizeY; y++)
+                {
+                    Field[x][y].State = this;
+                }
+            }
         }
 
         /// <inheritdoc/>

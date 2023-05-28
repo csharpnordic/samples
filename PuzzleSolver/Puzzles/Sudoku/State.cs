@@ -11,7 +11,7 @@ namespace PuzzleSolver.Puzzles.Sudoku
     /// <summary>
     /// Состояние игрового поля
     /// </summary>
-    public class State : IState, IPossibleMove
+    public class State : IState, IPossibleMove, ILoad
     {
         /// <summary>
         /// Протоколирование
@@ -93,13 +93,13 @@ namespace PuzzleSolver.Puzzles.Sudoku
             Images[9] = "\U0001f3a9"; // шапка (ведро)
             */
 
-            InitLines();
+            InitAfterLoad();
         }
 
         /// <summary>
         /// Инициализация группировок клеток
         /// </summary>
-        public void InitLines()
+        public void InitAfterLoad()
         {
             // Список групп клеток
             Lines = new List<Cell[]>();

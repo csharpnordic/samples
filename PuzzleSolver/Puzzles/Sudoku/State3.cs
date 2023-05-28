@@ -11,7 +11,7 @@ namespace PuzzleSolver.Puzzles.Sudoku
     /// <summary>
     /// Состояние для треугольного судоку
     /// </summary>
-    public class State3 : IState
+    public class State3 : IState, ILoad
     {
         /// <summary>
         /// Полное имя класса
@@ -77,13 +77,13 @@ namespace PuzzleSolver.Puzzles.Sudoku
             Images[9] = "\U0001f99c"; // птица
             */
 
-            InitLines();
+            InitAfterLoad();
         }
 
         /// <summary>
         /// Инициализация группировок клеток
         /// </summary>
-        public void InitLines()
+        public void InitAfterLoad()
         {
             // Список групп клеток
             Lines = new();

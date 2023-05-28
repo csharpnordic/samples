@@ -12,7 +12,21 @@ namespace PuzzleSolver.Controls
 {
     public partial class CellControl : UserControl
     {
-        public Puzzles.Coverage.Cell Cell { get; set; }
+        /// <summary>
+        /// Формат вывода текста в середине ячейки
+        /// </summary>
+        private readonly static StringFormat stringFormat = new StringFormat()
+        {
+            Alignment = StringAlignment.Center,
+            LineAlignment = StringAlignment.Center
+        };
+
+        /// <summary>
+        /// Режим размещения фигуры
+        /// </summary>
+        public static bool FigureMode { get; set; }
+
+        public Puzzles.Coverage.Cell? Cell { get; set; }
 
         public CellControl()
         {
@@ -25,45 +39,57 @@ namespace PuzzleSolver.Controls
         /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
-            var brush = new SolidBrush(Cell?.Available ?? false ? Color.White : Color.Gray);
+            Color color = Color.Gray; // цвет по умолчанию
+            if (Cell != null)
+            {
+                if (Cell.Mark > 0) color = Color.SandyBrown;
+                else if (Cell.Available) color = Color.White;
+            }
+            var brush = new SolidBrush(color);
             var pen = new Pen(Color.Black);
             e.Graphics.FillRectangle(brush, 0, 0, Width, Height);
             e.Graphics.DrawRectangle(pen, 0, 0, Width, Height);
-        }
-
-        /// <summary>
-        /// Размер шрифта следует за размером треугольника
-        /// </summary>
-        /// <param name="e"></param>
-        protected override void OnSizeChanged(EventArgs e)
-        {
-            labelValue.Font = new Font(FontFamily.GenericSansSerif, Height / 4);
+            if (Cell != null)
+            {
+                var font = new Font(FontFamily.GenericSansSerif, Height / 4);
+                e.Graphics.DrawString(Cell.ToString(), font, new SolidBrush(ForeColor), Width / 2, Height / 2, stringFormat);
+            }
         }
 
         /// <summary>
         /// Реакция на щелчок мышью
         /// </summary>
         /// <param name="e"></param>       
-        private void labelValue_MouseClick(object sender, MouseEventArgs e)
+        protected override void OnMouseClick(MouseEventArgs e)
         {
+            // Проверка на корректность вызова
+            if (Tag is not Puzzles.Coverage.State state || Cell == null) return;
+
             switch (e.Button)
             {
                 case MouseButtons.Left:
-                    if (Cell != null && Tag is Puzzles.Coverage.State state)
+                    // только если клетка не принадлежит фигуре и приналдежит полю
+                    if (Cell.Mark == 0 && Cell.Available) 
                     {
                         Cell.Index = (Cell.Index + 1) % (state.Chars + 1);
-                        labelValue.Text = state.Image[Cell.Index].ToString(); Invalidate();
+                        Invalidate();
+                    }
+                    break;
+
+                case MouseButtons.Middle:
+                    // только если клетка принадлежит полю
+                    if (Cell.Available)
+                    {
+                        Cell.Mark = (Cell.Mark + 1) % (state.Chars + 1);
+                        Invalidate();
                     }
                     break;
 
                 case MouseButtons.Right:
-                    if (Cell != null)
-                    {
-                        Cell.Available = !Cell.Available;
-                        Invalidate(); // перерисовать
-                    }
+                    Cell.Available = !Cell.Available;
+                    Invalidate();
                     break;
-            }
+            }           
         }
     }
 }

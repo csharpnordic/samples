@@ -11,5 +11,19 @@ namespace PuzzleSolver.Puzzles.Coverage
     /// </summary>
     public class Tile
     {
+        /// <summary>
+        /// Индекс отображаемого символа, начиная с 0
+        /// </summary>
+        public int Index { get; set; }
+
+        /// <summary>
+        /// Относительная абсцисса плитки в составе фигуры
+        /// </summary>
+        public int X { get; set; }
+
+        /// <summary>
+        /// Относительная ордината плитки в составе фигуры
+        /// </summary>
+        public int Y { get; set; }
     }
 }

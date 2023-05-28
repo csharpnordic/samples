@@ -82,9 +82,15 @@ namespace PuzzleSolver.Forms
                 // Загрузка данных
                 istate = Core.LoadJson(dialog.FileName, type) as Interfaces.IState;
 
+                // Дополнительная инициализация после десериализации
+                if (istate is ILoad lstate)
+                {
+                    lstate.InitAfterLoad();
+                }
+
+                // Инициализация интерфейса
                 if (istate is Puzzles.Sudoku.State state1)
                 {
-                    state1.InitLines();
                     InitSudokuPanel(panel, state1);
                     checkMenuItem(sudokuToolStripMenuItem);
                 }
@@ -95,7 +101,6 @@ namespace PuzzleSolver.Forms
                 }
                 else if (istate is Puzzles.Sudoku.State3 state3)
                 {
-                    state3.InitLines();
                     InitTrianglePanel(panel, state3);
                     checkMenuItem(triangleToolStripMenuItem);
                 }
@@ -141,6 +146,9 @@ namespace PuzzleSolver.Forms
             {
                 item.Checked = item == checkItem;
             }
+            // Эти два элемента должно быть видно только для задачи покрытия
+            figureButton.Visible = checkItem == coverageToolStripMenuItem;
+            comboFigures.Visible = checkItem == coverageToolStripMenuItem;
         }
 
         #region "Пункт меню 'Головоломка' - начало игры"
@@ -637,6 +645,16 @@ namespace PuzzleSolver.Forms
                     kv.Value.BackColor = state.PossibleMove(move) ? Color.LightGreen : Color.Orange;
                 }
             }
+        }
+
+        /// <summary>
+        /// Добавление фигуры (для задачи покрытия)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void figureButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
