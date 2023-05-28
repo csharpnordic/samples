@@ -44,10 +44,11 @@
             statusLabel = new ToolStripStatusLabel();
             tool = new ToolStrip();
             initButton = new ToolStripButton();
+            stepButton = new ToolStripButton();
             solveButton = new ToolStripButton();
             validateButton = new ToolStripButton();
             panel = new Panel();
-            stepButton = new ToolStripButton();
+            coverageToolStripMenuItem = new ToolStripMenuItem();
             menu.SuspendLayout();
             status.SuspendLayout();
             tool.SuspendLayout();
@@ -98,7 +99,7 @@
             // 
             // puzzleToolStripMenuItem
             // 
-            puzzleToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { sudokuToolStripMenuItem, routingToolStripMenuItem, triangleToolStripMenuItem, trafficToolStripMenuItem });
+            puzzleToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { routingToolStripMenuItem, trafficToolStripMenuItem, coverageToolStripMenuItem, sudokuToolStripMenuItem, triangleToolStripMenuItem });
             puzzleToolStripMenuItem.Name = "puzzleToolStripMenuItem";
             puzzleToolStripMenuItem.Size = new Size(116, 24);
             puzzleToolStripMenuItem.Text = "&Головоломка";
@@ -106,28 +107,28 @@
             // sudokuToolStripMenuItem
             // 
             sudokuToolStripMenuItem.Name = "sudokuToolStripMenuItem";
-            sudokuToolStripMenuItem.Size = new Size(180, 26);
+            sudokuToolStripMenuItem.Size = new Size(224, 26);
             sudokuToolStripMenuItem.Text = "&Судоку";
             sudokuToolStripMenuItem.Click += sudokuToolStripMenuItem_Click;
             // 
             // routingToolStripMenuItem
             // 
             routingToolStripMenuItem.Name = "routingToolStripMenuItem";
-            routingToolStripMenuItem.Size = new Size(180, 26);
+            routingToolStripMenuItem.Size = new Size(224, 26);
             routingToolStripMenuItem.Text = "&Коммутация";
             routingToolStripMenuItem.Click += routingToolStripMenuItem_Click;
             // 
             // triangleToolStripMenuItem
             // 
             triangleToolStripMenuItem.Name = "triangleToolStripMenuItem";
-            triangleToolStripMenuItem.Size = new Size(180, 26);
+            triangleToolStripMenuItem.Size = new Size(224, 26);
             triangleToolStripMenuItem.Text = "&Треугольник";
             triangleToolStripMenuItem.Click += triangleToolStripMenuItem_Click;
             // 
             // trafficToolStripMenuItem
             // 
             trafficToolStripMenuItem.Name = "trafficToolStripMenuItem";
-            trafficToolStripMenuItem.Size = new Size(180, 26);
+            trafficToolStripMenuItem.Size = new Size(224, 26);
             trafficToolStripMenuItem.Text = "&Маршрут";
             trafficToolStripMenuItem.Click += trafficToolStripMenuItem_Click;
             // 
@@ -165,6 +166,16 @@
             initButton.Size = new Size(199, 24);
             initButton.Text = "Начальная расстановка";
             // 
+            // stepButton
+            // 
+            stepButton.Image = (Image)resources.GetObject("stepButton.Image");
+            stepButton.ImageTransparentColor = Color.Magenta;
+            stepButton.Name = "stepButton";
+            stepButton.Size = new Size(128, 24);
+            stepButton.Tag = "step";
+            stepButton.Text = "Шаг решения";
+            stepButton.Click += solveButton_Click;
+            // 
             // solveButton
             // 
             solveButton.Image = (Image)resources.GetObject("solveButton.Image");
@@ -192,15 +203,12 @@
             panel.Size = new Size(800, 373);
             panel.TabIndex = 3;
             // 
-            // stepButton
+            // coverageToolStripMenuItem
             // 
-            stepButton.Image = (Image)resources.GetObject("stepButton.Image");
-            stepButton.ImageTransparentColor = Color.Magenta;
-            stepButton.Name = "stepButton";
-            stepButton.Size = new Size(128, 24);
-            stepButton.Tag = "step";
-            stepButton.Text = "Шаг решения";
-            stepButton.Click += solveButton_Click;
+            coverageToolStripMenuItem.Name = "coverageToolStripMenuItem";
+            coverageToolStripMenuItem.Size = new Size(224, 26);
+            coverageToolStripMenuItem.Text = "&Покрытие";
+            coverageToolStripMenuItem.Click += coverageToolStripMenuItem_Click;
             // 
             // MainForm
             // 
@@ -247,5 +255,6 @@
         private Panel panel;
         private ToolStripMenuItem trafficToolStripMenuItem;
         private ToolStripButton stepButton;
+        private ToolStripMenuItem coverageToolStripMenuItem;
     }
 }

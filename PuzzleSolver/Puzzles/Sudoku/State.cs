@@ -71,7 +71,7 @@ namespace PuzzleSolver.Puzzles.Sudoku
             SizeX = sizeX;
             SizeY = sizeY;
             Size = size;
-            Cells = Solver.Array2<Cell>(sizeX, sizeY, true);
+            Cells = Core.Array2<Cell>(sizeX, sizeY, true);
             Images = new string[Size * Size + 1];
 
             // Инициализация обозначений клеток по умолчанию
@@ -163,7 +163,7 @@ namespace PuzzleSolver.Puzzles.Sudoku
                     // Перебор всех возможных чисел
                     for (int number = 1; number <= Size * Size; number++)
                     {
-                        Move move = new Move(Cells[x][y], number);
+                        Move move = new (Cells[x][y], number);
                         if (PossibleMove(move))
                         {
                             moves.Add(move);
@@ -186,7 +186,7 @@ namespace PuzzleSolver.Puzzles.Sudoku
         /// <returns></returns>
         public bool PossibleMove(IMove imove)
         {
-            if (!(imove is Move move)) return false;
+            if (imove is not Move move) return false;
             // Проверяем группы клеток, в которые входит клетка хода
             foreach (var line in Lines.Where(x => x.Contains(move.Cell)))
             {

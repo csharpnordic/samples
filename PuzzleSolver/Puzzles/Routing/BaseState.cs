@@ -10,21 +10,9 @@ namespace PuzzleSolver.Puzzles.Routing
     /// <summary>
     /// Параметры головоломки
     /// </summary>
-    public class BaseState
+    public class BaseState : RectangularState
     {
-        /// <summary>
-        /// Размер игрового поля по горизонтали
-        /// </summary>
-        [DisplayName("Размер игрового поля по горизонтали")]
-        public int SizeX { get; set; }
-
-        /// <summary>
-        /// Размер игрового поля по вертикали
-        /// </summary>
-        [DisplayName("Размер игрового поля по вертикали")]
-        public int SizeY { get; set; }
-
-        /// <summary>
+              /// <summary>
         /// Количество цветов маршрутов
         /// </summary>
         [DisplayName("Количество цветов")]

@@ -55,7 +55,7 @@ namespace PuzzleSolver.Puzzles.Sudoku
         {
             Size = size;
 
-            Cells = Solver.Array3<Cell>(size, size, 2, true);
+            Cells = Core.Array3<Cell>(size, size, 2, true);
             Images = new string[numbers + 1];
 
             // Инициализация обозначений клеток по умолчанию

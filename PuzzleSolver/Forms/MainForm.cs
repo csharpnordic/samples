@@ -20,17 +20,17 @@ namespace PuzzleSolver.Forms
         /// <summary>
         /// Отображение клеток судоку на кнопки
         /// </summary>
-        private Dictionary<Puzzles.Sudoku.Cell, Button> buttons = new();
+        private readonly Dictionary<Puzzles.Sudoku.Cell, Button> buttons = new();
 
         /// <summary>
         /// Отображение клеток маршрутов на элементы управления
         /// </summary>
-        private Dictionary<Puzzles.Routing.Cell, TileControl> dict = new();
+        private readonly Dictionary<Puzzles.Routing.Cell, TileControl> dict = new();
 
         /// <summary>
         /// Отображение треугольных клеток судоку на треугольники
         /// </summary>
-        private Dictionary<Puzzles.Sudoku.Cell, TriangleControl> triangles = new();
+        private readonly Dictionary<Puzzles.Sudoku.Cell, TriangleControl> triangles = new();
 
         /// <summary>
         /// Конструктор формы
@@ -49,7 +49,7 @@ namespace PuzzleSolver.Forms
         /// <param name="e"></param>
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog dialog = new SaveFileDialog
+            SaveFileDialog dialog = new()
             {
                 Title = "Сохранение головоломки",
                 Filter = "Файлы (*.json)|*.json|Все файлы (*.*)|*.*"
@@ -104,6 +104,11 @@ namespace PuzzleSolver.Forms
                     InitTrafficPanel(panel, state4);
                     checkMenuItem(trafficToolStripMenuItem);
                 }
+                else if (istate is Puzzles.Coverage.State state5)
+                {
+                    InitCoveragePanel(panel, state5);
+                    checkMenuItem(coverageToolStripMenuItem);
+                }
                 else
                 {
                     throw new Exception();
@@ -138,19 +143,29 @@ namespace PuzzleSolver.Forms
             }
         }
 
-        #region "Начало игры"
+        #region "Пункт меню 'Головоломка' - начало игры"
 
         /// <summary>
-        /// Переключение в режим судоку
+        /// Переключение в режим покрытия
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void sudokuToolStripMenuItem_Click(object sender, EventArgs e)
+        private void coverageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            istate = new Puzzles.Sudoku.State(9, 9, 3);
-            InitSudokuPanel(panel, istate as Puzzles.Sudoku.State);
-            sudokuToolStripMenuItem.Checked = true;
-            checkMenuItem(sender);
+            // Параметры по умолчанию
+            var o = new Puzzles.Coverage.BaseState()
+            {
+                SizeX = 5,
+                SizeY = 5,
+                Chars = 2
+            };
+            var form = new ObjectForm(o);
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                istate = new Puzzles.Coverage.State(o);
+                InitCoveragePanel(panel, (Puzzles.Coverage.State)istate);
+                checkMenuItem(sender);
+            }
         }
 
         /// <summary>
@@ -171,25 +186,22 @@ namespace PuzzleSolver.Forms
             var form = new ObjectForm(o);
             if (form.ShowDialog() == DialogResult.OK)
             {
-                istate = new Puzzles.Routing.State(o.SizeX, o.SizeY, o.Colors)
-                {
-                    CheckBorders = o.CheckBorders,
-                    MultiColor = o.MultiColor
-                };
+                istate = new Puzzles.Routing.State(o);
                 InitRoutingPanel(panel, (Puzzles.Routing.State)istate);
                 checkMenuItem(sender);
             }
         }
 
         /// <summary>
-        /// Переключение в режим треугольного судоку
+        /// Переключение в режим судоку
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void triangleToolStripMenuItem_Click(object sender, EventArgs e)
+        private void sudokuToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            istate = new Puzzles.Sudoku.State3(5, 9);
-            InitTrianglePanel(panel, (Puzzles.Sudoku.State3)istate);
+            istate = new Puzzles.Sudoku.State(9, 9, 3);
+            InitSudokuPanel(panel, istate as Puzzles.Sudoku.State);
+            sudokuToolStripMenuItem.Checked = true;
             checkMenuItem(sender);
         }
 
@@ -205,64 +217,51 @@ namespace PuzzleSolver.Forms
             checkMenuItem(sender);
         }
 
+        /// <summary>
+        /// Переключение в режим треугольного судоку
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void triangleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            istate = new Puzzles.Sudoku.State3(5, 9);
+            InitTrianglePanel(panel, (Puzzles.Sudoku.State3)istate);
+            checkMenuItem(sender);
+        }
+
         #endregion
 
         #region "Инициализация интерфейса"
 
         /// <summary>
-        /// Инициализация интерфейса игрового поля судоку
+        /// Инициализация игрового поля покрытия
         /// </summary>
-        /// <param name="parent"></param>
-        private void InitSudokuPanel(Control parent, Puzzles.Sudoku.State state)
+        /// <param name="panel"></param>
+        /// <param name="state"></param>
+        private void InitCoveragePanel(Control parent, Puzzles.Coverage.State state)
         {
             // Инициализация глобальных переменных
             parent.Controls.Clear();
-            buttons.Clear();
 
-            // генерация интерфейса
-            // количество больших ячеек
-            int panelCountX = state.SizeX / state.Size;
-            int panelCountY = state.SizeY / state.Size;
-            // размер больших ячеек
-            int panelSize = Math.Min(parent.Width / panelCountX, parent.Height / panelCountY);
-            // размер клеток
-            int cellSize = panelSize / state.Size;
-            for (int x = 0; x < panelCountX; x++)
+            // размер ячеек
+            int cellSize = Math.Min(parent.Width / state.SizeX, parent.Height / state.SizeY);
+
+            CellControl cell;
+
+            // Игровое поле
+            for (int x = 0; x < state.SizeX; x++)
             {
-                for (int y = 0; y < panelCountY; y++)
+                for (int y = 0; y < state.SizeY; y++)
                 {
-                    var panel = new Panel()
+                    cell = new CellControl()
                     {
-                        Left = x * panelSize,
-                        Top = y * panelSize,
-                        Width = panelSize,
-                        Height = panelSize,
-                        BorderStyle = BorderStyle.FixedSingle,
-                        ForeColor = Color.Black
+                        Left = x * cellSize,
+                        Top = y * cellSize,
+                        Width = cellSize,
+                        Height = cellSize,
+                        Cell = state.Field[x][y]
                     };
-                    for (int dx = 0; dx < state.Size; dx++)
-                    {
-                        for (int dy = 0; dy < state.Size; dy++)
-                        {
-                            var cell = state.Cells[x * state.Size + dx][y * state.Size + dy];
-                            var button = new Button()
-                            {
-                                Left = dx * cellSize,
-                                Top = dy * cellSize,
-                                Width = cellSize,
-                                Height = cellSize,
-                                Tag = cell
-                            };
-                            button.Font = new Font(FontFamily.GenericSansSerif, cellSize / 2);
-                            cell.ValueChanged += CellValueChanged;
-                            button.Click += SudokuButtonClick;
-                            panel.Controls.Add(button);
-                            buttons.Add(cell, button);
-                            // для обновления интерфейса после добавления в словарь
-                            cell.Number = cell.Number;
-                        }
-                    }
-                    parent.Controls.Add(panel);
+                    parent.Controls.Add(cell);
                 }
             }
         }
@@ -364,6 +363,104 @@ namespace PuzzleSolver.Forms
         }
 
         /// <summary>
+        /// Инициализация интерфейса игрового поля судоку
+        /// </summary>
+        /// <param name="parent"></param>
+        private void InitSudokuPanel(Control parent, Puzzles.Sudoku.State state)
+        {
+            // Инициализация глобальных переменных
+            parent.Controls.Clear();
+            buttons.Clear();
+
+            // генерация интерфейса
+            // количество больших ячеек
+            int panelCountX = state.SizeX / state.Size;
+            int panelCountY = state.SizeY / state.Size;
+            // размер больших ячеек
+            int panelSize = Math.Min(parent.Width / panelCountX, parent.Height / panelCountY);
+            // размер клеток
+            int cellSize = panelSize / state.Size;
+            for (int x = 0; x < panelCountX; x++)
+            {
+                for (int y = 0; y < panelCountY; y++)
+                {
+                    var panel = new Panel()
+                    {
+                        Left = x * panelSize,
+                        Top = y * panelSize,
+                        Width = panelSize,
+                        Height = panelSize,
+                        BorderStyle = BorderStyle.FixedSingle,
+                        ForeColor = Color.Black
+                    };
+                    for (int dx = 0; dx < state.Size; dx++)
+                    {
+                        for (int dy = 0; dy < state.Size; dy++)
+                        {
+                            var cell = state.Cells[x * state.Size + dx][y * state.Size + dy];
+                            Button button = new()
+                            {
+                                Left = dx * cellSize,
+                                Top = dy * cellSize,
+                                Width = cellSize,
+                                Height = cellSize,
+                                Tag = cell,
+                                Font = new Font(FontFamily.GenericSansSerif, cellSize / 2)
+                            };
+                            cell.ValueChanged += CellValueChanged;
+                            button.Click += SudokuButtonClick;
+                            panel.Controls.Add(button);
+                            buttons.Add(cell, button);
+                            // для обновления интерфейса после добавления в словарь
+                            cell.Number = cell.Number;
+                        }
+                    }
+                    parent.Controls.Add(panel);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Инициализация интерфейса поиска маршрута
+        /// </summary>
+        /// <param name="panel"></param>
+        /// <param name="state"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private void InitTrafficPanel(Panel parent, Puzzles.Routing.StateT state)
+        {
+            // Инициализация глобальных переменных
+            parent.Controls.Clear();
+            dict.Clear();
+
+            // размер ячеек
+            int cellSize = Math.Min(parent.Width / state.SizeX, parent.Height / state.SizeY);
+
+            TileControl button;
+
+            // Игровое поле
+            for (int x = 0; x < state.SizeX; x++)
+            {
+                for (int y = 0; y < state.SizeY; y++)
+                {
+                    button = new TileControl()
+                    {
+                        Left = x * cellSize,
+                        Top = y * cellSize,
+                        Width = cellSize,
+                        Height = cellSize,
+                        Cell = state.Field[x][y],
+                        Colors = 2, // надо подумать, как сделать
+                        DrawHouses = true
+
+                    };
+                    dict.Add(button.Cell, button);
+                    state.Field[x][y].ValueChanged += RoutingTile_ValueChanged;
+                    parent.Controls.Add(button);
+                }
+            }
+        }
+
+        /// <summary>
         /// Инициализация интерфейса треугольного судоку
         /// </summary>
         /// <param name="parent"></param>
@@ -407,46 +504,6 @@ namespace PuzzleSolver.Forms
                         triangles.Add(cell, control);
                         parent.Controls.Add(control);
                     }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Инициализация интерфейса поиска маршрута
-        /// </summary>
-        /// <param name="panel"></param>
-        /// <param name="state"></param>
-        /// <exception cref="NotImplementedException"></exception>
-        private void InitTrafficPanel(Panel parent, Puzzles.Routing.StateT state)
-        {
-            // Инициализация глобальных переменных
-            parent.Controls.Clear();
-            dict.Clear();
-
-            // размер ячеек
-            int cellSize = Math.Min(parent.Width / state.SizeX, parent.Height / state.SizeY);
-
-            TileControl button;
-
-            // Игровое поле
-            for (int x = 0; x < state.SizeX; x++)
-            {
-                for (int y = 0; y < state.SizeY; y++)
-                {
-                    button = new TileControl()
-                    {
-                        Left = x * cellSize,
-                        Top = y * cellSize,
-                        Width = cellSize,
-                        Height = cellSize,
-                        Cell = state.Field[x][y],
-                        Colors = 2, // надо подумать, как сделать
-                        DrawHouses = true
-
-                    };
-                    dict.Add(button.Cell, button);
-                    state.Field[x][y].ValueChanged += RoutingTile_ValueChanged;
-                    parent.Controls.Add(button);
                 }
             }
         }
@@ -550,8 +607,8 @@ namespace PuzzleSolver.Forms
         private void solveButton_Click(object sender, EventArgs e)
         {
             // Контроль вызывающего объекта
-            if (!(sender is ToolStripButton button)) return;
-            if (istate is Puzzles.Routing.State state )
+            if (sender is not ToolStripButton button) return;
+            if (istate is Puzzles.Routing.State state)
             {
                 state.InitTileSet();
             }
