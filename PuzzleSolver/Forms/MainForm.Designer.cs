@@ -214,8 +214,10 @@
             // 
             // comboFigures
             // 
+            comboFigures.DropDownStyle = ComboBoxStyle.DropDownList;
             comboFigures.Name = "comboFigures";
             comboFigures.Size = new Size(121, 28);
+            comboFigures.SelectedIndexChanged += comboFigures_SelectedIndexChanged;
             // 
             // panel
             // 

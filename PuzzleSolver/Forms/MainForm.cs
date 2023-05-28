@@ -273,6 +273,12 @@ namespace PuzzleSolver.Forms
                     parent.Controls.Add(cell);
                 }
             }
+
+            // Список фигур
+            foreach (var figure in state.Figures)
+            {
+                comboFigures.Items.Add(figure);
+            }
         }
 
         /// <summary>
@@ -654,7 +660,30 @@ namespace PuzzleSolver.Forms
         /// <param name="e"></param>
         private void figureButton_Click(object sender, EventArgs e)
         {
+            if (istate is Puzzles.Coverage.State state)
+            {
+                var figure = state.AddFigure();
+                if (figure != null)
+                {
+                    comboFigures.Items.Add(figure);
+                    // перерисовать всё поле после добавления фигуры
+                    panel.Invalidate(true);
+                }
+            }
+        }
 
+        private void comboFigures_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Проверка на корректность вызова
+            if (istate is Puzzles.Coverage.State state && comboFigures.SelectedItem is Puzzles.Coverage.Figure figure)
+            {
+                state.ResetFigure();
+                foreach (var tile in figure.Tiles)
+                {
+                    state.Field[tile.X][tile.Y].Mark = tile.Index;
+                }
+                panel.Invalidate(true);
+            }
         }
     }
 }
