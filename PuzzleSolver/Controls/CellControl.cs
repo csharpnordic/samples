@@ -25,7 +25,7 @@ namespace PuzzleSolver.Controls
         /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
-            var brush = new SolidBrush(Cell?.Available ?? false ?  Color.White : Color.Gray);
+            var brush = new SolidBrush(Cell?.Available ?? false ? Color.White : Color.Gray);
             var pen = new Pen(Color.Black);
             e.Graphics.FillRectangle(brush, 0, 0, Width, Height);
             e.Graphics.DrawRectangle(pen, 0, 0, Width, Height);
@@ -39,8 +39,16 @@ namespace PuzzleSolver.Controls
         {
             switch (e.Button)
             {
+                case MouseButtons.Left:
+                    if (Cell != null && Tag is Puzzles.Coverage.State state)
+                    {
+                        Cell.Index++;
+                        Invalidate();
+                    }
+                    break;
+
                 case MouseButtons.Right:
-                    if (Cell!= null)
+                    if (Cell != null)
                     {
                         Cell.Available = !Cell.Available;
                         Invalidate(); // перерисовать

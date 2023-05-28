@@ -107,8 +107,7 @@ namespace PuzzleSolver.Forms
                 else if (istate is Puzzles.Coverage.State state5)
                 {
                     InitCoveragePanel(panel, state5);
-                    checkMenuItem(coverageToolStripMenuItem);
-                }
+                    checkMenuItem(coverageToolStripMenuItem);                }
                 else
                 {
                     throw new Exception();

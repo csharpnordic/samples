@@ -39,11 +39,12 @@ namespace PuzzleSolver
         }
 
         /// <summary>
-        /// Создание прямоугольного массива массивов заданного типа
+        /// Создание прямоугольного массива массивов массивов заданного типа
         /// </summary>
         /// <typeparam name="T">Тип элемента массиа</typeparam>
         /// <param name="sizeX">Размер массива по горизонтали</param>
         /// <param name="sizeY">Размер массива по вертикали</param>
+        /// <param name="sizeZ">Размер массива по третьей координате</param>
         /// <param name="initialize">Требуется ли создавать объекты - элементы массива</param>
         /// <returns></returns>
         public static T[][][] Array3<T>(int sizeX, int sizeY, int sizeZ, bool initialize) where T : new()

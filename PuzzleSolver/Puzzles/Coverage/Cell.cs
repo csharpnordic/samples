@@ -12,6 +12,16 @@ namespace PuzzleSolver.Puzzles.Coverage
     public class Cell
     {
         /// <summary>
+        /// Состояние, к которому привязана клетка
+        /// </summary>
+        internal State State { get; set; }
+
+        /// <summary>
+        /// Индекс отображаемого символа, начиная с 0
+        /// </summary>
+        public int Index { get; set; }
+
+        /// <summary>
         /// Значение клетки поля
         /// </summary>
         public char Value { get; set; } = ' '; // по умолчанию пробел
