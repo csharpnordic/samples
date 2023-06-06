@@ -15,6 +15,11 @@
 * Microsoft.NET Framework, Windows Forms
 * Демонстрация использования класса BackgroundWorker для многопоточных вычислений
 
+## BlogDownload
+
+* Microsoft.NET Framework
+* Загрузка блога с сайта на базе wix.com и сохранение в базе данных
+
 ## Calculator
 
 * Microsoft.NET Framework, Windows Forms
