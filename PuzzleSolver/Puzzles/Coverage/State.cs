@@ -1,9 +1,4 @@
 ﻿using PuzzleSolver.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PuzzleSolver.Puzzles.Coverage
 {
@@ -31,6 +26,11 @@ namespace PuzzleSolver.Puzzles.Coverage
         /// Список фигур
         /// </summary>
         public List<Figure> Figures { get; set; } = new();
+
+        /// <summary>
+        /// Стек поставленных фигур
+        /// </summary>
+        private Stack<Figure> moves = new();
 
         /// <summary>
         /// Беспараметрической конструктор для сериализации
