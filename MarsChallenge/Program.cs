@@ -100,6 +100,7 @@ namespace MarsChallenge
                 {
                     var item = group.First();
                     Console.WriteLine("A={0} B={1} {0}+{1}={2} {0}*{1}={3}", item.A, item.B, item.Sum, item.Mul);
+                    Console.WriteLine($"A={item.A} B={item.B} {item.A}+{item.B}={item.Sum} {item.A}*{item.B}={item.Mul}");
                 }
             }           
         }
