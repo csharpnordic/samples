@@ -68,7 +68,7 @@ namespace StarSky
                 while (index < chars.Length)
                 {
                     ShowStage();
-                    Thread.Sleep(200);
+                    Thread.Sleep(random.Next(100, 300));
                     // надо зажечь новую звезду
                     Program.Queue.Enqueue(1);
                 }
