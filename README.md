@@ -35,6 +35,11 @@
 * Microsoft.NET Framework, Microsoft Excel VSTO add-in
 * Пример работы с файлом Microsoft Excel
 
+## GenericApi
+
+* Microsoft.NET Framework 4.8, ASP.NET
+* Пример обработки исключений в Web API при помощи атрибутов
+
 ## LogicForm
 
 * Microsoft.NET Framework, Windows Forms
