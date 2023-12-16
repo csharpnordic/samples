@@ -1,5 +1,4 @@
-﻿using CodeGeneration.Storage.Tailing;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace CodeGeneration.Storage;
 
@@ -121,80 +120,80 @@ public class DB : DbContext
     /// <summary>
     /// Перечень драйверов
     /// </summary>
-    public virtual DbSet<Driver> Drivers { get; set; }
+    public virtual DbSet<Tailing.Driver> Drivers { get; set; }
 
     /// <summary>
     /// КИА
     /// </summary>
-    public virtual DbSet<Instrument> Instruments { get; set; }
+    public virtual DbSet<Tailing.Instrument> Instruments { get; set; }
 
     /// <summary>
     /// Настройки типов измерений
     /// </summary>
-    public virtual DbSet<InstrumentDetail> InstrumentDetails { get; set; }
+    public virtual DbSet<Tailing.InstrumentDetail> InstrumentDetails { get; set; }
 
     /// <summary>
     /// Измерения конкретного КИА
     /// </summary>
-    public virtual DbSet<InstrumentMeasurement> InstrumentMeasurements { get; set; }
+    public virtual DbSet<Tailing.InstrumentMeasurement> InstrumentMeasurements { get; set; }
 
     /// <summary>
     /// Значения показателей
     /// </summary>
-    public virtual DbSet<InstrumentMeasurementDetail> InstrumentMeasurementDetails { get; set; }
+    public virtual DbSet<Tailing.InstrumentMeasurementDetail> InstrumentMeasurementDetails { get; set; }
 
     /// <summary>
     /// Параметры для типов КИА
     /// </summary>
-    public virtual DbSet<InstrumentParameter> InstrumentParameters { get; set; }
+    public virtual DbSet<Tailing.InstrumentParameter> InstrumentParameters { get; set; }
 
     /// <summary>
     /// Журналы параметров КИА
     /// </summary>
-    public virtual DbSet<InstrumentParameterHistory> ParameterHistory { get; set; }
+    public virtual DbSet<Tailing.InstrumentParameterHistory> ParameterHistory { get; set; }
 
     /// <summary>
     /// Параметры КИА
     /// </summary>
-    public virtual DbSet<InstrumentParameterType> InstrumentParameterTypes { get; set; }
+    public virtual DbSet<Tailing.InstrumentParameterType> InstrumentParameterTypes { get; set; }
 
     /// <summary>
     /// Типы КИА
     /// </summary>
-    public virtual DbSet<InstrumentType> InstrumentTypes { get; set; }
+    public virtual DbSet<Tailing.InstrumentType> InstrumentTypes { get; set; }
 
     /// <summary>
     /// Измерения по типам КИА
     /// </summary>
-    public virtual DbSet<InstrumentTypeDetail> InstrumentTypeDetails { get; set; }
+    public virtual DbSet<Tailing.InstrumentTypeDetail> InstrumentTypeDetails { get; set; }
 
     /// <summary>
     /// Настройки критериев безопасности
     /// </summary>
-    public virtual DbSet<InstrumentSafetyCriteria> InstrumentSafetyCriterias { get; set; }
+    public virtual DbSet<Tailing.InstrumentSafetyCriteria> InstrumentSafetyCriterias { get; set; }
 
     /// <summary>
     /// Структура хростохранилища
     /// </summary>
-    public virtual DbSet<Location> Locations { get; set; }
+    public virtual DbSet<Tailing.Location> Locations { get; set; }
 
     /// <summary>
     /// Виды наблюдения
     /// </summary>
-    public virtual DbSet<MonitoringType> MonitoringTypes { get; set; }
+    public virtual DbSet<Tailing.MonitoringType> MonitoringTypes { get; set; }
 
     /// <summary>
     /// Критерии
     /// </summary>
-    public virtual DbSet<SafetyCriteria> SafetyCriterias { get; set; }
+    public virtual DbSet<Tailing.SafetyCriteria> SafetyCriterias { get; set; }
 
     /// <summary>
     /// Состояния безопасности значения измерения
     /// </summary>
-    public virtual DbSet<SafetyState> SafetyStates { get; set; }
+    public virtual DbSet<Tailing.SafetyState> SafetyStates { get; set; }
 
     /// <summary>
     /// Перечень систем-источников
     /// </summary>
-    public virtual DbSet<SourceSystem> SourceSystems { get; set; }
+    public virtual DbSet<Tailing.SourceSystem> SourceSystems { get; set; }
 }
