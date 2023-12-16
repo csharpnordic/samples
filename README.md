@@ -25,6 +25,11 @@
 * Microsoft.NET Framework, Windows Forms
 * Проект простого калькулятора, поддерживающего различные системы счисления (для целых чисел)
 
+## CodeGeneration
+
+* Microsoft.NET, библиотека классов
+* Генерация кода (C# и SQL) при помощи шаблонов T4 (*.tt)
+
 ## ConsoleThreads
 
 * Microsoft.NET Framework, консольное приложение
