@@ -22,9 +22,6 @@ foreach (var name in System.IO.Directory.GetFiles(@".\CodeGeneration\Enums", "*.
     /// <summary>
     /// Особая сериализация типа <seealso cref="<#= enumName #>"/>
     /// </summary>
-    public class <#= enumName #>Converter : EnumConverter<<#= enumName #>>
-    {
-    }
-
+    public class <#= enumName #>Converter : EnumConverter<<#= enumName #>> { }
 <# } #>
 }

@@ -6,40 +6,39 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".sql" #>
 --
--- Создание функции для заполнения поля Modified 
---
-CREATE OR REPLACE FUNCTION public.func_update_modified()
-RETURNS trigger
-LANGUAGE plpgsql
-AS $BODY$
-BEGIN
-  new."Modified" := LOCALTIMESTAMP;
-  RETURN NEW;
-END;
-$BODY$
-;
---
 -- Создание триггеров для заполнения поля Modified 
--- 
+--
 <#
-    var lines = System.IO.File.ReadAllLines(@".\Cenguru\CenguruCommon\Storage\DB.cs");
-    string pattern = @"^public virtual DbSet<(?<schema>[(?<table>[A-Za-z]+)>\s+(?<prop>[A-Za-z]+)";
+    var lines = System.IO.File.ReadAllLines(@".\CodeGeneration\Storage\DB.cs");
+    string pattern = @"^public virtual DbSet<(([A-Za-z]+)\.([A-Za-z]+)\.([A-Za-z]+)\.|)(?<schema>[A-Za-z]+)\.(?<table>[A-Za-z]+)>\s+(?<prop>[A-Za-z]+)";
     foreach (string line in lines)
     {
         var match = System.Text.RegularExpressions.Regex.Match(line.Trim(), pattern, System.Text.RegularExpressions.RegexOptions.Singleline);
         if (!match.Success) continue;    
         bool skip = false;  
-        string schema = "gts";
+        string schema = string.Empty;   
+        // [!] имена схем должны соответствовать константам класса DB
+        switch (match.Groups["schema"].Value)               
+        {      
+            case "Administration": schema = "adm"; break;
+            case "Tailings": schema = "gts"; break; 
+            case "Internal": skip = true; break;
+            default: schema = "dbo"; break; 
+        }
         if (skip) continue;
         var name = match.Groups["prop"].Value;
-        var table = $"{schema}.\"{name}\"";
-        var trigger = $"{name}_UpdateTrigger".ToLower();       
+        var table = $"[{schema}].[{name}]";
+        var trigger = $"[{name}_AfterUpdate]";
 #>
 -- <#= table #>
-CREATE OR REPLACE TRIGGER <#= schema #>__<#= trigger #> 
- BEFORE INSERT ON <#= table #>
- FOR EACH ROW EXECUTE PROCEDURE public.func_update_modified();
-
-ALTER TABLE <#= table #> ENABLE TRIGGER <#= schema #>__<#= trigger #>;
-
+CREATE OR ALTER TRIGGER [<#= schema #>].<#= trigger #> ON <#= table #> AFTER UPDATE AS
+BEGIN
+    UPDATE <#= table #>
+    SET    <#= table #>.Modified = GETDATE()           
+    FROM   INSERTED
+    WHERE  INSERTED.Id = <#= table #>.[ID]
+END
+GO
+ALTER TABLE <#= table #> ENABLE TRIGGER <#= trigger #>
+GO
 <# } #>
