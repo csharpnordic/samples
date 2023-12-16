@@ -1,0 +1,44 @@
+﻿<#@ template debug="true" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".sql" #>
+--
+-- Создание триггеров для заполнения поля Modified 
+--
+<#
+    // Все пути к файлам указываются относительно каталога расположения решения (*.sln)
+    var lines = System.IO.File.ReadAllLines(@".\CodeGeneration\Storage\DB.cs");
+    string pattern = @"^public virtual DbSet<(([A-Za-z]+)\.([A-Za-z]+)\.([A-Za-z]+)\.|)(?<schema>[A-Za-z]+)\.(?<table>[A-Za-z]+)>\s+(?<prop>[A-Za-z]+)";
+    foreach (string line in lines)
+    {
+        var match = System.Text.RegularExpressions.Regex.Match(line.Trim(), pattern, System.Text.RegularExpressions.RegexOptions.Singleline);
+        if (!match.Success) continue;    
+        bool skip = false;  
+        string schema = string.Empty;   
+        switch (match.Groups["schema"].Value)               
+        {      
+            case "Administration": schema = "adm"; break;
+            case "Tailings": schema = "gts"; break; 
+            case "Internal": skip = true; break;
+            default: schema = "dbo"; break; 
+        }
+        if (skip) continue;
+        var name = match.Groups["prop"].Value;
+        var table = $"[{schema}].[{name}]";
+        var trigger = $"[{name}_AfterUpdate]";
+#>
+-- <#= table #>
+CREATE OR ALTER TRIGGER [<#= schema #>].<#= trigger #> ON <#= table #> AFTER UPDATE AS
+BEGIN
+    UPDATE <#= table #>
+    SET    <#= table #>.Modified = GETDATE()           
+    FROM   INSERTED
+    WHERE  INSERTED.Id = <#= table #>.[ID]
+END
+GO
+ALTER TABLE <#= table #> ENABLE TRIGGER <#= trigger #>
+GO
+<# } #>
