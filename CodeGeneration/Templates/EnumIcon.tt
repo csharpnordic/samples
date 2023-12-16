@@ -6,9 +6,7 @@
 <#@ output extension=".cs" #>
 <#
 
- var name16 = @".\FelixWebApp\src\components\uikit\SvgIcon\index.tsx";
- var name18 = @".\FelixAppReact18\src\components\common\SvgIcon\index.tsx";
- var name = name16;
+ var name = @".\CodeGeneration\WebApp\index.tsx";
  var source = System.IO.File.ReadAllText(name);
  var match = System.Text.RegularExpressions.Regex.Match(source, @"export enum EnumIcon {([^}]+)}");
  var result = match.Groups[1].Value; 
@@ -16,7 +14,7 @@
 #>
 // ******************************************************************//
 // Файл строится автоматически на основе исходного файла TypeScript  //
-// Исходный файл: <#= name #> //
+// Исходный файл: <#= name #> 
 // ******************************************************************//
 // Статус генерации: <#= match.Success #> 
 
