@@ -15,10 +15,10 @@ public static class Constraints
     {
         var list = new List<string>()
         {
-                "Constraint_LineShift",
-                "Constraint_Operation",
-                "Constraint_Plant",
-                "Constraint_ShiftType",
+            "Constraint_LineShift",
+            "Constraint_Operation",
+            "Constraint_Plant",
+            "Constraint_ShiftType",
         };
         return list;
     }

@@ -13,7 +13,7 @@ using CodeGeneration.Enums;
 namespace CodeGeneration.Serialization
 {
 <#
-
+// Все пути к файлам указываются относительно каталога расположения решения (*.sln)
 foreach (var name in System.IO.Directory.GetFiles(@".\CodeGeneration\Enums", "*.cs"))
 {
     string enumName = System.IO.Path.GetFileNameWithoutExtension(name);

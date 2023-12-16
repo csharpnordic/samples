@@ -1,4 +1,4 @@
-﻿namespace CodeGeneration.Storage.Tailing;
+﻿namespace CodeGeneration.Storage.Tailings;
 
 /// <summary>
 /// Настройки критериев безопасности для типа КИА

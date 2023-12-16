@@ -20,8 +20,11 @@ public static class Constraints
     {
         var list = new List<string>()
         {
-<# foreach (string name in Directory.GetFiles(@".\CodeGeneration\Scripts\Constraints", "*.sql", SearchOption.AllDirectories).OrderBy(x => x)) { #>
-                "<#= Path.GetFileNameWithoutExtension(name) #>",
+<#
+  // Все пути к файлам указываются относительно каталога расположения решения (*.sln)
+  foreach (string name in Directory.GetFiles(@".\CodeGeneration\Scripts\Constraints", "*.sql", SearchOption.AllDirectories).OrderBy(x => x)) { 
+#>
+            "<#= Path.GetFileNameWithoutExtension(name) #>",
 <# } #>
         };
         return list;

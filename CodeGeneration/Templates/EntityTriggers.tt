@@ -9,6 +9,7 @@
 -- Создание триггеров для заполнения поля Modified 
 --
 <#
+    // Все пути к файлам указываются относительно каталога расположения решения (*.sln)
     var lines = System.IO.File.ReadAllLines(@".\CodeGeneration\Storage\DB.cs");
     string pattern = @"^public virtual DbSet<(([A-Za-z]+)\.([A-Za-z]+)\.([A-Za-z]+)\.|)(?<schema>[A-Za-z]+)\.(?<table>[A-Za-z]+)>\s+(?<prop>[A-Za-z]+)";
     foreach (string line in lines)
@@ -17,7 +18,6 @@
         if (!match.Success) continue;    
         bool skip = false;  
         string schema = string.Empty;   
-        // [!] имена схем должны соответствовать константам класса DB
         switch (match.Groups["schema"].Value)               
         {      
             case "Administration": schema = "adm"; break;

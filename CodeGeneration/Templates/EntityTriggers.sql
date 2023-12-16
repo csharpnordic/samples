@@ -243,3 +243,179 @@ END
 GO
 ALTER TABLE [adm].[UsersTables] ENABLE TRIGGER [UsersTables_AfterUpdate]
 GO
+-- [gts].[Drivers]
+CREATE OR ALTER TRIGGER [gts].[Drivers_AfterUpdate] ON [gts].[Drivers] AFTER UPDATE AS
+BEGIN
+    UPDATE [gts].[Drivers]
+    SET    [gts].[Drivers].Modified = GETDATE()           
+    FROM   INSERTED
+    WHERE  INSERTED.Id = [gts].[Drivers].[ID]
+END
+GO
+ALTER TABLE [gts].[Drivers] ENABLE TRIGGER [Drivers_AfterUpdate]
+GO
+-- [gts].[Instruments]
+CREATE OR ALTER TRIGGER [gts].[Instruments_AfterUpdate] ON [gts].[Instruments] AFTER UPDATE AS
+BEGIN
+    UPDATE [gts].[Instruments]
+    SET    [gts].[Instruments].Modified = GETDATE()           
+    FROM   INSERTED
+    WHERE  INSERTED.Id = [gts].[Instruments].[ID]
+END
+GO
+ALTER TABLE [gts].[Instruments] ENABLE TRIGGER [Instruments_AfterUpdate]
+GO
+-- [gts].[InstrumentDetails]
+CREATE OR ALTER TRIGGER [gts].[InstrumentDetails_AfterUpdate] ON [gts].[InstrumentDetails] AFTER UPDATE AS
+BEGIN
+    UPDATE [gts].[InstrumentDetails]
+    SET    [gts].[InstrumentDetails].Modified = GETDATE()           
+    FROM   INSERTED
+    WHERE  INSERTED.Id = [gts].[InstrumentDetails].[ID]
+END
+GO
+ALTER TABLE [gts].[InstrumentDetails] ENABLE TRIGGER [InstrumentDetails_AfterUpdate]
+GO
+-- [gts].[InstrumentMeasurements]
+CREATE OR ALTER TRIGGER [gts].[InstrumentMeasurements_AfterUpdate] ON [gts].[InstrumentMeasurements] AFTER UPDATE AS
+BEGIN
+    UPDATE [gts].[InstrumentMeasurements]
+    SET    [gts].[InstrumentMeasurements].Modified = GETDATE()           
+    FROM   INSERTED
+    WHERE  INSERTED.Id = [gts].[InstrumentMeasurements].[ID]
+END
+GO
+ALTER TABLE [gts].[InstrumentMeasurements] ENABLE TRIGGER [InstrumentMeasurements_AfterUpdate]
+GO
+-- [gts].[InstrumentMeasurementDetails]
+CREATE OR ALTER TRIGGER [gts].[InstrumentMeasurementDetails_AfterUpdate] ON [gts].[InstrumentMeasurementDetails] AFTER UPDATE AS
+BEGIN
+    UPDATE [gts].[InstrumentMeasurementDetails]
+    SET    [gts].[InstrumentMeasurementDetails].Modified = GETDATE()           
+    FROM   INSERTED
+    WHERE  INSERTED.Id = [gts].[InstrumentMeasurementDetails].[ID]
+END
+GO
+ALTER TABLE [gts].[InstrumentMeasurementDetails] ENABLE TRIGGER [InstrumentMeasurementDetails_AfterUpdate]
+GO
+-- [gts].[InstrumentParameters]
+CREATE OR ALTER TRIGGER [gts].[InstrumentParameters_AfterUpdate] ON [gts].[InstrumentParameters] AFTER UPDATE AS
+BEGIN
+    UPDATE [gts].[InstrumentParameters]
+    SET    [gts].[InstrumentParameters].Modified = GETDATE()           
+    FROM   INSERTED
+    WHERE  INSERTED.Id = [gts].[InstrumentParameters].[ID]
+END
+GO
+ALTER TABLE [gts].[InstrumentParameters] ENABLE TRIGGER [InstrumentParameters_AfterUpdate]
+GO
+-- [gts].[ParameterHistory]
+CREATE OR ALTER TRIGGER [gts].[ParameterHistory_AfterUpdate] ON [gts].[ParameterHistory] AFTER UPDATE AS
+BEGIN
+    UPDATE [gts].[ParameterHistory]
+    SET    [gts].[ParameterHistory].Modified = GETDATE()           
+    FROM   INSERTED
+    WHERE  INSERTED.Id = [gts].[ParameterHistory].[ID]
+END
+GO
+ALTER TABLE [gts].[ParameterHistory] ENABLE TRIGGER [ParameterHistory_AfterUpdate]
+GO
+-- [gts].[InstrumentParameterTypes]
+CREATE OR ALTER TRIGGER [gts].[InstrumentParameterTypes_AfterUpdate] ON [gts].[InstrumentParameterTypes] AFTER UPDATE AS
+BEGIN
+    UPDATE [gts].[InstrumentParameterTypes]
+    SET    [gts].[InstrumentParameterTypes].Modified = GETDATE()           
+    FROM   INSERTED
+    WHERE  INSERTED.Id = [gts].[InstrumentParameterTypes].[ID]
+END
+GO
+ALTER TABLE [gts].[InstrumentParameterTypes] ENABLE TRIGGER [InstrumentParameterTypes_AfterUpdate]
+GO
+-- [gts].[InstrumentTypes]
+CREATE OR ALTER TRIGGER [gts].[InstrumentTypes_AfterUpdate] ON [gts].[InstrumentTypes] AFTER UPDATE AS
+BEGIN
+    UPDATE [gts].[InstrumentTypes]
+    SET    [gts].[InstrumentTypes].Modified = GETDATE()           
+    FROM   INSERTED
+    WHERE  INSERTED.Id = [gts].[InstrumentTypes].[ID]
+END
+GO
+ALTER TABLE [gts].[InstrumentTypes] ENABLE TRIGGER [InstrumentTypes_AfterUpdate]
+GO
+-- [gts].[InstrumentTypeDetails]
+CREATE OR ALTER TRIGGER [gts].[InstrumentTypeDetails_AfterUpdate] ON [gts].[InstrumentTypeDetails] AFTER UPDATE AS
+BEGIN
+    UPDATE [gts].[InstrumentTypeDetails]
+    SET    [gts].[InstrumentTypeDetails].Modified = GETDATE()           
+    FROM   INSERTED
+    WHERE  INSERTED.Id = [gts].[InstrumentTypeDetails].[ID]
+END
+GO
+ALTER TABLE [gts].[InstrumentTypeDetails] ENABLE TRIGGER [InstrumentTypeDetails_AfterUpdate]
+GO
+-- [gts].[InstrumentSafetyCriterias]
+CREATE OR ALTER TRIGGER [gts].[InstrumentSafetyCriterias_AfterUpdate] ON [gts].[InstrumentSafetyCriterias] AFTER UPDATE AS
+BEGIN
+    UPDATE [gts].[InstrumentSafetyCriterias]
+    SET    [gts].[InstrumentSafetyCriterias].Modified = GETDATE()           
+    FROM   INSERTED
+    WHERE  INSERTED.Id = [gts].[InstrumentSafetyCriterias].[ID]
+END
+GO
+ALTER TABLE [gts].[InstrumentSafetyCriterias] ENABLE TRIGGER [InstrumentSafetyCriterias_AfterUpdate]
+GO
+-- [gts].[Locations]
+CREATE OR ALTER TRIGGER [gts].[Locations_AfterUpdate] ON [gts].[Locations] AFTER UPDATE AS
+BEGIN
+    UPDATE [gts].[Locations]
+    SET    [gts].[Locations].Modified = GETDATE()           
+    FROM   INSERTED
+    WHERE  INSERTED.Id = [gts].[Locations].[ID]
+END
+GO
+ALTER TABLE [gts].[Locations] ENABLE TRIGGER [Locations_AfterUpdate]
+GO
+-- [gts].[MonitoringTypes]
+CREATE OR ALTER TRIGGER [gts].[MonitoringTypes_AfterUpdate] ON [gts].[MonitoringTypes] AFTER UPDATE AS
+BEGIN
+    UPDATE [gts].[MonitoringTypes]
+    SET    [gts].[MonitoringTypes].Modified = GETDATE()           
+    FROM   INSERTED
+    WHERE  INSERTED.Id = [gts].[MonitoringTypes].[ID]
+END
+GO
+ALTER TABLE [gts].[MonitoringTypes] ENABLE TRIGGER [MonitoringTypes_AfterUpdate]
+GO
+-- [gts].[SafetyCriterias]
+CREATE OR ALTER TRIGGER [gts].[SafetyCriterias_AfterUpdate] ON [gts].[SafetyCriterias] AFTER UPDATE AS
+BEGIN
+    UPDATE [gts].[SafetyCriterias]
+    SET    [gts].[SafetyCriterias].Modified = GETDATE()           
+    FROM   INSERTED
+    WHERE  INSERTED.Id = [gts].[SafetyCriterias].[ID]
+END
+GO
+ALTER TABLE [gts].[SafetyCriterias] ENABLE TRIGGER [SafetyCriterias_AfterUpdate]
+GO
+-- [gts].[SafetyStates]
+CREATE OR ALTER TRIGGER [gts].[SafetyStates_AfterUpdate] ON [gts].[SafetyStates] AFTER UPDATE AS
+BEGIN
+    UPDATE [gts].[SafetyStates]
+    SET    [gts].[SafetyStates].Modified = GETDATE()           
+    FROM   INSERTED
+    WHERE  INSERTED.Id = [gts].[SafetyStates].[ID]
+END
+GO
+ALTER TABLE [gts].[SafetyStates] ENABLE TRIGGER [SafetyStates_AfterUpdate]
+GO
+-- [gts].[SourceSystems]
+CREATE OR ALTER TRIGGER [gts].[SourceSystems_AfterUpdate] ON [gts].[SourceSystems] AFTER UPDATE AS
+BEGIN
+    UPDATE [gts].[SourceSystems]
+    SET    [gts].[SourceSystems].Modified = GETDATE()           
+    FROM   INSERTED
+    WHERE  INSERTED.Id = [gts].[SourceSystems].[ID]
+END
+GO
+ALTER TABLE [gts].[SourceSystems] ENABLE TRIGGER [SourceSystems_AfterUpdate]
+GO
