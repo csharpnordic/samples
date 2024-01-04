@@ -14,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReaderService", "SnmpReaderService\ReaderService.csproj", "{40325A4A-CE8C-4C06-85D3-B9FD017A5C91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleThreads", "ConsoleThreads\ConsoleThreads.csproj", "{A36AF3AE-43AF-4F9C-ACB4-E62193EAA8F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleThreads", "ConsoleThreads\ConsoleThreads.csproj", "{A36AF3AE-43AF-4F9C-ACB4-E62193EAA8F2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcronymForm", "AcronymForm\AcronymForm.csproj", "{473C58C9-7A58-4237-9D9A-0C237C5350CE}"
 EndProject
