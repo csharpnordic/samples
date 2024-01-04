@@ -80,7 +80,7 @@
 
 ## StarSky
 
-* Microsoft.NET Framework, консольное приложение
+* .NET 8.0, консольное приложение
 * многопоточное звёздное небо
 
 ## Transfusion
