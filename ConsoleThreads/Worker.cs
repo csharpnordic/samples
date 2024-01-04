@@ -33,8 +33,18 @@ public class Worker
     /// Номер потока, начиная с 1
     /// </summary>
     private readonly int myNumber;
-
+    /// <summary>
+    /// Время начала вычислений
+    /// </summary>
     private DateTime start;
+    /// <summary>
+    /// Управление остановом вычислений
+    /// </summary>
+    internal readonly CancellationTokenSource cts = new();
+    /// <summary>
+    /// Жетон останова потока
+    /// </summary>
+    private readonly CancellationToken token;
 
     /// <summary>
     /// Генератор случайных чисел
@@ -73,6 +83,7 @@ public class Worker
         ++count;
         // Сохранение номера потока
         myNumber = ++number;
+        token = cts.Token;
     }
 
     /// <summary>
@@ -136,9 +147,11 @@ public class Worker
                     // Сбросить счетчик
                     percent = currentPercent;
                 }
+                // Досрочное завершение вычислений
+                token.ThrowIfCancellationRequested();
             }
         }
-        catch (ThreadAbortException)
+        catch (OperationCanceledException)
         {
             lock (locker)
             {

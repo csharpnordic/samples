@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ConsoleThreads;
@@ -73,7 +74,8 @@ static class Program
     /// <param name="e"></param>
     private static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
     {
-        list[--count].thread.Abort();
+        // Запрос на завершение потока
+        list[--count].cts.Cancel();
         // Отмена завершения приложения
         e.Cancel = true;
     }
