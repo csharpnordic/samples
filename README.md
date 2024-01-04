@@ -1,6 +1,6 @@
 # Перечень проектов
 
-* Целевая платформа: Microsoft.NET Framework 4.8 или 6.0
+* Целевая платформа: Microsoft.NET Framework 4.8 или .NET 8.0
 
 ## AcronymForm
 
@@ -22,18 +22,20 @@
 
 ## Calculator
 
-* Microsoft.NET Framework, Windows Forms
+* .NET 8.0, Windows Forms
 * Проект простого калькулятора, поддерживающего различные системы счисления (для целых чисел)
 
 ## CodeGeneration
 
-* Microsoft.NET, библиотека классов
+* .NET 8.0, библиотека классов
 * Генерация кода (C# и SQL) при помощи шаблонов T4 (*.tt)
 
 ## ConsoleThreads
 
-* Microsoft.NET Framework, консольное приложение
-* Многопоточное консольное приложение c демонстрацией блокировки потоков через lock
+* .NET 8.0, консольное приложение
+* Многопоточное консольное приложение 
+* Демонстрация блокировки потоков через lock
+* Досрочное завершение потока при помощи CancellationTokenSource / CancellationToken
 
 ## ExcelSample
 
@@ -63,12 +65,12 @@
 
 ## Piano
 
-* Microsoft.NET Framework, Windows Forms, NAudio
+* .NET 8.0, Windows Forms, NAudio
 * Электронное пианино (динамическая генерация клавиш, четыре октавы, многоголосное)
 
 ## Queens
 
-* .NET 6.0
+* .NET 8.0
 * Решение задачи размещения N ферзей на шахматной доске
 
 ## SampleUdf
@@ -85,7 +87,7 @@
 
 ## StarSky
 
-* Microsoft.NET Framework, консольное приложение
+* .NET 8.0, консольное приложение
 * многопоточное звёздное небо
 
 ## Transfusion

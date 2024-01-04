@@ -2,24 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
-namespace ConsoleThreads
+namespace ConsoleThreads;
+
+static class Program
 {
-    class Program
+    /// <summary>
+    /// Список потоков
+    /// </summary>
+    internal static readonly List<Worker> list = [];
+
+    static int count = 8;
+
+    /// <summary>
+    /// Главный метод
+    /// </summary>
+    static void Main()
     {
-        /// <summary>
-        /// Список потоков
-        /// </summary>
-        internal static List<Worker> list = new List<Worker>();
-
-        static int count = 8;
-
-        /// <summary>
-        /// Главный метод
-        /// </summary>
-        /// <param name="args"></param>
-        static void Main(string[] args)
+        try
         {
             for (int i = 0; i < count; i++)
             {
@@ -53,20 +55,27 @@ namespace ConsoleThreads
             {
                 Console.WriteLine(w);
             }
-
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        finally
+        {
             Console.ReadLine();
         }
+    }
 
-        /// <summary>
-        /// Нажатие Ctrl+C
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
-        {
-            list[--count].thread.Abort();
-            // Отмена завершения приложения
-            e.Cancel = true;
-        }
+    /// <summary>
+    /// Нажатие Ctrl+C
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
+    {
+        // Запрос на завершение потока
+        list[--count].cts.Cancel();
+        // Отмена завершения приложения
+        e.Cancel = true;
     }
 }

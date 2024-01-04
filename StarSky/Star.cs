@@ -4,109 +4,109 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StarSky
+namespace StarSky;
+
+internal class Star
 {
-    internal class Star
+    /// <summary>
+    /// Генерация случайных чисел
+    /// </summary>
+    private static readonly Random random = new();
+
+    /// <summary>
+    /// Объект для межпоточной блокировки
+    /// </summary>
+    private static readonly object locker = new();
+
+    /// <summary>
+    /// Счётчик активных звёзд
+    /// </summary>
+    internal static int Count { get; private set; } = 0;
+
+    const string chars = ".*X+*. ";
+
+    readonly int x;
+    readonly int y;
+    readonly ConsoleColor color;
+    int index;
+    readonly Thread thread;
+
+    internal Star()
     {
-        /// <summary>
-        /// Генерация случайных чисел
-        /// </summary>
-        private static Random random = new();
+        x = random.Next(Console.WindowWidth);
+        y = random.Next(Console.WindowHeight);
+        color = (ConsoleColor)(1 + random.Next(14)); // все цвета, кроме чёрного
+        index = 0;
+        thread = new Thread(Show);
+    }
 
-        /// <summary>
-        /// Объект для межпоточной блокировки
-        /// </summary>
-        private static object locker = new();
-
-        /// <summary>
-        /// Счётчик активных звёзд
-        /// </summary>
-        internal static int Count { get; private set; } = 0;
-
-        string chars = ".*X+*. ";
-        int x;
-        int y;
-        ConsoleColor color;
-        int index;
-        Thread thread;
-
-        internal Star()
+    private void ShowChar(char c)
+    {
+        lock (locker)
         {
-            x = random.Next(Console.WindowWidth);
-            y = random.Next(Console.WindowHeight);
-            color = (ConsoleColor)(1 + random.Next(14)); // все цвета, кроме чёрного
-            index = 0;
-            thread = new Thread(Show);
+            Console.ForegroundColor = color;
+            Console.CursorLeft = x;
+            Console.CursorTop = y;
+            Console.Write(c);
         }
+    }
 
-        private void ShowChar(char c)
+    private void ShowStage()
+    {
+        if (index < chars.Length)
         {
-            lock (locker)
+            ShowChar(chars[index++]);                
+        }
+    }
+
+    /// <summary>
+    /// Жизненный цикл звезды
+    /// </summary>
+    internal void Show()
+    {
+        try
+        {
+            while (index < chars.Length)
             {
-                Console.ForegroundColor = color;
-                Console.CursorLeft = x;
-                Console.CursorTop = y;
-                Console.Write(c);
+                ShowStage();
+                Thread.Sleep(random.Next(100, 300));
+                // надо зажечь новую звезду
+                Program.Queue.Enqueue(1);
             }
+            // звезда потухла
+            Count--;
         }
-
-        private void ShowStage()
+        catch (ThreadInterruptedException)
         {
-            if (index < chars.Length)
-            {
-                ShowChar(chars[index++]);                
-            }
-        }
-
-        /// <summary>
-        /// Жизненный цикл звезды
-        /// </summary>
-        internal void Show()
-        {
-            try
-            {
-                while (index < chars.Length)
-                {
-                    ShowStage();
-                    Thread.Sleep(random.Next(100, 300));
-                    // надо зажечь новую звезду
-                    Program.Queue.Enqueue(1);
-                }
-                // звезда потухла
-                Count--;
-            }
-            catch (ThreadInterruptedException)
-            {
-                // при принудительном прерывании потока мы очищаем небо за собой
-                ShowChar(' ');
-            }
-        }
-
-        /// <summary>
-        /// Запуск отдельного потока
-        /// </summary>
-        internal void Start()
-        {
-            thread.Start();
-            Count++;
-        }
-
-        /// <summary>
-        /// Принудительное завершение потока
-        /// </summary>
-        internal void Stop()
-        {
-            thread.Interrupt();
             // при принудительном прерывании потока мы очищаем небо за собой
             ShowChar(' ');
         }
+    }
 
-        /// <summary>
-        /// Ожидание завершения потока
-        /// </summary>
-        internal void Join()
-        {
-            thread.Join();
-        }
+    /// <summary>
+    /// Запуск отдельного потока
+    /// </summary>
+    internal void Start()
+    {
+        thread.Start();
+        Count++;
+    }
+
+    /// <summary>
+    /// Принудительное завершение потока
+    /// </summary>
+    internal void Stop()
+    {
+        thread.Interrupt();
+        // при принудительном прерывании потока мы очищаем небо за собой
+        ShowChar(' ');
+    }
+
+    /// <summary>
+    /// Ожидание завершения потока
+    /// </summary>
+    internal void Join()
+    {
+        thread.Join();
     }
 }

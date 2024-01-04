@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Calculator
+namespace Calculator;
+
+/// <summary>
+/// Возможные двухместные операции
+/// </summary>
+public enum Operations
 {
-    /// <summary>
-    /// Возможные двухместные операции
-    /// </summary>
-    public enum Operations
-    {
-        NoOperation,
-        Addition,
-        Substraction,
-        Multiplication,
-        Division
-    }
+    NoOperation,
+    Addition,
+    Substraction,
+    Multiplication,
+    Division
 }
