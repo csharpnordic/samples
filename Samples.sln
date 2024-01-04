@@ -43,7 +43,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdventOfCode", "AdventOfCod
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericApi", "GenericApi\GenericApi.csproj", "{99F6F814-7D80-49B5-9022-A86CBF5AAFC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGeneration", "CodeGeneration\CodeGeneration.csproj", "{C3B49771-5321-4678-870F-A1796608F32D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeGeneration", "CodeGeneration\CodeGeneration.csproj", "{C3B49771-5321-4678-870F-A1796608F32D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NET 8", "NET 8", "{891B71BD-D663-476D-83B0-755ED5DEAC97}"
 EndProject

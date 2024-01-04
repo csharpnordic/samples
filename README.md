@@ -27,7 +27,7 @@
 
 ## CodeGeneration
 
-* Microsoft.NET, библиотека классов
+* .NET 8.0, библиотека классов
 * Генерация кода (C# и SQL) при помощи шаблонов T4 (*.tt)
 
 ## ConsoleThreads
