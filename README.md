@@ -22,7 +22,7 @@
 
 ## Calculator
 
-* Microsoft.NET Framework, Windows Forms
+* Microsoft.NET 8.0, Windows Forms
 * Проект простого калькулятора, поддерживающего различные системы счисления (для целых чисел)
 
 ## ConsoleThreads
