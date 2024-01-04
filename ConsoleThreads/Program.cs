@@ -19,8 +19,7 @@ static class Program
     /// <summary>
     /// Главный метод
     /// </summary>
-    /// <param name="args"></param>
-    static void Main(string[] args)
+    static void Main()
     {
         try
         {

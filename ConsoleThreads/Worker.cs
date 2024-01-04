@@ -49,12 +49,12 @@ public class Worker
     /// <summary>
     /// Генератор случайных чисел
     /// </summary>
-    static private Random r = new Random();
+    private static readonly Random r = new();
 
     /// <summary>
     /// Объект для блокировки потоков
     /// </summary>
-    internal static readonly object locker = new object();
+    internal static readonly object locker = new();
 
     /// <summary>
     /// Количество созданных экземпляров класса
@@ -99,7 +99,7 @@ public class Worker
     /// </summary>
     /// <param name="x">Аргумент</param>
     /// <returns></returns>
-    static private double f(double x)
+    static private double F(double x)
     {
         return Math.Sin(x);
     }
@@ -122,14 +122,13 @@ public class Worker
             start = DateTime.Now;
             R = 0; // результат
             double delta = (b - a) / N;
-            long n = N / 100; // Количество итераций на 1%          
             int percent = 0;
 
             // Цикл интегрирования
             for (double x = a; x < b; x += delta)
             {
                 // Интегрирование
-                R += f(x) * delta;
+                R += F(x) * delta;
                 int currentPercent = (int)Math.Round((x - a) / (b - a) * 100, 0);
                 // Определение хода выполнения
                 if (currentPercent != percent)
