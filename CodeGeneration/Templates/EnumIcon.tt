@@ -1,0 +1,29 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+<#
+  // Все пути к файлам указываются относительно каталога расположения решения (*.sln)
+  var name = @".\CodeGeneration\WebApp\index.tsx";
+  var source = System.IO.File.ReadAllText(name);
+  var match = System.Text.RegularExpressions.Regex.Match(source, @"export enum EnumIcon {([^}]+)}");
+  var result = match.Groups[1].Value;  
+#>
+// ******************************************************************//
+// Файл строится автоматически на основе исходного файла TypeScript  //
+// Исходный файл: <#= name #> 
+// ******************************************************************//
+// Статус генерации: <#= match.Success #> 
+
+namespace CodeGeneration.Enums 
+{
+    /// <summary>
+    /// Значки интерфейса
+    /// </summary>
+    public enum EnumIcon
+    {    
+<#= result #>
+    }
+}

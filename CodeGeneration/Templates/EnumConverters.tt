@@ -1,0 +1,27 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+// ******************************************************************//
+// Файл строится автоматически на основе перечислимых типов проекта  //
+// ******************************************************************//
+
+using CodeGeneration.Enums;
+
+namespace CodeGeneration.Serialization
+{
+<#
+// Все пути к файлам указываются относительно каталога расположения решения (*.sln)
+foreach (var name in System.IO.Directory.GetFiles(@".\CodeGeneration\Enums", "*.cs"))
+{
+    string enumName = System.IO.Path.GetFileNameWithoutExtension(name);
+ 
+#>
+    /// <summary>
+    /// Особая сериализация типа <seealso cref="<#= enumName #>"/>
+    /// </summary>
+    public class <#= enumName #>Converter : EnumConverter<<#= enumName #>> { }
+<# } #>
+}
