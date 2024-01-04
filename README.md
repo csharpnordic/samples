@@ -1,6 +1,6 @@
 # Перечень проектов
 
-* Целевая платформа: Microsoft.NET Framework 4.8 или 6.0
+* Целевая платформа: Microsoft.NET Framework 4.8 или .NET 8.0
 
 ## AcronymForm
 
@@ -22,7 +22,7 @@
 
 ## Calculator
 
-* Microsoft.NET 8.0, Windows Forms
+* .NET 8.0, Windows Forms
 * Проект простого калькулятора, поддерживающего различные системы счисления (для целых чисел)
 
 ## ConsoleThreads
@@ -58,12 +58,12 @@
 
 ## Piano
 
-* Microsoft.NET Framework, Windows Forms, NAudio
+* .NET 8.0, Windows Forms, NAudio
 * Электронное пианино (динамическая генерация клавиш, четыре октавы, многоголосное)
 
 ## Queens
 
-* .NET 6.0
+* .NET 8.0
 * Решение задачи размещения N ферзей на шахматной доске
 
 ## SampleUdf
