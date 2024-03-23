@@ -76,7 +76,11 @@
 ## SampleUdf
 
 * Microsoft.NET Framework, Microsoft SQL Server User Defined Function (CLR)
-* Пример написания функции для SQL Server на C##
+* Пример написания функции для SQL Server на C#
+
+## SimpleConsole
+
+* Литералы и приведение типа данных
 
 ## SnmpReaderService
 
