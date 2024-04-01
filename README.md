@@ -76,7 +76,12 @@
 ## SampleUdf
 
 * Microsoft.NET Framework, Microsoft SQL Server User Defined Function (CLR)
-* Пример написания функции для SQL Server на C##
+* Пример написания функции для SQL Server на C#
+
+## SimpleConsole
+
+* .NET 8.0
+* Литералы и приведение типа данных
 
 ## SnmpReaderService
 
@@ -97,3 +102,8 @@
 ## UserInformation
 
 * Запрос информации о пользователях из Microsoft Active Directory
+
+## WalkieTalkie
+
+* .NET 8.0, Windows Forms
+* Межпроцессная синхронизация с использованием Mutex и Semaphore
