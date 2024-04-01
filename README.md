@@ -80,6 +80,7 @@
 
 ## SimpleConsole
 
+* .NET 8.0
 * Литералы и приведение типа данных
 
 ## SnmpReaderService
@@ -101,3 +102,8 @@
 ## UserInformation
 
 * Запрос информации о пользователях из Microsoft Active Directory
+
+## WalkieTalkie
+
+* .NET 8.0, Windows Forms
+* Межпроцессная синхронизация с использованием Mutex и Semaphore
