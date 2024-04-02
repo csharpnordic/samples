@@ -15,11 +15,6 @@ namespace PuzzleSolver.Puzzles.Routing
     public class State : BaseState, IState
     {
         /// <summary>
-        /// Полное имя класса
-        /// </summary>
-        public string ClassName => GetType().FullName;
-
-        /// <summary>
         /// Игровое поле
         /// </summary>
         public Cell[][] Field { get; set; }
@@ -76,27 +71,30 @@ namespace PuzzleSolver.Puzzles.Routing
         }
 
         /// <summary>
-        /// Конструктор по размеру игрового поля
+        /// Конструктор по параметрам
         /// </summary>
-        /// <param name="sizeX">Размер игрового поля по горизонтали</param>
-        /// <param name="sizeY">Размер игрового поля по вертикали</param>
-        public State(int sizeX, int sizeY, int colors)
+        /// <param name="state">Начальные параметры головоломки</param>
+        public State(BaseState state)
         {
-            SizeX = sizeX;
-            SizeY = sizeY;
-            Colors = colors;
+            // Копирование параметров
+            SizeX = state.SizeX;
+            SizeY = state.SizeY;
+            Colors = state.Colors;
+            CheckBorders = state.CheckBorders;
+            MultiColor = state.MultiColor;
+
             // Массив цветов
             Color = new string[Colors];
 
             // Создание игрового поля
-            Field = Solver.Array2<Cell>(sizeX, sizeY, true);
+            Field = Core.Array2<Cell>(SizeX, SizeY, true);
 
             // Создание границ игрового поля
             Border = new Cell[4][];
-            Border[(int)Side.Left] = new Cell[sizeY];
-            Border[(int)Side.Right] = new Cell[sizeY];
-            Border[(int)Side.Up] = new Cell[sizeX];
-            Border[(int)Side.Down] = new Cell[sizeX];
+            Border[(int)Side.Left] = new Cell[SizeY];
+            Border[(int)Side.Right] = new Cell[SizeY];
+            Border[(int)Side.Up] = new Cell[SizeX];
+            Border[(int)Side.Down] = new Cell[SizeX];
             for (int i = 0; i <= Border.GetUpperBound(0); i++)
             {
                 for (int j = 0; j <= Border[i].GetUpperBound(0); j++)
@@ -203,7 +201,7 @@ namespace PuzzleSolver.Puzzles.Routing
             {
                 if (PossibleMove(xCell, yCell, tile))
                 {
-                    Move move = new Move(Field[xCell][yCell], tile);
+                    Move move = new (Field[xCell][yCell], tile);
                     moves.Add(move);
                 }
             }

@@ -84,7 +84,7 @@ namespace PuzzleSolver.Puzzles.Routing
             MaxMoves = maxMoves;
 
             // Создание игрового поля
-            Field = Solver.Array2<Cell>(sizeX, sizeY, true);
+            Field = Core.Array2<Cell>(sizeX, sizeY, true);
         }
 
         /// <summary>
