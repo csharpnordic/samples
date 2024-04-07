@@ -16,6 +16,7 @@ static class Program
             log.Info($"В базе данных {db.GetBlogCount()} публикаций");
             var list = db.GetBlogItems();
             log.Info($"К загрузке {list.Count} публикаций");
+            int delay = Config.GetParameter<int>("Delay");
             foreach (var item in list)
             {
                 item.Download();
@@ -25,7 +26,7 @@ static class Program
                 }
                 // Прерываемся если пользователь нажал кнопку
                 if (Console.KeyAvailable) { break; }
-                Thread.Sleep(10000);
+                Thread.Sleep(delay);
             }
         }
         catch (Exception ex)
