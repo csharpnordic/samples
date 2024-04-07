@@ -20,7 +20,7 @@ public class Database
         conn = new SqlConnection
         {
             // Строка соединения указывается в настройках приложения
-            ConnectionString = Config.GetParameter("ConnectionString")
+            ConnectionString = Config.GetParameter<string>("ConnectionString")
         };
         // Открыть соединение
         conn.Open();

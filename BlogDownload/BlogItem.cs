@@ -11,6 +11,11 @@ namespace BlogDownload;
 public class BlogItem
 {
     /// <summary>
+    /// Объект, осуществляющий протоколирование
+    /// </summary>
+    private static readonly NLog.Logger log = NLog.LogManager.GetCurrentClassLogger();
+
+    /// <summary>
     /// Уникальный идентификатор записи
     /// </summary>
     public Guid ID;
@@ -85,11 +90,7 @@ public class BlogItem
         // Проверка на существование файла
         if (System.IO.File.Exists(name))
         {
-            // Выведеим строку красным цветом
-            var old = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"(!) Файл {name} уже существует и будет перезаписан.");
-            Console.ForegroundColor = old;
+            log.Warn($"Файл {name} уже существует и будет перезаписан");
         }
         return name;
     }
@@ -110,12 +111,16 @@ public class BlogItem
     public void Download()
     {
         // Корень для сохранения файлов - распределяем по годам
-        string root = Path.Combine(Config.GetParameter("FileRoot"), Date.Year.ToString());
+        string root = Path.Combine(Config.GetParameter<string>("FileRoot"), Date.Year.ToString());
 
+        Dictionary<string,string> headers = Config.GetParameter<Dictionary<string, string>>("Headers");
         // Загрузка веб-страницы в виде массива байт
         using WebClient client = new();
-        string url = Config.GetParameter("WebRoot") + URL;
-        client.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36");
+        string url = Config.GetParameter<string>("WebRoot") + URL;
+        foreach (var header in headers)
+        {
+            client.Headers.Add(header.Key, header.Value);
+        }
         byte[] data = client.DownloadData(url);
         // Перекодировка в UTF-8
         string s = Encoding.UTF8.GetString(data);
@@ -133,7 +138,7 @@ public class BlogItem
         }
         else
         {
-            Console.WriteLine("(!) заголовок не найден");
+            log.Warn("Заголовок не найден");
         }
 
         // Поиск описания регулярным выражением
@@ -146,7 +151,7 @@ public class BlogItem
         }
         else
         {
-            Console.WriteLine("(!) описание не найдено");
+            log.Warn("Описание не найдено");
         }
 
         // Поиск картинки регулярным выражением
@@ -160,7 +165,7 @@ public class BlogItem
         }
         else
         {
-            Console.WriteLine("(!) изображение не найдено");
+            log.Warn("Изображение не найдено");
         }
 
         // Поиск текста сообщения регулярным выражением
@@ -172,11 +177,11 @@ public class BlogItem
             // Очистка от стилевых таблиц
             m = Regex.Replace(m, @"<style type=""text/css"">(.+?)</style>", string.Empty, RegexOptions.Singleline);
             // Очистка от тегов и спецсимволов
-            Body = Clean(Regex.Replace(m, "<.*?>", string.Empty));
+            Body = Clean(Regex.Replace(m, "<.*?>", string.Empty));           
         }
         else
         {
-            Console.WriteLine("(!) текст сообщения не найден");
+            log.Warn("Текст сообщения не найден");
         }
     }
 
@@ -184,8 +189,13 @@ public class BlogItem
     /// Сохранение текста сообщения в БД
     /// </summary>
     /// <param name="db"></param>
-    public void Save(Database db)
+    public bool Save(Database db)
     {
+        if (string.IsNullOrEmpty(Body))
+        {
+            log.Warn("Тело сообщения не найдено");
+            return false;
+        }
         // Создание параметрического запроса
         using SqlCommand cmd = db.GetCommand();
         cmd.CommandText = "UPDATE Blog SET Body=@body, Title=@title, Description=@descr WHERE ID = @id";
@@ -197,10 +207,7 @@ public class BlogItem
         // Обновление записи в БД
         int result = cmd.ExecuteNonQuery();
         // Несколько избыточный контроль корректности выполнения запроса
-        if (result != 1)
-        {
-            throw new ApplicationException("Ошибка при обновлении данных");
-        }
+        return result == 1;
     }
 
     /// <summary>

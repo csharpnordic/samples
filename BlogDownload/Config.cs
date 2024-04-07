@@ -34,10 +34,17 @@ public static class Config
     /// <summary>
     /// Значение параметра конфигурации с заданным именем
     /// </summary>
-    /// <param name="name"></param>
+    /// <param name="name">Имя параметра в файле конфигурации</param>
     /// <returns></returns>
-    public static string? GetParameter(string name)
+    public static T? GetParameter<T>(string name, T? defaultValue = default)
     {
-        return config.GetSection(name).Value;
+        IConfigurationSection section = config.GetSection(name);
+        if (!section.Exists())
+        {
+            log.Warn($"В конфигурации не задан параметр '{name}', значение по умолчанию: {defaultValue}");
+            return defaultValue;
+        }
+        return section.Get<T>();
     }
+
 }

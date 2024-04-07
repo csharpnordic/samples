@@ -19,11 +19,13 @@ static class Program
             foreach (var item in list)
             {
                 item.Download();
-                log.Info($"{item} загружен");
-                item.Save(db);
+                if (item.Save(db))
+                {
+                    log.Info($"{item} загружен и сохранён");
+                }
                 // Прерываемся если пользователь нажал кнопку
                 if (Console.KeyAvailable) { break; }
-                Thread.Sleep(6000);                
+                Thread.Sleep(10000);
             }
         }
         catch (Exception ex)
