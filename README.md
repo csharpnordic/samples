@@ -2,6 +2,11 @@
 
 * Целевая платформа: Microsoft.NET Framework 4.8 или .NET 8.0
 
+## AdventOfCode
+
+* Microsoft .NET 8.0
+* Решение первой задачи https://adventofcode.com/2023
+
 ## AcronymForm
 
 * Microsoft.NET Framework, Windows Forms
@@ -17,7 +22,7 @@
 
 ## BlogDownload
 
-* Microsoft.NET Framework
+* Microsoft.NET 8.0
 * Загрузка блога с сайта на базе wix.com и сохранение в базе данных
 
 ## Calculator
